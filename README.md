@@ -56,3 +56,23 @@ python manage.py db upgrade
 ```
 
 More info can be found in the shopyo docs: [shopyo.readthedocs.io](https://www.shopyo.readthedocs.io)
+
+### Functionalities
+
+
+Go to /dashboard
+
+login with admin@domain.com / pass
+
+
+click on admin and create a new role called reviewer
+
+add new people and assign them the roles
+
+go to conf on dashboard
+
+create a new conf
+
+add reviewers to conf
+
+we'll db seed some folks soon
