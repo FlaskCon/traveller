@@ -1,6 +1,6 @@
 
 from shopyo.api.module import ModuleHelp
-# from flask import render_template
+from flask import render_template
 # from flask import url_for
 # from flask import redirect
 # from flask import flash
@@ -16,6 +16,17 @@ module_blueprint = globals()[mhelp.blueprint_str]
 @module_blueprint.route("/")
 def index():
     return mhelp.info['display_string']
+
+
+@module_blueprint.route("/<year>/")
+def landing_page(year):
+    return render_template('conftheme/{}/index.html'.format(year))
+
+
+@module_blueprint.route("/<year>/cfp/")
+def cfp(year):
+    return render_template('conftheme/{}/parts/cfp.html'.format(year))
+
 
 # If "dashboard": "/dashboard" is set in info.json
 #
