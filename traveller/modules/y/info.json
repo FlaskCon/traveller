@@ -1,0 +1,12 @@
+{
+        "display_string": "Y",
+        "module_name":"y",
+        "type": "hide",
+        "fa-icon": "fa fa-store",
+        "url_prefix": "/y",
+        "author": {
+            "name":"",
+            "website":"",
+            "mail":""
+        }
+}

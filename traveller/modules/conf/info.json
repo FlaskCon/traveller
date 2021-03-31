@@ -1,0 +1,13 @@
+{
+        "display_string": "Conf",
+        "module_name":"conf",
+        "type": "show",
+        "fa-icon": "fa fa-store",
+        "url_prefix": "/conf",
+        "dashboard": "/dashboard",
+        "author": {
+            "name":"",
+            "website":"",
+            "mail":""
+        }
+}

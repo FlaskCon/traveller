@@ -1,0 +1,147 @@
+
+{% extends "base/module_base.html" %}
+{% set active_page = info['display_string']+' dashboard' %}
+{% block pagehead %}
+<title></title>
+<style>
+</style>
+{% endblock %}
+{% block sidebar %}
+{% include info['module_name']+'/blocks/sidebar.html' %}
+{% endblock %}
+{% block content %}
+<br>
+
+<div class="card">
+    <div class="card-body">
+        <h3>Add conference</h3>
+        <form method="POST" action="{{ url_for('conf.add') }}">
+            {%for field in conf_form%}
+                {%if field.id not in ['csrf_token']%}
+                        {{field.label}}
+                    {%endif%}
+                    {{field}}<br>
+            {%endfor%}
+
+            <button class="btn btn-primary">submit</button>
+        </form>
+        
+    </div>
+ </div>
+<br>
+ <div class="card">
+    <div class="card-body">
+        <h3>Conferences</h3>
+        {%for conf in confs%}
+            {{conf.year}} 
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#conf-{{conf.year}}">
+              <i class="fa fa-plus"></i> reviewers
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="conf-{{conf.year}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{conf.year}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="{{ url_for('conf.update_reviewers', conf_id=conf.id) }}">
+                        {%for reviewer in reviewers%}
+                            <p>
+                                <input type="checkbox" name="reviewer_{{reviewer.id}}" {{'checked' if reviewer in conf.reviewer_list.reviewers}}>
+                                {{reviewer.first_name}} {{reviewer.last_name}}
+                            </p>
+                        {%endfor%}
+
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#conf_edit_{{conf.id}}">
+              <i class="fa fa-pencil-alt"></i>
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="conf_edit_{{conf.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{conf.year}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="{{ url_for('conf.edit', conf_id=conf.id) }}">
+                        {%set conf_form_ = ConfForm_(obj=conf)%}
+                        {%for field in conf_form_%}
+                        {%if field.id not in ['csrf_token']%}
+                                {{field.label}}
+                            {%endif%}
+                            {{field}}<br>
+                        {%endfor%}
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#conf_delete_{{conf.id}}">
+              <i class="fa fa-trash"></i>
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="conf_delete_{{conf.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{conf.year}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="{{ url_for('conf.delete', conf_id=conf.id) }}">
+                        Do you really want to delete conf 2020?
+
+                        <br>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+        {%endfor%}
+    </div>
+ </div>
+{% endblock %}
