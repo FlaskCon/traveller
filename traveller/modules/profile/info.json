@@ -1,0 +1,12 @@
+{
+        "display_string": "Profile",
+        "module_name":"profile",
+        "type": "show",
+        "fa-icon": "fa fa-store",
+        "url_prefix": "/profile",
+        "author": {
+            "name":"",
+            "website":"",
+            "mail":""
+        }
+}

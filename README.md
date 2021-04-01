@@ -15,13 +15,6 @@ Install requirements.txt
 python -m pip install -r requirements.txt
 ```
 
-Create config files
-
-```bash
-python manage.py createconfig
-```
-
-
 Create a db named traveller or whatever you want in your mysql db
 
 We are using MySQL but you can have a stab at a different db, 

@@ -1,0 +1,12 @@
+{
+        "display_string": "Cfp",
+        "module_name":"cfp",
+        "type": "show",
+        "fa-icon": "fa fa-store",
+        "url_prefix": "/cfp",
+        "author": {
+            "name":"",
+            "website":"",
+            "mail":""
+        }
+}
