@@ -74,6 +74,7 @@ def delete(conf_id):
     conf.delete()
     return mhelp.redirect_url('conf.dashboard')
 
+
 @module_blueprint.route("/<conf_id>/reviewers/update", methods=["POST"])
 def update_reviewers(conf_id):
     conf = Conf.query.get(conf_id)
