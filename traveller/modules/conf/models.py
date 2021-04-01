@@ -94,6 +94,15 @@ class Talk(PkModel):
     def create_slug(self):
         self.slug = self.title.replace(' ', '-')
 
+    def get_score(self):
+        score = 0
+        rs = []
+        for sl in self.score_lists:
+            if sl.reviewer not in rs:
+                score += sl.score
+                rs.append(sl.reviewer)
+        return score
+
 
 talk_list_author_bridge = db.Table(
     "talk_list_author_bridge",

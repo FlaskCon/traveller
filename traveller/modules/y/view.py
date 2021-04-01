@@ -94,6 +94,20 @@ def review(year, talk_num_=1):
     return render_template('conftheme/{}/parts/review.html'.format(year), **context)
 
 
+
+@module_blueprint.route("/<int:year>/leaderboard/")
+def leaderboard(year):
+    context = mhelp.context()
+    conf = Conf.query.filter(
+        Conf.year==year
+        ).first_or_404()
+    talks = [[talk, talk.get_score()] for talk in conf.talks]
+    talks = sorted(talks, key=lambda l:l[1], reverse=True)
+    str_ = str
+    context.update(locals())
+    return render_template('conftheme/{}/parts/leaderboard.html'.format(year), **context)
+
+
 # If "dashboard": "/dashboard" is set in info.json
 #
 # @module_blueprint.route("/dashboard", methods=["GET"])
