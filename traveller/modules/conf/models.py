@@ -2,6 +2,7 @@
 from init import db
 from shopyo.api.models import PkModel
 
+from modules.schedule.models import Schedule
 
 
 class Conf(PkModel):
@@ -12,6 +13,9 @@ class Conf(PkModel):
 
     talks = db.relationship('Talk',
         backref=db.backref('talk_conference', lazy=True))
+    schedule = db.relationship('Schedule',
+        backref=db.backref('schedule_conference', lazy=True),
+        uselist=False)
 
     reviewer_list = db.relationship(
         "ReviewerList", backref="reviewer_list_conf", lazy=True, uselist=False
@@ -102,6 +106,9 @@ class Talk(PkModel):
                 score += sl.score
                 rs.append(sl.reviewer)
         return score
+
+    def __repr__(self):
+        return self.title
 
 
 talk_list_author_bridge = db.Table(

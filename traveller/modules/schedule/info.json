@@ -1,0 +1,12 @@
+{
+        "display_string": "Schedule",
+        "module_name":"schedule",
+        "type": "show",
+        "fa-icon": "fa fa-store",
+        "url_prefix": "/schedule",
+        "author": {
+            "name":"",
+            "website":"",
+            "mail":""
+        }
+}

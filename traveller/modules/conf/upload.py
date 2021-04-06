@@ -5,6 +5,7 @@ from modules.box__default.auth.models import User
 from modules.box__default.auth.models import Role
 from modules.conf.models import Conf
 from modules.conf.models import Talk
+from modules.conf.models import AuthorList
 from init import db
 
 SEP_CHAR = "#"
@@ -30,6 +31,11 @@ def add_conf():
             )
         conf.save()
 
+        admin = User.query.get(1)
+        admin.first_name = faker.first_name()
+        admin.last_name = faker.last_name()
+        admin.update(commit=False)
+
         for t in talks:
             talk = Talk()
             talk.title = t[0].strip('.')
@@ -39,7 +45,10 @@ def add_conf():
             talk.notes = t[3]
             talk.level = 'beginner'
             talk.submitter_id = 1
+            talk.author_list = AuthorList()
+            talk.author_list.authors.append(admin)
             talk.conf_id = conf.id
+
             talk.save(commit=False)
 
         db.session.commit()
