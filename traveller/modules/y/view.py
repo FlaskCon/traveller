@@ -3,13 +3,18 @@ from shopyo.api.module import ModuleHelp
 from flask import render_template
 from modules.conf.models import Conf
 from modules.conf.models import Talk
+from modules.schedule.forms import DayForm
 from modules.cfp.forms import SubmitTalkForm
+from modules.schedule.models import Schedule
+from modules.schedule.forms import NormalActivityForm
+from modules.schedule.forms import TalkActivityForm
 # from flask import url_for
 # from flask import redirect
 # from flask import flash
 # from flask import request
 
 from flask_login import current_user
+from flask_login import login_required
 
 # from shopyo.api.html import notify_success
 # from shopyo.api.forms import flash_errors
@@ -29,6 +34,7 @@ def landing_page(year):
 
 
 @module_blueprint.route("/<int:year>/cfp/")
+@login_required
 def cfp(year):
     context = mhelp.context()
     talk_form = SubmitTalkForm()
@@ -38,6 +44,7 @@ def cfp(year):
 
 
 @module_blueprint.route("/<int:year>/profile/")
+@login_required
 def profile(year):
     context = mhelp.context()
     submitted_talks = Talk.query.filter(
@@ -51,6 +58,7 @@ def profile(year):
 
 
 @module_blueprint.route("/<int:year>/profile/talk/<talk_id>")
+@login_required
 def talk_actions(year, talk_id):
     context = mhelp.context()
     talk = Talk.query.get(talk_id)
@@ -73,6 +81,7 @@ def get_talk(talks, i):
 
 @module_blueprint.route("/<int:year>/review/")
 @module_blueprint.route("/<int:year>/review/<int:talk_num_>")
+@login_required
 def review(year, talk_num_=1):
     talk_num = talk_num_ - 1
     context = mhelp.context()
@@ -96,6 +105,7 @@ def review(year, talk_num_=1):
 
 
 @module_blueprint.route("/<int:year>/leaderboard/")
+@login_required
 def leaderboard(year):
     context = mhelp.context()
     conf = Conf.query.filter(
@@ -108,6 +118,35 @@ def leaderboard(year):
     return render_template('conftheme/{}/parts/leaderboard.html'.format(year), **context)
 
 
+@module_blueprint.route("/<int:year>/schedule/")
+@login_required
+def schedule(year):
+    context = mhelp.context()
+    DayForm_ = DayForm
+    conf = Conf.query.filter(
+        Conf.year == year
+        ).first()
+    if conf.schedule is None:
+        conf.schedule = Schedule()
+
+    weekmap = {
+        0: 'Monday',
+        1: 'Tuesday',
+        2: 'Wednesday',
+        3: 'Thursday',
+        4: 'Friday',
+        5: 'Saturday',
+        6: 'Sunday'
+    }
+    schedule = conf.schedule
+    NormalActivityForm_ = NormalActivityForm
+    TalkActivityForm_ = TalkActivityForm
+    context.update(locals())
+    return render_template('conftheme/{}/parts/schedule.html'.format(year), **context)
+
+
+
+    
 # If "dashboard": "/dashboard" is set in info.json
 #
 # @module_blueprint.route("/dashboard", methods=["GET"])
