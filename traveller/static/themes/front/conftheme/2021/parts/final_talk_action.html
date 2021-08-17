@@ -1,0 +1,51 @@
+{% extends 'conftheme/2021/parts/base.html'%}
+
+{% block head %}
+<title>FlaskCon 2021</title>
+<style type="text/css">
+    input[type='text']{
+        width: 90%;
+    }
+    textarea{
+        width: 90%
+    }
+    #summary{
+        height: 300px;
+    }
+    #description{
+        height: 500px;
+    }
+    #notes{
+        height: 200px;
+    }
+</style>
+{% endblock %}
+
+
+{% block body %}
+<br><br>
+
+<div class="paper container">
+<a href="{{ url_for('y.leaderboard', year=2021) }}"><button class="btn-warning-primary btn-small"><-</button></a>
+<hr>
+
+<br><br>
+    <b>Authors</b><br>
+    {% for author in talk.author_list.authors %}
+        {{author.first_name}} {{author.last_name}} <br>
+    {% endfor %}
+    <br>
+
+<form method="POST" action="{{ url_for('cfp.final_talk_action', year=year, talk_id=talk_id) }}">
+{%for field in AdminTalkForm_(obj=talk)%}
+{%if field.id not in ['csrf_token']%}
+        {{field.label}}
+    {%endif%}
+    {{field}}<br>
+{%endfor%}
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button class="btn-warning-primary" type="submit">save</button>
+</form>
+
+</div>
+{% endblock %}

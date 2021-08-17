@@ -1,0 +1,65 @@
+{% extends 'conftheme/2021/parts/base.html'%}
+
+{% block head %}
+<title>FlaskCon 2021</title>
+<style type="text/css">
+  a {
+    word-wrap: break-word;
+  }
+  .btn_rating{
+    border-radius: 50%;
+  }
+</style>
+{% endblock %}
+
+
+{% block body %}
+<br><br>
+
+<div class="paper container">
+  {% if talks %}
+    {% set talk = talks[talk_num] %}
+
+
+    <div class="row padding-none margin-none">
+      <h5 class="col padding-none margin-none">
+        {% if not prev_talk == None %}
+        <a href="{{ url_for('y.review', year=year, talk_num_=prev_talk+1) }}" class="paper-btn btn-primary-outline btn-small"><-</a>
+        {% endif %}
+        Talk <input min="1" max="{{ len_(talks) }}" style="display: inline-block; height: 25px; width: 65px; font-size: 15px; " type="number" name="" value="{{ talk_num_ }}"> / {{ len_(talks) }}&nbsp;</h5>
+        {% if not next_talk == None %}
+        <a href="{{ url_for('y.review', year=year, talk_num_=next_talk+1) }}" class="paper-btn btn-primary-outline btn-small">-></a>
+        {% endif %}
+    </div>
+    <br>
+    <div class="row padding-none margin-none">
+      <div class="col padding-none margin-none">
+        <span>score:</span>
+        <a href="{{ url_for('cfp.rate_talk', year=year, talk_id=talk.id, score=0, talk_num_=talk_num_) }}" 
+          class="paper-btn btn-small btn_rating {{ 'btn-success text-white' if current_score == 0 }}">
+            <b>0</b>
+        </a>
+        <a href="{{ url_for('cfp.rate_talk', year=year, talk_id=talk.id, score=1, talk_num_=talk_num_) }}" 
+          class="paper-btn btn-small btn_rating {{ 'btn-success text-white' if current_score == 1 }}">
+            <b>1</b>
+        </a>
+        <a href="{{ url_for('cfp.rate_talk', year=year, talk_id=talk.id, score=2, talk_num_=talk_num_) }}" 
+          class="paper-btn btn-small btn_rating {{ 'btn-success text-white' if current_score == 2 }}">
+            <b>2</b>
+        </a>
+      </div>
+    </div>
+    <br>
+    <div>
+      {{ talk.title }}
+      <hr>
+      {{ talk.summary }}
+      <hr>
+      {{ talk.description }}
+    </div>
+    
+  {% else %}
+    No talks yet
+  {% endif %}
+</div>
+{% endblock %}

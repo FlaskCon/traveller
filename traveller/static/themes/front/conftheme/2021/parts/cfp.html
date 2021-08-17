@@ -1,0 +1,42 @@
+{% extends 'conftheme/2021/parts/base.html'%}
+
+{% block head %}
+<title>FlaskCon 2021</title>
+<style type="text/css">
+    input[type='text']{
+        width: 90%;
+    }
+    textarea{
+        width: 90%
+    }
+    #summary{
+        height: 300px;
+    }
+    #description{
+        height: 500px;
+    }
+    #notes{
+        height: 200px;
+    }
+</style>
+{% endblock %}
+
+
+{% block body %}
+<br><br>
+
+<div class="paper container">
+    <h3>Submit a new talk</h3>
+    <form method="POST" action="{{ url_for('cfp.add_talk', year=conf.year) }}">
+        {%for field in talk_form%}
+            {%if field.id not in ['csrf_token']%}
+                {{field.label}}
+            {%endif%}
+            {{field}}<br>
+        {%endfor%}
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="submit" class="paper-btn btn-primary-outline" value="Submit"/>
+    </form>
+</div>
+{% endblock %}

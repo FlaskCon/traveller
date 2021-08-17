@@ -1,0 +1,34 @@
+{% extends 'conftheme/2021/parts/base.html'%}
+
+{% block head %}
+<title>FlaskCon 2021</title>
+{% endblock %}
+
+
+{% block body %}
+<br><br>
+
+<div class="paper container">
+    <table class="table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Score</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in talks %}
+            <tr>
+              <td>{{ str_(loop.index).zfill(3) }}.</td>
+              <td>{{ t[0].title }}</td>
+              <td>{{t[1]}}</td>
+              <td><a href="{{ url_for('cfp.final_talk_action', year=2021, talk_id=t[0].id) }}"><button class="btn-warning-primary btn-small">actions</button></a></td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+</div>
+{% endblock %}

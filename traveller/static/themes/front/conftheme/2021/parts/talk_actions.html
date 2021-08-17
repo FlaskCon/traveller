@@ -1,0 +1,62 @@
+{% extends 'conftheme/2021/parts/base.html'%}
+
+{% block head %}
+<title>FlaskCon 2021</title>
+<style type="text/css">
+  input[type='text']{
+        width: 90%;
+    }
+    textarea{
+        width: 90%
+    }
+    #summary{
+        height: 300px;
+    }
+    #description{
+        height: 500px;
+    }
+    #notes{
+        height: 200px;
+    }
+  a {
+    word-wrap: break-word;
+  }
+</style>
+{% endblock %}
+
+
+{% block body %}
+<br><br>
+
+<div class="paper container">
+
+  <label class="paper-btn btn-danger btn-small" for="modal-1">Delete</label>
+
+<input class="modal-state" id="modal-1" type="checkbox">
+<div class="modal">
+  <label class="modal-bg" for="modal-1"></label>
+  <div class="modal-body">
+    <label class="btn-close" for="modal-1">X</label>
+    <h4 class="modal-title">Delete?</h4>
+    <h5 class="modal-subtitle">Are you sure you want to delete "{{talk.title}}"</h5>
+    <p class="modal-text">
+      <a href="">Yes!</a>
+    </p>
+    <label for="modal-1">~ No! ~</label>
+  </div>
+</div>
+
+    <br>
+
+    <form method="POST" action="{{ url_for('cfp.edit_talk', year=year, talk_id=talk_id) }}">
+    {%for field in SubmitTalkForm_(obj=talk)%}
+    {%if field.id not in ['csrf_token']%}
+            {{field.label}}
+        {%endif%}
+        {{field}}<br>
+    {%endfor%}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="btn-warning-primary" type="submit">save</button>
+    </form>
+</div>
+{% endblock %}
