@@ -73,4 +73,8 @@ create a new conf
 
 add reviewers to conf
 
+go to:
+
+http://127.0.0.1:5000/y/2021/
+
 we'll db seed some folks soon

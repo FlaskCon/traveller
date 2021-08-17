@@ -83,23 +83,27 @@ def get_talk(talks, i):
 @module_blueprint.route("/<int:year>/review/<int:talk_num_>")
 @login_required
 def review(year, talk_num_=1):
-    talk_num = talk_num_ - 1
-    context = mhelp.context()
     conf = Conf.query.filter(
-        Conf.year==year
-        ).first_or_404()
+            Conf.year==year
+            ).first_or_404()
+    context = mhelp.context()
     talks = conf.talks
-    len_ = len
-    next_talk = get_talk(talks, talk_num+1)
-    prev_talk = get_talk(talks, talk_num-1)
-    
-    current_score = 0
-    talk = talks[talk_num]
-    for sl in talk.score_lists:
-        if sl.reviewer == current_user:
-            current_score = sl.score
-            break
-    context.update(locals())
+    if talks:
+        talk_num = talk_num_ - 1
+        
+        
+        
+        len_ = len
+        next_talk = get_talk(talks, talk_num+1)
+        prev_talk = get_talk(talks, talk_num-1)
+        
+        current_score = 0
+        talk = talks[talk_num]
+        for sl in talk.score_lists:
+            if sl.reviewer == current_user:
+                current_score = sl.score
+                break
+        context.update(locals())
     return render_template('conftheme/{}/parts/review.html'.format(year), **context)
 
 
