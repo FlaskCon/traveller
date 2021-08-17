@@ -4,6 +4,7 @@
 
 ### Setup
 
+
 Create venv named venv inside root folder
 
 Activate it
@@ -16,6 +17,10 @@ python -m pip install -r requirements.txt
 ```
 
 Create a db named traveller or whatever you want in your mysql db
+
+```bash
+cd traveller
+```
 
 We are using MySQL but you can have a stab at a different db, 
 just in instance/config.py set the SQLALCHEMY_URI. For mysql it
