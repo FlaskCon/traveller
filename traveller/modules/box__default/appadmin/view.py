@@ -72,6 +72,7 @@ def user_add():
         first_name = request.form["first_name"]
         last_name = request.form["last_name"]
         admin_user = request.form.get("is_admin")
+        bio = request.form["bio"]
         if admin_user == "True":
             is_admin = True
         else:
@@ -88,6 +89,7 @@ def user_add():
             new_user.first_name = first_name
             new_user.last_name = last_name
             new_user.password = password
+            new_user.bio = bio
 
             for key in request.form:
                 if key.startswith("role_"):
@@ -162,6 +164,7 @@ def admin_update():
     email = request.form["email"]
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
+    bio = request.form["bio"]
     is_admin = request.form.get("is_admin")
 
     if is_admin:
@@ -179,6 +182,7 @@ def admin_update():
     user.email = email
     user.first_name = first_name
     user.last_name = last_name
+    user.bio = bio
     user.roles[:] = []
 
     if password.strip():

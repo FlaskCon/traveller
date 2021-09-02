@@ -17,7 +17,7 @@
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fa fa-key"></i></span>
+                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                 </div>
                 <input type="text" name="email" class="form-control" id="user_email" value="{{ user.email }}" required autocomplete="off">
             </div>
@@ -25,7 +25,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-key"></i></span>
                 </div>
-                <input type="password" name="password" class="form-control" id="user_password" value="" autocomplete="off">
+                <input type="password" name="password" class="form-control" id="user_password" value="" autocomplete="off" placeholder="Password">
             </div>
             <div class="">
                 <div class="">
@@ -35,15 +35,21 @@
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fa fa-key"></i></span>
+                    <span class="input-group-text"><i class="fa fa-info"></i></span>
                 </div>
                 <input type="text" name="first_name" class="form-control" placeholder="First Name" autocomplete="off" value="{{ user.first_name }}">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fa fa-key"></i></span>
+                    <span class="input-group-text"><i class="fa fa-info"></i></span>
                 </div>
                 <input type="text" name="last_name" class="form-control" placeholder="Last Name" autocomplete="off" value="{{ user.last_name }}">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-info"></i></span>
+                </div>
+                <textarea rows="7" name="bio"  placeholder="Bio" class="form-control">{{ user.bio }}</textarea>
             </div>
             <input required name="id" id="user_id" type="hidden" class="form-control" value="{{ user.id }}">
             <div>
