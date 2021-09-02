@@ -123,7 +123,6 @@ def leaderboard(year):
 
 
 @module_blueprint.route("/<int:year>/schedule/")
-@login_required
 def schedule(year):
     context = mhelp.context()
     DayForm_ = DayForm
@@ -150,7 +149,6 @@ def schedule(year):
 
 
 @module_blueprint.route("/<int:year>/reviewers/")
-@login_required
 def reviewers(year):
     context = mhelp.context()
     conf = Conf.query.filter(Conf.year==year).first_or_404()
