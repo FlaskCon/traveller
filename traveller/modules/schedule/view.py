@@ -71,6 +71,30 @@ def add_activity(year, day_id, act_type):
         day.update()
     return mhelp.redirect_url('y.schedule', year=year)
 
+
+@module_blueprint.route("/<int:year>/act/<act_id>/edit/<act_type>", methods=["POST"])
+def edit_activity(year, act_id, act_type):
+    if act_type == 'normal_activity':
+        form = NormalActivityForm()
+        form.validate()
+        activity = Activity.query.get(act_id)
+        form.populate_obj(activity)
+        activity.update()
+    elif act_type == 'talk':
+        day = Day.query.get(day_id)
+        form = TalkActivityForm()
+        form.validate()
+        activity = Activity.query.get(act_id)
+        form.populate_obj(activity)
+        activity.update()
+    return mhelp.redirect_url('y.schedule', year=year)
+
+@module_blueprint.route("/<int:year>/act/<act_id>/delete", methods=["GET"])
+def delete_activity(year, act_id):
+    activity = Activity.query.get(act_id)
+    activity.delete()
+    return mhelp.redirect_url('y.schedule', year=year)
+
 # If "dashboard": "/dashboard" is set in info.json
 #
 # @module_blueprint.route("/dashboard", methods=["GET"])

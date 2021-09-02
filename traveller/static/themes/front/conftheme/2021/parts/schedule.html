@@ -63,7 +63,7 @@
                {{ activity.start_time }} to {{ activity.end_time }} 
                <label class="paper-btn margin btn-small" for="modal-edit-normal-activity-{{ activity.id }}">edit</label>
                <!-- url_for('schedule.delete_activity', year=year, act_id=activity.id) -->
-               <a href="" class="paper-btn btn-small btn-danger">X</a>
+               <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="paper-btn btn-small btn-danger" onclick="return confirm('Are you sure to delete that activity?')">X</a>
                <br>
                 -> {{ activity.text }}<br><br>
 
@@ -98,9 +98,9 @@
                 {{ activity.start_time }} to {{ activity.end_time }} 
                 <label class="paper-btn margin btn-small" for="modal-edit-talk-activity-{{ activity.id }}">edit</label>
                 <!--url_for('schedule.delete_activity', year=year, act_id=activity.id) -->
-                <a href="" class="paper-btn btn-small btn-danger">X</a>
+                <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="paper-btn btn-small btn-danger"  onclick="return confirm('Are you sure to delete that activity?')">X</a>
                 <br>
-                -> {{ talk.title }} by 
+                -> {{ talk.title }}
                 {% for author in talk.author_list.authors %}
                     {{author.first_name}} {{author.last_name}},
                 {% endfor %}
@@ -209,4 +209,5 @@
 </table>
 -->
 </div>
+
 {% endblock %}
