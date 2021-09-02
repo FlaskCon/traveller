@@ -53,7 +53,7 @@ python manage.py db migrate
 python manage.py db upgrade
 ```
 
-More info can be found in the shopyo docs: [shopyo.readthedocs.io](https://www.shopyo.readthedocs.io)
+More info can be found in the shopyo docs: [shopyo.readthedocs.io](https://shopyo.readthedocs.io/en/latest/)
 
 ### Functionalities
 
