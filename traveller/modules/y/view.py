@@ -153,6 +153,8 @@ def reviewers(year):
     context = mhelp.context()
     conf = Conf.query.filter(Conf.year==year).first_or_404()
     reviewers = conf.reviewer_list.reviewers
+    if reviewers is None:
+        reviewers = []
     context.update({
         'reviewers': reviewers
         })
