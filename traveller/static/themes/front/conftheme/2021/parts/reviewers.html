@@ -10,12 +10,14 @@
   
   <div class="paper container">
     <h3>Reviewers</h3>
-    {% if reviewers %}
+    {% if reviewers != [] %}
       {% for reviewer in reviewers %}
         <hr>
         <p>
           <b>{{ reviewer.first_name }} {{ reviewer.last_name }}</b><br>
-          {{ reviewer.bio.replace('\n', '<br>') | safe }}
+          {% if reviewer.bio %}
+            {{ reviewer.bio.replace('\n', '<br>') | safe }}
+          {% endif %}
         </p>
       {% endfor %}
     {% endif %}
