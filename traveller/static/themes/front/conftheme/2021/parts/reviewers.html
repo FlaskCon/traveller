@@ -1,0 +1,15 @@
+{% extends 'conftheme/2021/parts/base.html'%}
+
+{% block head %}
+<title>FlaskCon 2021</title>
+{% endblock %}
+
+
+{% block body %}
+  <br>
+  <div class="paper container">
+  {% for reviewer in reviewers %}
+    <p>{{ reviewer.first_name }} {{ reviewer.last_name }}</p>
+  {% endfor %}
+  </div>
+{% endblock %}

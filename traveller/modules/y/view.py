@@ -149,6 +149,18 @@ def schedule(year):
     return render_template('conftheme/{}/parts/schedule.html'.format(year), **context)
 
 
+@module_blueprint.route("/<int:year>/reviewers/")
+@login_required
+def reviewers(year):
+    context = mhelp.context()
+    conf = Conf.query.filter(Conf.year==year).first_or_404()
+    reviewers = conf.reviewer_list.reviewers
+    context.update({
+        'reviewers': reviewers
+        })
+    return render_template('conftheme/{}/parts/reviewers.html'.format(year), **context)
+
+
 
     
 # If "dashboard": "/dashboard" is set in info.json

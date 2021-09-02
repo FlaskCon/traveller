@@ -13,13 +13,23 @@
   <div class="paper container">
     <h1>FlaskCon 2021</h1>
     <p>
-      <a href="{{ url_for('y.landing_page', year=2021) }}">Home</a> - 
+      - <a href="{{ url_for('y.landing_page', year=2021) }}">Home</a> - 
       <a href="{{ url_for('y.cfp', year=2021) }}">Submit Talk</a> - 
+      <a href="{{ url_for('y.schedule', year=2021) }}">Schedule</a> -
+      <a href="{{ url_for('y.reviewers', year=2021) }}">Reviewers</a> -
       {% if 'reviewer' in current_user.roles or current_user.is_admin %}
         <a href="{{ url_for('y.review', year=2021) }}">Review</a> - 
         <a href="{{ url_for('y.leaderboard', year=2021) }}">Leaderboard</a> - 
         <a href="{{ url_for('y.profile', year=2021) }}">Profile</a> - 
-        <a href="{{ url_for('y.schedule', year=2021) }}">Schedule</a>
+      {% endif %}
+      {% if current_user %}
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('auth.logout', next='/') }}">Logout</a> - 
+        {% endif %}
+        {% if current_user.is_anonymous %}
+          <a href="{{ url_for('auth.register') }}">Register</a> - 
+          <a href="{{ url_for('auth.login', next='/') }}">Login</a> -
+        {% endif %}
       {% endif %}
       
     </p>

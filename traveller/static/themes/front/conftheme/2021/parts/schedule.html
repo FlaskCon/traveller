@@ -49,8 +49,10 @@
   <br>
   {% for day in schedule.days %}
     <h3>{{ weekmap[day.date.weekday()] }} {{ day.date.day }}/{{ day.date.month }}/{{ day.date.year }}
+      {% if current_user.is_admin %}
       <label class="paper-btn margin btn-small" for="modal-2">+ Normal Activity</label>
       <label class="paper-btn margin btn-small" for="modal-3">+ Talk</label>
+      {% endif %}
     </h3>
 
 

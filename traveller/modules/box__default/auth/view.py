@@ -70,7 +70,7 @@ def register():
                 notify_success("A confirmation email has been sent via email.")
             )
 
-        return redirect(url_for("y.landing_page", year=2021))
+        return redirect(url_for("www.index"))
 
     context["form"] = reg_form
     return render_template("auth/register.html", **context)
@@ -133,11 +133,17 @@ def login():
             return redirect(url_for("auth.login"))
         login_user(user)
         if "next" not in request.form:
-            next_url = url_for("dashboard.index")
+            if current_user.is_admin:
+                next_url = url_for("dashboard.index")
+            else:
+                next_url = url_for('www.index')
 
         else:
             if request.form["next"] == "":
-                next_url = url_for("dashboard.index")
+                if current_user.is_admin:
+                    next_url = url_for("dashboard.index")
+                else:
+                    next_url = url_for('www.index')
             else:
                 next_url = get_safe_redirect(request.form["next"])
         return redirect(next_url)
@@ -151,10 +157,16 @@ def logout():
     flash(notify_success("Successfully logged out"))
 
     if "next" not in request.args:
-        next_url = url_for("dashboard.index")
+        if current_user.is_admin:
+            next_url = url_for("dashboard.index")
+        else:
+            next_url = url_for('www.index')
     else:
         if request.args.get("next") == "":
-            next_url = url_for("dashboard.index")
+            if current_user.is_admin:
+                next_url = url_for("dashboard.index")
+            else:
+                next_url = url_for('www.index')
         else:
             next_url = get_safe_redirect(request.args.get("next"))
     return redirect(next_url)
