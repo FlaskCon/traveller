@@ -62,7 +62,8 @@
 
                {{ activity.start_time }} to {{ activity.end_time }} 
                <label class="paper-btn margin btn-small" for="modal-edit-normal-activity-{{ activity.id }}">edit</label>
-               <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="paper-btn btn-small btn-danger">X</a>
+               <!-- url_for('schedule.delete_activity', year=year, act_id=activity.id) -->
+               <a href="" class="paper-btn btn-small btn-danger">X</a>
                <br>
                 -> {{ activity.text }}<br><br>
 
@@ -96,7 +97,8 @@
 
                 {{ activity.start_time }} to {{ activity.end_time }} 
                 <label class="paper-btn margin btn-small" for="modal-edit-talk-activity-{{ activity.id }}">edit</label>
-                <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="paper-btn btn-small btn-danger">X</a>
+                <!--url_for('schedule.delete_activity', year=year, act_id=activity.id) -->
+                <a href="" class="paper-btn btn-small btn-danger">X</a>
                 <br>
                 -> {{ talk.title }} by 
                 {% for author in talk.author_list.authors %}

@@ -7,7 +7,8 @@ import os
 # from flask import request
 from flask import Blueprint
 from flask import render_template
-
+from flask import redirect
+from flask import url_for
 #
 # from shopyo.api.html import notify_success
 # from shopyo.api.forms import flash_errors
@@ -47,4 +48,4 @@ def index():
 
     # return str(module_blueprint.template_folder)
 
-    return render_template(get_setting("ACTIVE_FRONT_THEME") + "/index.html")
+    return redirect(url_for('y.landing_page', year=2021))
