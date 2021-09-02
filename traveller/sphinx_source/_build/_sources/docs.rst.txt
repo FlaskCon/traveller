@@ -12,4 +12,3 @@ Run in traveller/traveller folder:
     sphinx-build -b html sphinx_source sphinx_source/_build
 
 to generate html pages in docs
- 

@@ -48,7 +48,7 @@ def register():
     if reg_form.validate_on_submit():
         email = reg_form.email.data
         password = reg_form.password.data
-        user = User.create(email=email, password=password)
+        user = User.create(email=email, password=password, is_admin=False)
         login_user(user)
 
         is_disabled = False
@@ -70,7 +70,7 @@ def register():
                 notify_success("A confirmation email has been sent via email.")
             )
 
-        return redirect(url_for("dashboard.index"))
+        return redirect(url_for("y.landing_page", year=2021))
 
     context["form"] = reg_form
     return render_template("auth/register.html", **context)
