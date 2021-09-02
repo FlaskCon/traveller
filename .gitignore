@@ -127,3 +127,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 migrations/
+*.bat
+traveller/sphinx_source/_build/
