@@ -1,8 +1,8 @@
 
-Welcome to ProjectName docs!
-============================
+Welcome to Traveller docs!
+==========================
 
-Write project description here
+Traveller is a conference software written for FlaskCon
 
 .. toctree::
    :maxdepth: 9
