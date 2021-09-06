@@ -24,10 +24,16 @@ Create a db named traveller or whatever you want in your mysql db
 ```bash
 cd traveller
 ```
+create folder called instance and a file called config.py in it
+
+```bash
+mkdir instance #auto ignored by git
+touch instance/config.py
+```
 
 We are using MySQL but you can have a stab at a different db, 
 just in instance/config.py set the SQLALCHEMY_URI. For mysql it
-will be like that:
+will be like that (the file should contain only that):
 
 
 ```bash
