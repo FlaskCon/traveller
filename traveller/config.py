@@ -60,9 +60,12 @@ class DevelopmentConfig(BaseConfig):
     MAIL_PASSWORD = ""
     MAIL_DEFAULT_SENDER = "ma@mail.com"
 
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://username:password@localhost/db_name'
+
     # database configs
     # Add the below line with corrected values in config.py
     # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://username:password@localhost/db_name'
+
 
     # unknown configs
     PASSWORD_SALT = "some pasword salt"

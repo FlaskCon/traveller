@@ -129,8 +129,9 @@ def schedule(year):
     conf = Conf.query.filter(
         Conf.year == year
         ).first()
-    if conf.schedule is None:
-        conf.schedule = Schedule()
+    if conf is not None:
+        if conf.schedule is None:
+            conf.schedule = Schedule()
 
     weekmap = {
         0: 'Monday',
@@ -152,7 +153,7 @@ def schedule(year):
 def reviewers(year):
     context = mhelp.context()
     conf = Conf.query.filter(Conf.year==year).first_or_404()
-    reviewers = conf.reviewer_list.reviewers
+    reviewers = conf.reviewer_list.reviewers if conf.reviewer_list is not None else None
     if reviewers is None:
         reviewers = []
     context.update({

@@ -129,3 +129,9 @@ dmypy.json
 migrations/
 *.bat
 traveller/sphinx_source/_build/
+
+# PyCharm
+.idea/
+
+# traveller
+testing.db
