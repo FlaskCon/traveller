@@ -66,6 +66,7 @@ class DevelopmentConfig(BaseConfig):
     # Add the below line with corrected values in config.py
     # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://username:password@localhost/db_name'
 
+
     # unknown configs
     PASSWORD_SALT = "some pasword salt"
 
