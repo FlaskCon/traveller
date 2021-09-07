@@ -29,6 +29,7 @@ class TalkActivityForm(ModelForm):
     start_time = TimeField(label="start time")
     end_time = TimeField(label="end time")
 
-    talks = wtforms_alchemy.fields.QuerySelectMultipleField('Talk', 
+    talks = wtforms_alchemy.fields.QuerySelectField(
+        'Talk',
         query_factory=lambda: Talk.query.order_by(Talk.title).all()
-        )
+    )
