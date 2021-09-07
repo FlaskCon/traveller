@@ -24,6 +24,7 @@ class TalkActivityForm(ModelForm):
         exclude = ['talk_id', 'type', 'text']
 
 
-    talks = wtforms_alchemy.fields.QuerySelectMultipleField('Talk', 
+    talks = wtforms_alchemy.fields.QuerySelectField(
+        'Talk',
         query_factory=lambda: Talk.query.order_by(Talk.title).all()
-        )
+    )
