@@ -26,6 +26,7 @@ from init import migrate
 from init import mail
 from init import modules_path
 from shopyo.api.file import trycopy
+import seed
 
 #
 # Flask admin setup
@@ -109,6 +110,7 @@ def create_app(config_name):
     mail.init_app(app)
     login_manager.init_app(app)
     csrf = CSRFProtect(app)  # noqa
+    seed.register(app)
 
     admin = Admin(
         app,

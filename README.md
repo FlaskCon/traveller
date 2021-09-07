@@ -19,6 +19,12 @@ Install requirements.txt
 python -m pip install -r requirements.txt
 ```
 
+You may also want to install the dev requirements
+```bash
+python -m pip install -r dev_requirements.txt
+```
+
+
 Create a db named traveller or whatever you want in your mysql db
 
 ```bash
@@ -47,6 +53,12 @@ Now run in traveller/traveller
 
 ```bash
 python manage.py initialise
+```
+
+Then, to get development example data (with dev_requirements)
+
+```bash
+flask seed dev
 ```
 
 Then
