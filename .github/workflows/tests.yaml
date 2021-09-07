@@ -9,6 +9,8 @@ on:
     paths-ignore:
       - '*.md'
       - '*.rst'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 jobs:
   tests:
     name: ${{ matrix.name }}
