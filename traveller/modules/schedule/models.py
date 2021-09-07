@@ -28,6 +28,7 @@ class Day(PkModel):
 class Activity(PkModel):
     __tablename__ = 'activities'
     
+
     type = db.Column(db.String(300))
     text = db.Column(db.String(300))
     start_time = db.Column(db.Time)
