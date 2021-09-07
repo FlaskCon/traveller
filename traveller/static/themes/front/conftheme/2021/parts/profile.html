@@ -27,20 +27,34 @@
   <input id="tab4" type="radio" name="tabs">
   <label for="tab4">Tab 4</label>
 
-  <div class="content" id="content1">
-    <p>
-      {%for t in submitted_talks%}
-        {% if t.accepted == 'pending' %}
-          {% set badge = '<span class="badge warning"><span class="text-primary">pending</span></span>' %}
-        {% elif  t.accepted == 'accepted' %}
-          {% set badge = '<span class="badge success">accepted</span>' %}
-        {% else %}
-          {% set badge = '<span class="badge danger">rejected</span>' %}
-        {% endif %}
-        {{ t.title }} {{ badge | safe }} <a href="{{ url_for('y.talk_actions', year=year, talk_id=t.id) }}"><button class="btn-warning-primary btn-small">settings</button></a><br>
-        
-      {%endfor%}
-    </p>
+  <div class="content container" id="content1">
+    <table class="table-hover">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for t in submitted_talks%}
+          <tr>
+            {% if t.accepted == 'pending' %}
+              {% set badge = '<span class="badge warning"><span class="text-primary">pending</span></span>' %}
+            {% elif  t.accepted == 'accepted' %}
+             {% set badge = '<span class="badge success">accepted</span>' %}
+            {% else %}
+              {% set badge = '<span class="badge danger">rejected</span>' %}
+            {% endif %}
+            <td>{{ t.title }}</td>
+            <td>{{ badge | safe }}</td>
+            <td>
+              <a href="{{ url_for('y.talk_actions', year=year, talk_id=t.id) }}"><button class="btn-warning-primary btn-small">settings</button></a>
+            </td>           
+          </tr>
+        {%endfor%}
+      </tbody>
+    </table>
   </div>
   <div class="content" id="content2">
     <p>
