@@ -129,8 +129,9 @@ def schedule(year):
     conf = Conf.query.filter(
         Conf.year == year
         ).first()
-    if conf.schedule is None:
-        conf.schedule = Schedule()
+    if conf is not None:
+        if conf.schedule is None:
+            conf.schedule = Schedule()
 
     weekmap = {
         0: 'Monday',
