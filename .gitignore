@@ -135,3 +135,6 @@ traveller/sphinx_source/_build/
 
 # traveller
 testing.db
+
+# configation files
+traveller/config.json

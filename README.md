@@ -37,6 +37,42 @@ mkdir instance #auto ignored by git
 touch instance/config.py
 ```
 
+Create/edit a `traveller/config.json` with the information needed for each environment.
+
+
+for development
+```
+{
+    "environment": "development",
+    "admin_user": {
+      "email": "admin@domain.com",
+      "password": "pass"
+    },
+    "settings": {
+      "APP_NAME": "Demo",
+      "ACTIVE_FRONT_THEME": "blogus",
+      "ACTIVE_BACK_THEME": "boogle",
+      "CURRENCY": "MUR"
+    }
+}
+```
+and for production:
+```
+{
+    "environment": "production",
+    "admin_user": {
+      "email": "admin@domain.com",
+      "password": "pass"
+    },
+    "settings": {
+      "APP_NAME": "Demo",
+      "ACTIVE_FRONT_THEME": "blogus",
+      "ACTIVE_BACK_THEME": "boogle",
+      "CURRENCY": "MUR"
+    }
+}
+```
+
 We are using MySQL but you can have a stab at a different db, 
 just in instance/config.py set the SQLALCHEMY_URI. For mysql it
 will be like that (the file should contain only that):
