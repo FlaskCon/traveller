@@ -46,7 +46,7 @@ def cfp(year):
     return render_template('conftheme/{}/parts/cfp.html'.format(year), **context)
 
 
-@module_blueprint.route("/<int:year>/profile/", methods=["GET", "POST"])
+@module_blueprint.route("/<int:year>/profile/")
 @login_required
 def profile(year):
     context = mhelp.context()
