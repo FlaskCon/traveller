@@ -55,7 +55,7 @@ class AnonymousUser(AnonymousUserMixin):
     def is_admin(self):
         return False
     
-    def has_role(self, role_):
+    def has_role(self, role):
         return False
 
     def __repr__(self):
@@ -106,7 +106,7 @@ class User(UserMixin, PkModel):
         return check_password_hash(self._password, password)
     
     def has_role(self, role):
-        return any(r.name == role_ for r in self.roles)
+        return any(r.name == role for r in self.roles)
         
 
     def generate_confirmation_token(self):
