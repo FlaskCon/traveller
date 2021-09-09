@@ -12,11 +12,11 @@ from sqlalchemy import func
 
 
 def validate_email(self, field):
-            user = User.query.filter(
-                func.lower(User.email) == func.lower(field.data)
-            ).scalar()
-            if user is not None:
-                raise ValidationError(f"email '{field.data}' is already in use.")
+    user = User.query.filter(
+        func.lower(User.email) == func.lower(field.data)
+        ).scalar()
+    if user is not None:
+        raise ValidationError(f"email '{field.data}' is already in use.")
 class UserProfileForm(ModelForm):
     email = EmailField('email', validators=[Email(), validate_email])
     first_name = TextField('first_name', validators=[InputRequired()])
