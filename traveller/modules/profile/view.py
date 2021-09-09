@@ -3,14 +3,14 @@ from shopyo.api.module import ModuleHelp
 from flask_login import login_required
 from flask_login import current_user
 from .forms import UserProfileForm
-from sqlalchemy import func
+#from sqlalchemy import func
 from modules.box__default.auth.models import User
 # from flask import render_template
 # from flask import url_for
 # from flask import redirect
 from flask import render_template
-from flask import flash
-from shopyo.api.html import notify_warning
+#from flask import flash
+#from shopyo.api.html import notify_warning
 # from flask import request
 
 # from shopyo.api.html import notify_success
