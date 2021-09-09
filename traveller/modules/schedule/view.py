@@ -1,3 +1,7 @@
+# import datetime
+from datetime import date, datetime
+from flask import flash
+from wtforms.validators import ValidationError
 
 from shopyo.api.module import ModuleHelp
 from modules.conf.models import Conf
@@ -7,6 +11,7 @@ from modules.schedule.models import Activity
 from modules.schedule.forms import DayForm
 from modules.schedule.forms import NormalActivityForm
 from modules.schedule.forms import TalkActivityForm
+from shopyo.api.html import notify_danger
 
 # from flask import render_template
 # from flask import url_for
@@ -20,6 +25,12 @@ from modules.schedule.forms import TalkActivityForm
 mhelp = ModuleHelp(__file__, __name__)
 globals()[mhelp.blueprint_str] = mhelp.blueprint
 module_blueprint = globals()[mhelp.blueprint_str]
+
+
+def _date_difference(start_date, end_date):
+    if end_date < start_date:
+        return True
+
 
 @module_blueprint.route("/")
 def index():
@@ -37,6 +48,9 @@ def add_day(year):
 
     form = DayForm()
     form.validate()
+    if _date_difference(date.today(), form.date.data):
+        flash(notify_danger("new schedule date should be today or later"))
+        return mhelp.redirect_url('y.schedule', year=year)
     day = Day(
         date=form.date.data
         )
@@ -50,7 +64,9 @@ def add_activity(year, day_id, act_type):
     if act_type == 'normal_activity':
         day = Day.query.get(day_id)
         form = NormalActivityForm()
-        form.validate()
+        if _date_difference(form.start_time.data, form.end_time.data):
+            flash(notify_danger("End time should be greater than start date"))
+            return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity()
         form.populate_obj(activity)
         activity.type = 'normal_activity'
@@ -61,6 +77,9 @@ def add_activity(year, day_id, act_type):
         form = TalkActivityForm()
 
         form.validate()
+        if _date_difference(form.start_time.data, form.end_time.data):
+            flash(notify_danger("End time should be greater than start date"))
+            return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity()
         # form.populate_obj(activity)
         activity.start_time = form.start_time.data
@@ -77,6 +96,9 @@ def edit_activity(year, act_id, act_type):
     if act_type == 'normal_activity':
         form = NormalActivityForm()
         form.validate()
+        if _date_difference(form.start_time.data, form.end_time.data):
+            flash(notify_danger("End time should be greater than start date"))
+            return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity.query.get(act_id)
         form.populate_obj(activity)
         activity.update()
@@ -84,10 +106,14 @@ def edit_activity(year, act_id, act_type):
         day = Day.query.get(day_id)
         form = TalkActivityForm()
         form.validate()
+        if _date_difference(form.start_time.data, form.end_time.data):
+            flash(notify_danger("End date should be greater than start date"))
+            return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity.query.get(act_id)
         form.populate_obj(activity)
         activity.update()
     return mhelp.redirect_url('y.schedule', year=year)
+
 
 @module_blueprint.route("/<int:year>/act/<act_id>/delete", methods=["GET"])
 def delete_activity(year, act_id):

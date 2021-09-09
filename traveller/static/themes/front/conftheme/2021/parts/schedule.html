@@ -19,6 +19,7 @@
 
 <div class="paper container">
     {% if current_user.is_admin %}
+    {% include 'base/blocks/flashed_messages.html'%}
     <label class="paper-btn margin btn-small" for="modal-1">+ Day</label>
     <input class="modal-state" id="modal-1" type="checkbox">
     <div class="modal">
@@ -139,7 +140,7 @@
       <label class="modal-bg" for="modal-2"></label>
       <div class="modal-body">
         <label class="btn-close" for="modal-2">X</label>
-        <h4 class="modal-title">Add acivity to day</h4>
+        <h4 class="modal-title">Add activity to day</h4>
         <h5 class="modal-subtitle">Normal Activity</h5>
         <p class="modal-text">
           <form method="POST" action="{{ url_for('schedule.add_activity', year=year, day_id=day.id, act_type='normal_activity') }}">
