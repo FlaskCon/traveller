@@ -12,7 +12,6 @@ from itsdangerous import URLSafeTimedSerializer
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 from flask import current_app
-from jinja2.exceptions import UndefinedError
 from init import db
 from shopyo.api.models import PkModel
 
@@ -107,15 +106,11 @@ class User(UserMixin, PkModel):
         return check_password_hash(self._password, password)
     
     def has_role(self, role_):
-        try:
-            for r_ in self.roles:
-                if r_.name == role_:
-                    return True
-            return False
-        except UndefinedError:
-            return False
-        except:
-            return False
+        for r_ in self.roles:
+            if r_.name == role_:
+                return True
+        return False
+        
 
     def generate_confirmation_token(self):
         serializer = URLSafeTimedSerializer(current_app.config["SECRET_KEY"])
