@@ -105,11 +105,8 @@ class User(UserMixin, PkModel):
     def check_password(self, password):
         return check_password_hash(self._password, password)
     
-    def has_role(self, role_):
-        for r_ in self.roles:
-            if r_.name == role_:
-                return True
-        return False
+    def has_role(self, role):
+        return any(r.name == role_ for r in self.roles)
         
 
     def generate_confirmation_token(self):
