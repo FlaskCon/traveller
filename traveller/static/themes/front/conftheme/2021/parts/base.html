@@ -23,7 +23,7 @@
       <a href="{{ url_for('y.cfp', year=2021) }}">Submit Talk</a> - 
       <a href="{{ url_for('y.schedule', year=2021) }}">Schedule</a> -
       <a href="{{ url_for('y.reviewers', year=2021) }}">Reviewers</a> -
-      {% if 'reviewer' in current_user.roles or current_user.is_admin %}
+      {% if current_user.has_role('reviewer') or  current_user.is_admin %}
         <a href="{{ url_for('y.review', year=2021) }}">Review</a> - 
         <a href="{{ url_for('y.leaderboard', year=2021) }}">Leaderboard</a> - 
         <a href="{{ url_for('y.profile', year=2021) }}">Profile</a> - 
