@@ -46,21 +46,3 @@ class UserProfileForm(ModelForm):
            
         }
         
-        """
-        Inline validator for email. Checks to see if a user object with
-        entered email already present in the database
-
-        Args:
-            field : The form field that contains email data.
-
-        Raises:
-            ValidationError: if the username entered in the field is already
-            in the database
-        """
-        
-        
-    
-        
-        
-        
-        
