@@ -1,6 +1,7 @@
 
 from shopyo.api.module import ModuleHelp
 from flask import render_template
+from modules.box__default.auth.models import User
 from modules.conf.models import Conf
 from modules.conf.models import Talk
 from modules.schedule.forms import DayForm
@@ -8,6 +9,7 @@ from modules.cfp.forms import SubmitTalkForm
 from modules.schedule.models import Schedule
 from modules.schedule.forms import NormalActivityForm
 from modules.schedule.forms import TalkActivityForm
+from modules.profile.forms import UserProfileForm
 # from flask import url_for
 # from flask import redirect
 # from flask import flash
@@ -15,6 +17,7 @@ from modules.schedule.forms import TalkActivityForm
 
 from flask_login import current_user
 from flask_login import login_required
+
 
 # from shopyo.api.html import notify_success
 # from shopyo.api.forms import flash_errors
@@ -47,11 +50,12 @@ def cfp(year):
 @login_required
 def profile(year):
     context = mhelp.context()
+    userprofile_form = UserProfileForm(obj=current_user)
     submitted_talks = Talk.query.filter(
         Talk.submitter_id == current_user.id
         ).all()
-
     submitted_talks = [t for t in submitted_talks if t.talk_conference.year == year]
+    checked_tab = 'submited_talks'
     context.update(locals())
     return render_template('conftheme/{}/parts/profile.html'.format(year), **context)
 
@@ -128,7 +132,7 @@ def schedule(year):
     DayForm_ = DayForm
     conf = Conf.query.filter(
         Conf.year == year
-        ).first()
+        ).first_or_404()
     if conf is not None:
         if conf.schedule is None:
             conf.schedule = Schedule()
@@ -162,8 +166,7 @@ def reviewers(year):
     return render_template('conftheme/{}/parts/reviewers.html'.format(year), **context)
 
 
-
-    
+   
 # If "dashboard": "/dashboard" is set in info.json
 #
 # @module_blueprint.route("/dashboard", methods=["GET"])
