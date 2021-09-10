@@ -5,7 +5,6 @@ from shopyo.api.models import PkModel
 from modules.schedule.models import Schedule
 from modules.box__default.auth.models import User
 
-
 class Conf(PkModel):
     __tablename__ = 'conferences'
     year = db.Column(db.Integer, info={'label': 'Year'}, nullable=False)

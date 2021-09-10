@@ -6,6 +6,23 @@
   a {
     word-wrap: break-word;
   }
+  input[type='text']{
+        width: 90%;
+        display:block;
+    }
+    input[type='email']{
+        width: 90%;
+        display:block;
+    }
+    input[type='submit']{
+        display:block;
+    }
+    textarea{
+        width: 90%
+    }
+    .mb-3, .my-3 {
+	    margin-bottom: 1rem !important;
+	}
 </style>
 {% endblock %}
 
@@ -15,16 +32,16 @@
 
 <div class="paper container">
     <div class="row flex-spaces tabs">
-  <input id="tab1" type="radio" name="tabs" checked>
+  <input id="tab1" type="radio" name="tabs" {% if checked_tab == 'submited_talks' %} checked {% endif %}>
   <label for="tab1">Submitted Talks</label>
 
-  <input id="tab2" type="radio" name="tabs">
+  <input id="tab2" type="radio" name="tabs" {% if checked_tab == 'personal_info' %} checked {% endif %}>
   <label for="tab2">Personal Info</label>
 
-  <input id="tab3" type="radio" name="tabs">
+  <input id="tab3" type="radio" name="tabs" {% if checked_tab == 'tab_3' %} checked {% endif %}>
   <label for="tab3">Tab 3</label>
 
-  <input id="tab4" type="radio" name="tabs">
+  <input id="tab4" type="radio" name="tabs" {% if checked_tab == 'tab_4' %} checked {% endif %}>
   <label for="tab4">Tab 4</label>
 
   <div class="content container" id="content1">
@@ -58,7 +75,52 @@
   </div>
   <div class="content" id="content2">
     <p>
-      ---
+     <div class="personal_info container">
+    <h3>Personal info</h3>
+    <form method="POST" action="{{ url_for('profile.edit_profile', year=year) }}">
+        <div class="input-group mb-3">
+		    <div class="input-group-prepend">
+		        <span class="input-group-text"><i class="fa fa-id-card"></i></span>
+		    </div>
+		    {{ userprofile_form.email() }}
+		    {% if userprofile_form.email.errors %}
+		        <ul class="errors">
+		            {% for error in userprofile_form.email.errors %}
+			            <li>{{ error }}</li>
+		            {% endfor %}
+		        </ul>
+		    {% endif %}
+		</div>
+		<div class="input-group mb-3">
+		    <div class="input-group-prepend">
+		        <span class="input-group-text"><i class="fa fa-id-card"></i></span>
+		    </div>
+		    {{ userprofile_form.first_name() }}
+		    {% if userprofile_form.first_name.errors %}
+		        <ul class="errors">
+		            {% for error in userprofile_form.first_name.errors %}
+			            <li>{{ error }}</li>
+		            {% endfor %}
+		        </ul>
+		    {% endif %}
+		</div>
+		<div class="input-group mb-3">
+		    <div class="input-group-prepend">
+		        <span class="input-group-text"><i class="fa fa-id-card"></i></span>
+		    </div>
+		    {{ userprofile_form.last_name() }}
+		    {% if userprofile_form.last_name.errors %}
+		        <ul class="errors">
+		            {% for error in userprofile_form.last_nameerrors %}
+			            <li>{{ error }}</li>
+		            {% endfor %}
+		        </ul>
+		    {% endif %}
+		</div>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="submit" class="paper-btn btn-primary-outline" value="Submit"/>
+    </form>
+</div>
     </p>
   </div>
   <div class="content" id="content3">
