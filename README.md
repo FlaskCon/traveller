@@ -13,45 +13,34 @@ Activate it
 
 Install requirements.txt
 
----
 ```bash
 $ python -m pip install -r requirements.txt
 ```
----
 
 You may also want to install dev_requirements.txt
 
----
-```plaintext
+```bash
 $ python -m pip install -r dev_requirements.txt
 ```
----
 
 Create a db named traveller or whatever you want in your MySQL db
 
----
-```plaintext
+```bash
 $ cd traveller
 ```
----
 
 Create folder called instance and a file called config.py in it
 
----
-```plaintext
+```bash
 $ mkdir instance #auto ignored by git
 $ touch instance/config.py
 ```
----
 
 In instance/config.py set the __SQLALCHEMY_URI__. For MySQL it will be like this (the file should contain only that):
 
-
----
-```markdown
+```
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost/traveller'
 ```
----
 'mysql+pymysql://username:password@localhost/dbname'.
 We are using MySQL but you can have a stab at a different db.
 
@@ -59,7 +48,6 @@ Create or edit traveller/config.json with the information needed for each enviro
 
 for __development:__
 
----
 ```markdown
 {
     "environment": "development",
@@ -75,11 +63,9 @@ for __development:__
     }
 }
 ```
----
 
 and for __production:__
 
----
 ```markdown
 {
     "environment": "production",
@@ -95,41 +81,30 @@ and for __production:__
     }
 }
 ```
----
 
 Now in traveller/traveller run:
 
----
 ```bash
 $ python manage.py initialise
 ```
----
 
 Then, to get development example data (make sure requirements in dev_requirements.txt are installed)
 
----
 ```bash
 $ flask seed dev
 ```
----
-
 Then
 
----
 ```bash
 $ python manage.py rundebug
 ```
----
 
 Migrations:
 
-
----
 ```bash
 $ python manage.py db migrate
 $ python manage.py db upgrade
 ```
----
 More info can be found in the shopyo docs: [shopyo.readthedocs.io](https://shopyo.readthedocs.io/en/latest/)
 
 
@@ -139,23 +114,18 @@ We are using flask-mailman.
 
 If you have Node.js, use the [maildev](https://github.com/maildev/maildev) package. Install it using
 
----
 ```bash
 $ npm install -g maildev
 ```
----
 
 Then serve it using
 
----
 ```bash
 $ maildev
 ```
----
 
 Dev configs for this setup are (already in config.py):
 
----
 ```python
 class DevelopmentConfig(Config):
     """Configurations for development"""
@@ -174,7 +144,6 @@ class DevelopmentConfig(Config):
     MAIL_PASSWORD = '' # os.environ.get("MAIL_PASSWORD")
     MAIL_DEFAULT_SENDER = 'ma@mail.com' # os.environ.get("MAIL_DEFAULT_SENDER")
 ```
----
 
 Go to [http://127.0.0.1:1080](http://127.0.0.1:1080) where it serves it’s web interface by default. See mails arrive in your inbox!
 Particularly useful when registering!
