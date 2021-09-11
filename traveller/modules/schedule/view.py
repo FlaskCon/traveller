@@ -62,7 +62,8 @@ def add_activity(year, day_id, act_type):
     if act_type == 'normal_activity':
         day = Day.query.get(day_id)
         form = NormalActivityForm()
-        if _date_difference(form.start_time.data, form.end_time.data):
+        form.validate()
+        if form.start_time.data < form.end_time.data:
             flash(notify_danger("End time should be greater than start date"))
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity()
