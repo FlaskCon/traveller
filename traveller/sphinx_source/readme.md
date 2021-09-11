@@ -1,7 +1,5 @@
+# Readme
 
-![](icon.png)
-
-# Traveller
 
 
 ## Setup
@@ -37,6 +35,7 @@ $ touch instance/config.py
 ```
 
 In instance/config.py set the __SQLALCHEMY_URI__. For MySQL it will be like this (the file should contain only that):
+
 
 ```
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost/traveller'
@@ -93,6 +92,7 @@ Then, to get development example data (make sure requirements in dev_requirement
 ```bash
 $ flask seed dev
 ```
+
 Then
 
 ```bash
@@ -100,6 +100,7 @@ $ python manage.py rundebug
 ```
 
 Migrations:
+
 
 ```bash
 $ python manage.py db migrate
