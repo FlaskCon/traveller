@@ -46,9 +46,11 @@ def add_day(year):
 
     form = DayForm()
     form.validate()
-    if date.today() < form.date.data:
+
+    if form.date.data < date.today():
         flash(notify_danger("new schedule date should be today or later"))
         return mhelp.redirect_url('y.schedule', year=year)
+
     day = Day(
         date=form.date.data
         )
@@ -63,7 +65,7 @@ def add_activity(year, day_id, act_type):
         day = Day.query.get(day_id)
         form = NormalActivityForm()
         form.validate()
-        if form.start_time.data < form.end_time.data:
+        if form.end_time.data < form.start_time.data:
             flash(notify_danger("End time should be greater than start date"))
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity()
@@ -76,7 +78,7 @@ def add_activity(year, day_id, act_type):
         form = TalkActivityForm()
 
         form.validate()
-        if form.start_time.data < form.end_time.data:
+        if form.end_time.data < form.start_time.data:
             flash(notify_danger("End time should be greater than start date"))
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity()
@@ -95,7 +97,7 @@ def edit_activity(year, act_id, act_type):
     if act_type == 'normal_activity':
         form = NormalActivityForm()
         form.validate()
-        if form.start_time.data < form.end_time.data:
+        if form.end_time.data < form.start_time.data:
             flash(notify_danger("End time should be greater than start date"))
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity.query.get(act_id)
@@ -105,7 +107,7 @@ def edit_activity(year, act_id, act_type):
         day = Day.query.get(day_id)
         form = TalkActivityForm()
         form.validate()
-        if form.start_time.data < form.end_time.data:
+        if form.end_time.data < form.start_time.data:
             flash(notify_danger("End date should be greater than start date"))
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity.query.get(act_id)
