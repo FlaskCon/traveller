@@ -25,11 +25,6 @@ globals()[mhelp.blueprint_str] = mhelp.blueprint
 module_blueprint = globals()[mhelp.blueprint_str]
 
 
-def _date_difference(start_date, end_date):
-    if end_date < start_date:
-        return True
-
-
 @module_blueprint.route("/")
 def index():
     return mhelp.info['display_string']
