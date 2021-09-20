@@ -1,3 +1,6 @@
+
+{% set nav_bg_color = 'bg-red-500' %}
+
 {% extends 'conftheme/2021/parts/base.html'%}
 
 {% block head %}
@@ -11,11 +14,16 @@
     overflow-y: scroll;
   }
 </style>
+
 {% endblock %}
 
 
 {% block body %}
-<br><br>
+<div
+        class="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75"
+      >
+
+
 
 <div class="paper container">
     {% if current_user.is_admin %}
@@ -208,6 +216,11 @@
   </tbody>
 </table>
 -->
+</div>
+            </div>
+          </div>
+        </div>
+      </section>
 </div>
 
 {% endblock %}
