@@ -6,11 +6,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <link rel="shortcut icon" href="./assets/img/favicon.ico" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='flaskcon2021.png') }}" />
     <link
       rel="apple-touch-icon"
       sizes="76x76"
-      href="./assets/img/apple-icon.png"
+      href="{{ url_for('static', filename='flaskcon2021.png') }}"
     />
     <link
       rel="stylesheet"
@@ -39,7 +39,9 @@
       >
         <div
           class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
-        >
+        ><a href="/" class="pr-2">
+          <img style="display: inline-block;" src="{{ url_for('static', filename='flaskcon2021.png') }}" width="40" height="40" class="bg-white rounded-full">
+        </a>
           <a
             class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
             href="https://github.com/FlaskCon/traveller"

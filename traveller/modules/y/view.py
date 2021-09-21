@@ -33,7 +33,15 @@ def index():
 
 @module_blueprint.route("/<int:year>/")
 def landing_page(year):
-    return render_template('conftheme/{}/index.html'.format(year))
+    context = mhelp.context()
+    conf = Conf.query.filter(Conf.year==year).first_or_404()
+    reviewers = conf.reviewer_list.reviewers if conf.reviewer_list is not None else None
+    if reviewers is None:
+        reviewers = []
+    context.update({
+        'reviewers': reviewers
+        })
+    return render_template('conftheme/{}/index.html'.format(year), **context)
 
 
 @module_blueprint.route("/<int:year>/cfp/")
