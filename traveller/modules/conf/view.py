@@ -48,9 +48,6 @@ def add():
     form.validate()
     conf = Conf()
     conf.add_days(year=form.year.data, cfp_start=form.cfp_start.data, cfp_end=form.cfp_end.data)
-    conf.year = form.year.data
-    conf.cfp_start = form.cfp_start.data
-    conf.cfp_end = form.cfp_end.data
     conf.save()
     return mhelp.redirect_url('conf.dashboard')
 
