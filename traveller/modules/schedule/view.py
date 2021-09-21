@@ -99,7 +99,6 @@ def edit_activity(year, act_id, act_type):
         form.populate_obj(activity)
         activity.update()
     elif act_type == 'talk':
-        day = Day.query.get(day_id)
         form = TalkActivityForm()
         form.validate()
         if form.end_time.data < form.start_time.data:
