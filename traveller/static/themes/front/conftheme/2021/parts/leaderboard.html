@@ -1,34 +1,52 @@
 {% extends 'conftheme/2021/parts/base.html'%}
-
 {% block head %}
-<title>FlaskCon 2021</title>
+<title>Leaderboard | FlaskCon</title>
 {% endblock %}
-
-
 {% block body %}
-<br><br>
-
-<div class="paper container">
-    <table class="table-hover">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Title</th>
-          <th>Score</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for t in talks %}
-            <tr>
-              <td>{{ str_(loop.index).zfill(3) }}.</td>
-              <td>{{ t[0].title }}</td>
-              <td>{{t[1]}}</td>
-              <td><a href="{{ url_for('cfp.final_talk_action', year=2021, talk_id=t[0].id) }}"><button class="btn-warning-primary btn-small">actions</button></a></td>
-            </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    
-</div>
+<p class="pb-16 bg-red-500"></p>
+<section class="pb-20 bg-blueGray-200">
+    <p class="p-5 bg-transparent"></p>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+            <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
+              <h3 class="text-3xl">Leaderboard</h3><br><br>
+                <table class="table-auto">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Score</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for t in talks %}
+                        {% if t[0].accepted == 'pending' %}
+                        {% set badge = '<span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-indigo-600 bg-indigo-200 uppercase last:mr-0 mr-1">
+                            pending
+                        </span>' %}
+                        {% elif t[0].accepted == 'accepted' %}
+                        {% set badge = '<span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-emerald-600 bg-emerald-200 uppercase last:mr-0 mr-1">
+                            accepted
+                        </span>' %}
+                        {% else %}
+                        {% set badge = '<span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-red-600 bg-red-200 uppercase last:mr-0 mr-1">
+                            rejected
+                        </span>' %}
+                        {% endif %}
+                        <tr>
+                            <td class="p-2">{{ str_(loop.index).zfill(3) }}.</td>
+                            <td class="p-2">{{ t[0].title }}</td>
+                            <td class="p-2">{{ badge | safe }}</td>
+                            <td class="p-2">{{t[1]}}</td>
+                            <td class="p-2"><a href="{{ url_for('cfp.final_talk_action', year=2021, talk_id=t[0].id) }}" class="font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"><i class="fa fa-cog"></i> actions</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
