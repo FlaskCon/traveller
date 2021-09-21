@@ -1,226 +1,437 @@
-
-
-
 {% extends 'conftheme/2021/parts/base.html'%}
-
 {% block head %}
-<title>FlaskCon 2021</title>
+<title>Schedule | FlaskCon</title>
 <style type="text/css">
-  a {
+a {
     word-wrap: break-word;
-  }
-  .modal-body{
+}
+
+.modal-body {
     height: 500px;
     overflow-y: scroll;
-  }
+}
 </style>
-
 {% endblock %}
-
-
 {% block body %}
-<div
-        class="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75"
-      >
-
-
-
-<div class="paper container">
-    {% if current_user.is_admin %}
-    {% include 'base/blocks/flashed_messages.html'%}
-    <label class="paper-btn margin btn-small" for="modal-1">+ Day</label>
-    <input class="modal-state" id="modal-1" type="checkbox">
-    <div class="modal">
-      <label class="modal-bg" for="modal-1"></label>
-      <div class="modal-body">
-        <label class="btn-close" for="modal-1">X</label>
-        <h4 class="modal-title">Add day to conference</h4>
-        <h5 class="modal-subtitle">Day</h5>
-        <p class="modal-text">
-          <form method="POST" action="{{ url_for('schedule.add_day', year=year) }}">
-            {%for field in DayForm_()%}
-            {%if field.id not in ['csrf_token']%}
-                    {{field.label}}
-                {%endif%}
-                {{field}}<br>
-            {%endfor%}
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button class="btn-warning-primary" type="submit">save</button>
-            </form>
-        </p>
-        <label for="modal-1"> ~ Close! ~ </label>
-      </div>
-    </div>
-    {% endif %}
-  <br>
-  {% for day in schedule.days %}
-    <h3>{{ weekmap[day.date.weekday()] }} {{ day.date.day }}/{{ day.date.month }}/{{ day.date.year }}
-      {% if current_user.is_admin %}
-      <label class="paper-btn margin btn-small" for="modal-2">+ Normal Activity</label>
-      <label class="paper-btn margin btn-small" for="modal-3">+ Talk</label>
-      {% endif %}
-    </h3>
-
-
-    <div>
+<!-- <div
+    class="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75"
+    >
+    <div class="paper container">
+      {% for day in schedule.days %}
+        <h3>{{ weekmap[day.date.weekday()] }} {{ day.date.day }}/{{ day.date.month }}/{{ day.date.year }}
+        {% if current_user.is_admin %}
+          <label class="paper-btn margin btn-small" for="modal-2">+ Normal Activity</label>
+          <label class="paper-btn margin btn-small" for="modal-3">+ Talk</label>
+        {% endif %}
+        </h3>
+        <div>
           {% set activities = day.get_sorted_activities() %}
           {% for activity_ in activities %}
             {% set activity = activity_[0] %}
             {% if activity.type == 'normal_activity' %}
-
-               {{ activity.start_time }} to {{ activity.end_time }} 
-               <label class="paper-btn margin btn-small" for="modal-edit-normal-activity-{{ activity.id }}">edit</label>
-               <!-- url_for('schedule.delete_activity', year=year, act_id=activity.id) -->
-               <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="paper-btn btn-small btn-danger" onclick="return confirm('Are you sure to delete that activity?')">X</a>
-               <br>
-                -> {{ activity.text }}<br><br>
-
-                <input class="modal-state" id="modal-edit-normal-activity-{{ activity.id }}" type="checkbox">
-                <div class="modal">
-                  <label class="modal-bg" for="modal-edit-normal-activity-{{ activity.id }}"></label>
-                  <div class="modal-body">
-                    <label class="btn-close" for="modal-edit-normal-activity-{{ activity.id }}">X</label>
-                    <h4 class="modal-title">Edit activity</h4>
-                    <h5 class="modal-subtitle">Normal Activity</h5>
-                    <p class="modal-text">
-                      <form method="POST" action="{{ url_for('schedule.edit_activity', year=year,
-                        act_id=activity.id, act_type='normal_activity') }}">
-                        {%for field in NormalActivityForm_(obj=activity)%}
-                          {%if field.id not in ['csrf_token']%}
-                                {{field.label}}
-                            {%endif%}
-                            {{field}}<br>
-                        {%endfor%}
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                            <button class="btn-warning-primary" type="submit">save</button>
-                        </form>
-                    </p>
-                    <label for="modal-edit-normal-activity-{{ activity.id }}"> ~ Close! ~ </label>
-                  </div>
+              {{ activity.start_time }} to {{ activity.end_time }}
+              <label class="paper-btn margin btn-small" for="modal-edit-normal-activity-{{ activity.id }}">edit</label>
+              <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="paper-btn btn-small btn-danger" onclick="return confirm('Are you sure to delete that activity?')">X</a>
+              <br>
+              -> {{ activity.text }}<br><br>
+              <input class="modal-state" id="modal-edit-normal-activity-{{ activity.id }}" type="checkbox">
+              <div class="modal">
+                <label class="modal-bg" for="modal-edit-normal-activity-{{ activity.id }}"></label>
+                <div class="modal-body">
+                  <label class="btn-close" for="modal-edit-normal-activity-{{ activity.id }}">X</label>
+                  <h4 class="modal-title">Edit activity</h4>
+                  <h5 class="modal-subtitle">Normal Activity</h5>
+                  <p class="modal-text">
+                    <form method="POST" action="{{ url_for('schedule.edit_activity', year=year,
+                      act_id=activity.id, act_type='normal_activity') }}">
+                      {%for field in NormalActivityForm_(obj=activity)%}
+                      {%if field.id not in ['csrf_token']%}
+                      {{field.label}}
+                      {%endif%}
+                      {{field}}<br>
+                      {%endfor%}
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                      <button class="btn-warning-primary" type="submit">save</button>
+                    </form>
+                  </p>
+                  <label for="modal-edit-normal-activity-{{ activity.id }}"> ~ Close! ~ </label>
                 </div>
-
+              </div>
             {% endif %}
             {% if activity.type == 'talk' %}
               {% set talk = activity.get_talk() %}
-
-                {{ activity.start_time }} to {{ activity.end_time }} 
-                <label class="paper-btn margin btn-small" for="modal-edit-talk-activity-{{ activity.id }}">edit</label>
-                <!--url_for('schedule.delete_activity', year=year, act_id=activity.id) -->
-                <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="paper-btn btn-small btn-danger"  onclick="return confirm('Are you sure to delete that activity?')">X</a>
-                <br>
-                -> {{ talk.title }}
-                {% for author in talk.author_list.authors %}
-                    {{author.first_name}} {{author.last_name}},
-                {% endfor %}
-                <br><br>
-
-                <input class="modal-state" id="modal-edit-talk-activity-{{ activity.id }}" type="checkbox">
-                <div class="modal">
-                  <label class="modal-bg" for="modal-edit-talk-activity-{{ activity.id }}"></label>
-                  <div class="modal-body">
-                    <label class="btn-close" for="modal-edit-talk-activity-{{ activity.id }}">X</label>
-                    <h4 class="modal-title">Edit activity</h4>
-                    <h5 class="modal-subtitle">Normal Activity</h5>
-                    <p class="modal-text">
-                      <form method="POST" action="{{ url_for('schedule.edit_activity', year=year,
-                        act_id=activity.id, act_type='talk') }}">
-                        {%for field in TalkActivityForm_(obj=activity)%}
-                          {%if field.id not in ['csrf_token']%}
-                                {{field.label}}
-                            {%endif%}
-                            {{field}}<br>
-                        {%endfor%}
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                            <button class="btn-warning-primary" type="submit">save</button>
-                        </form>
-                    </p>
-                    <label for="modal-edit-talk-activity-{{ activity.id }}"> ~ Close! ~ </label>
-                  </div>
+              {{ activity.start_time }} to {{ activity.end_time }}
+              <label class="paper-btn margin btn-small" for="modal-edit-talk-activity-{{ activity.id }}">edit</label>
+              <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="paper-btn btn-small btn-danger"  onclick="return confirm('Are you sure to delete that activity?')">X</a>
+              <br>
+              -> {{ talk.title }}
+              {% for author in talk.author_list.authors %}
+                {{author.first_name}} {{author.last_name}},
+              {% endfor %}
+              <br><br>
+              <input class="modal-state" id="modal-edit-talk-activity-{{ activity.id }}" type="checkbox">
+              <div class="modal">
+                <label class="modal-bg" for="modal-edit-talk-activity-{{ activity.id }}"></label>
+                <div class="modal-body">
+                  <label class="btn-close" for="modal-edit-talk-activity-{{ activity.id }}">X</label>
+                  <h4 class="modal-title">Edit activity</h4>
+                  <h5 class="modal-subtitle">Normal Activity</h5>
+                  <p class="modal-text">
+                    <form method="POST" action="{{ url_for('schedule.edit_activity', year=year,
+                      act_id=activity.id, act_type='talk') }}">
+                      {%for field in TalkActivityForm_(obj=activity)%}
+                      {%if field.id not in ['csrf_token']%}
+                      {{field.label}}
+                      {%endif%}
+                      {{field}}<br>
+                      {%endfor%}
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                      <button class="btn-warning-primary" type="submit">save</button>
+                    </form>
+                  </p>
+                  <label for="modal-edit-talk-activity-{{ activity.id }}"> ~ Close! ~ </label>
                 </div>
-
+              </div>
             {% endif %}
           {% endfor %}
-    </div>
-
-
-    <input class="modal-state" id="modal-2" type="checkbox">
-    <div class="modal">
-      <label class="modal-bg" for="modal-2"></label>
-      <div class="modal-body">
-        <label class="btn-close" for="modal-2">X</label>
-        <h4 class="modal-title">Add activity to day</h4>
-        <h5 class="modal-subtitle">Normal Activity</h5>
-        <p class="modal-text">
-          <form method="POST" action="{{ url_for('schedule.add_activity', year=year, day_id=day.id, act_type='normal_activity') }}">
-            {%for field in NormalActivityForm_()%}
-              {%if field.id not in ['csrf_token']%}
-                    {{field.label}}
+        </div>
+        <input class="modal-state" id="modal-2" type="checkbox">
+        <div class="modal">
+          <label class="modal-bg" for="modal-2"></label>
+          <div class="modal-body">
+            <label class="btn-close" for="modal-2">X</label>
+            <h4 class="modal-title">Add activity to day</h4>
+            <h5 class="modal-subtitle">Normal Activity</h5>
+            <p class="modal-text">
+              <form method="POST" action="{{ url_for('schedule.add_activity', year=year, day_id=day.id, act_type='normal_activity') }}">
+                {%for field in NormalActivityForm_()%}
+                {%if field.id not in ['csrf_token']%}
+                {{field.label}}
                 {%endif%}
                 {{field}}<br>
-            {%endfor%}
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button class="btn-warning-primary" type="submit">save</button>
-            </form>
-        </p>
-        <label for="modal-2"> ~ Close! ~ </label>
-      </div>
-    </div>
-
-    <input class="modal-state" id="modal-3" type="checkbox">
-    <div class="modal">
-      <label class="modal-bg" for="modal-3"></label>
-      <div class="modal-body">
-        <label class="btn-close" for="modal-3">X</label>
-        <h4 class="modal-title">Add Talk to day</h4>
-        <h5 class="modal-subtitle">Activity</h5>
-        <p class="modal-text">
-          <form method="POST" action="{{ url_for('schedule.add_activity', year=year, day_id=day.id, act_type='talk') }}">
-                {%for field in TalkActivityForm_()%}
-                  {%if field.id not in ['csrf_token']%}
-                        {{field.label}}
-                    {%endif%}
-                    {{field}}<br>
                 {%endfor%}
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button class="btn-warning-primary" type="submit">save</button>
-            </form>
-        </p>
-        <label for="modal-3"> ~ Close! ~ </label>
-      </div>
-    </div>
-  {% endfor %}
-
-
-<!--
-<h3>22 Nov 2021</h3>
-<table>
-  <thead>
-
-  </thead>
-  <tbody>
-    <tr>
-      <td>10:20 AM</td>
-      <td>Bob Dylan ewrtgre r3e tg3ert  3tgr </td>
-      <td>Bob Dylan</td>
-    </tr>
-    <tr>
-      <td>10:30 AM</td>
-      <td>Eric Clapton wrgf retg r3 tr3e tg</td>
-      <td>Bob Dylan</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Daniel Kahneman</td>
-      <td>Bob Dylan</td>
-    </tr>
-  </tbody>
-</table>
--->
-</div>
-            </div>
+              </form>
+            </p>
+            <label for="modal-2"> ~ Close! ~ </label>
           </div>
         </div>
-      </section>
+        <input class="modal-state" id="modal-3" type="checkbox">
+        <div class="modal">
+          <label class="modal-bg" for="modal-3"></label>
+          <div class="modal-body">
+            <label class="btn-close" for="modal-3">X</label>
+            <h4 class="modal-title">Add Talk to day</h4>
+            <h5 class="modal-subtitle">Activity</h5>
+            <p class="modal-text">
+              <form method="POST" action="{{ url_for('schedule.add_activity', year=year, day_id=day.id, act_type='talk') }}">
+                {%for field in TalkActivityForm_()%}
+                {%if field.id not in ['csrf_token']%}
+                {{field.label}}
+                {%endif%}
+                {{field}}<br>
+                {%endfor%}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="btn-warning-primary" type="submit">save</button>
+              </form>
+            </p>
+            <label for="modal-3"> ~ Close! ~ </label>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
-
+</div>
+</section>
+</div> -->
+<p class="pb-16 bg-red-500"></p>
+<section class="pb-20 bg-blueGray-200">
+    <p class="p-5 bg-transparent"></p>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+            <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7" style="min-height: 800px;">
+                {% if current_user.is_admin %}
+                {% include 'base/blocks/flashed_messages.html'%}
+                <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('add-day-modal')">
+                    + Day
+                </button>
+                {% endif %}
+                {% for day in schedule.days %}
+                <h3><span class="text-4xl">{{ weekmap[day.date.weekday()] }} {{ day.date.day }}/{{ day.date.month }}/{{ day.date.year }}</span>
+                    {% if current_user.is_admin %}
+                    <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('add-normal-activity-modal-{{day.id}}')">
+                        + Normal Activity
+                    </button>
+                    <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('add-talk-activity-modal-{{day.id}}')">
+                        + Talk
+                    </button>
+                    <!--Normal activity modal -->
+                    <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="add-normal-activity-modal-{{day.id}}">
+                        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+                            <!--content-->
+                            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                <!--header-->
+                                <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                                    <h3 class="text-3xl font-semibold">
+                                        Add normal activity to day
+                                    </h3>
+                                    <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('add-normal-activity-modal-{{day.id}}')">
+                                        <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                            ×
+                                        </span>
+                                    </button>
+                                </div>
+                                <!--body-->
+                                <div class="relative p-6 flex-auto">
+                                    <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                        <form method="POST" action="{{ url_for('schedule.add_activity', year=year, day_id=day.id, act_type='normal_activity') }}">
+                                            {%for field in NormalActivityForm_()%}
+                                            {%if field.id not in ['csrf_token']%}
+                                            {{field.label}}<br>
+                                            {%endif%}
+                                            {{field}}<br><br>
+                                            {%endfor%}
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                                                Save
+                                            </button>
+                                        </form>
+                                    </p>
+                                </div>
+                                <!--footer-->
+                                <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                    <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('add-normal-activity-modal-{{day.id}}')">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="add-normal-activity-modal-{{day.id}}-backdrop"></div>
+                    <!--normal activity modal end-->
+                    <!--talk add modal -->
+                    <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="add-talk-activity-modal-{{day.id}}">
+                        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+                            <!--content-->
+                            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                <!--header-->
+                                <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                                    <h3 class="text-3xl font-semibold">
+                                        Add talk to day
+                                    </h3>
+                                    <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('add-talk-activity-modal-{{day.id}}')">
+                                        <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                            ×
+                                        </span>
+                                    </button>
+                                </div>
+                                <!--body-->
+                                <div class="relative p-6 flex-auto">
+                                    <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                        <form method="POST" action="{{ url_for('schedule.add_activity', year=year, day_id=day.id, act_type='talk') }}">
+                                            {%for field in TalkActivityForm_()%}
+                                            {%if field.id not in ['csrf_token']%}
+                                            {{field.label}}<br>
+                                            {%endif%}
+                                            {{field}}<br><br>
+                                            {%endfor%}
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                                                Save
+                                            </button>
+                                        </form>
+                                    </p>
+                                </div>
+                                <!--footer-->
+                                <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                    <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('add-talk-activity-modal-{{day.id}}')">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="add-talk-activity-modal-{{day.id}}-backdrop"></div>
+                    <!-- end talk add -->
+                    {% endif %}
+                </h3>
+                <div>
+                    {% set activities = day.get_sorted_activities() %}
+                    {% for activity_ in activities %}
+                    {% set activity = activity_[0] %}
+                    {% if activity.type == 'normal_activity' %}
+                    {{ activity.start_time }} to {{ activity.end_time }}
+                    <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-normal-activity-modal-id-{{ activity.id }}')">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="return confirm('Are you sure to delete that activity?')">X</a>
+                    <br>
+                    -> {{ activity.text }}<br><br>
+                    <!--edit normal activity modal-->
+                    <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="edit-normal-activity-modal-id-{{ activity.id }}">
+                        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+                            <!--content-->
+                            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                <!--header-->
+                                <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                                    <h3 class="text-3xl font-semibold">
+                                        Edit activity
+                                    </h3>
+                                    <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('edit-normal-activity-modal-id-{{ activity.id }}')">
+                                        <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                            ×
+                                        </span>
+                                    </button>
+                                </div>
+                                <!--body-->
+                                <div class="relative p-6 flex-auto">
+                                    <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                        <form method="POST" action="{{ url_for('schedule.edit_activity', year=year,
+                  act_id=activity.id, act_type='normal_activity') }}">
+                                            {%for field in NormalActivityForm_(obj=activity)%}
+                                            {%if field.id not in ['csrf_token']%}
+                                            {{field.label}}
+                                            {%endif%}
+                                            {{field}}<br>
+                                            {%endfor%}
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                                                Save
+                                            </button>
+                                        </form>
+                                    </p>
+                                </div>
+                                <!--footer-->
+                                <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                    <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-normal-activity-modal-id-{{ activity.id }}')">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="edit-normal-activity-modal-id-{{ activity.id }}-backdrop"></div>
+                    <!-- end edit normal activity modal -->
+                    {% endif %}
+                    {% if activity.type == 'talk' %}
+                    {% set talk = activity.get_talk() %}
+                    {{ activity.start_time }} to {{ activity.end_time }}
+                    <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-talk-activity-modal-id-{{ activity.id }}')">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="return confirm('Are you sure to delete that activity?')">X</a>
+                    <br>
+                    -> {{ talk.title }} by 
+                    {% for author in talk.author_list.authors %}
+                    {{author.first_name}} {{author.last_name}},
+                    {% endfor %}
+                    <br><br>
+                    <!-- edit talk activity modal -->
+                    <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="edit-talk-activity-modal-id-{{ activity.id }}">
+                        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+                            <!--content-->
+                            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                <!--header-->
+                                <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                                    <h3 class="text-3xl font-semibold">
+                                        Edit talk activity
+                                    </h3>
+                                    <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('edit-talk-activity-modal-id-{{ activity.id }}')">
+                                        <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                            ×
+                                        </span>
+                                    </button>
+                                </div>
+                                <!--body-->
+                                <div class="relative p-6 flex-auto">
+                                    <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                        <form method="POST" action="{{ url_for('schedule.edit_activity', year=year,
+                  act_id=activity.id, act_type='talk') }}">
+                                            {%for field in TalkActivityForm_(obj=activity)%}
+                                            {%if field.id not in ['csrf_token']%}
+                                            {{field.label}}
+                                            {%endif%}
+                                            {{field}}<br>
+                                            {%endfor%}
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                                                Save
+                                            </button>
+                                        </form>
+                                    </p>
+                                </div>
+                                <!--footer-->
+                                <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                    <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-talk-activity-modal-id-{{ activity.id }}')">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="edit-talk-activity-modal-id-{{ activity.id }}-backdrop"></div>
+                    <!-- end edit talk activity modal -->
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% if current_user.is_admin %}
+{% include 'base/blocks/flashed_messages.html'%}
+<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="add-day-modal">
+    <div class="relative w-auto my-6 mx-auto max-w-3xl">
+        <!--content-->
+        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <!--header-->
+            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                <h3 class="text-3xl font-semibold">
+                    Add Day
+                </h3>
+                <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('add-day-modal')">
+                    <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                        ×
+                    </span>
+                </button>
+            </div>
+            <!--body-->
+            <div class="relative p-6 flex-auto">
+                <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                    <form method="POST" action="{{ url_for('schedule.add_day', year=year) }}">
+                        {%for field in DayForm_()%}
+                        {%if field.id not in ['csrf_token']%}
+                        {{field.label}}
+                        {%endif%}
+                        {{field}}<br>
+                        {%endfor%}
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                            Save
+                        </button>
+                    </form>
+                </p>
+            </div>
+            <!--footer-->
+            <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('add-day-modal')">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="add-day-modal-backdrop"></div>
+<script type="text/javascript">
+function toggleModal(modalID) {
+    document.getElementById(modalID).classList.toggle("hidden");
+    document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+    document.getElementById(modalID).classList.toggle("flex");
+    document.getElementById(modalID + "-backdrop").classList.toggle("flex");
+}
+</script>
+{% endif %}
 {% endblock %}

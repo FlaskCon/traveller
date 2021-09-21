@@ -31,5 +31,5 @@ class TalkActivityForm(ModelForm):
 
     talks = wtforms_alchemy.fields.QuerySelectField(
         'Talk',
-        query_factory=lambda: Talk.query.order_by(Talk.title).all()
+        query_factory=lambda: Talk.query.filter(Talk.accepted == 'accepted').all()
     )
