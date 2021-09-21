@@ -37,7 +37,7 @@ def edit_profile(year):
         context.update(locals())
         return render_template('conftheme/{}/parts/profile.html'.format(year), **context)
     context.update(locals())
-    return render_template('conftheme/{}/parts/profile.html'.format(year), **context)
+    return redirect(url_for('y.profile', year=year))
     
       
       
