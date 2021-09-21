@@ -27,14 +27,14 @@ class Conf(PkModel):
     def add_days(self, year, cfp_start, cfp_end):
         if int(cfp_start.year) != year:
             raise ValueError("The year of the conference and the start date must be the same")
+
         if int(cfp_end.year) != year:
             raise ValueError("The year of the conference and the end date must be the same")
 
-        # commit the dates
         self.year = year
         self.cfp_start = cfp_start
         self.cfp_end = cfp_end
-        db.session.commit()
+
 
 
 
