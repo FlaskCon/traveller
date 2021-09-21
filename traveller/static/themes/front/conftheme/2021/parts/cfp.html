@@ -23,20 +23,29 @@
 
 
 {% block body %}
-<br><br>
+<p class="pb-16 bg-red-500"></p>
 
-<div class="paper container">
-    <h3>Submit a new talk</h3>
+<section class="pb-20 bg-blueGray-200">
+  <p class="p-5 bg-transparent"></p>
+        <div class="container mx-auto px-4">
+          <div class="flex flex-wrap">
+    <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
+    <h3 class="text-3xl">Submit a new talk</h3>
     <form method="POST" action="{{ url_for('cfp.add_talk', year=conf.year) }}">
         {%for field in talk_form%}
             {%if field.id not in ['csrf_token']%}
                 {{field.label}}
-            {%endif%}
-            {{field}}<br>
+            {%endif%}<br>
+            {{field}}<br><br>
         {%endfor%}
 
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <input type="submit" class="paper-btn btn-primary-outline" value="Submit"/>
+        <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+  Submit
+</button>
     </form>
 </div>
+</div>
+</div>
+</section>
 {% endblock %}
