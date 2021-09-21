@@ -47,6 +47,7 @@ def add():
     form = ConfForm()
     form.validate()
     conf = Conf()
+    conf.add_days(year=form.year.data, cfp_start=form.cfp_start.data, cfp_end=form.cfp_end.data)
     conf.year = form.year.data
     conf.cfp_start = form.cfp_start.data
     conf.cfp_end = form.cfp_end.data
@@ -60,10 +61,7 @@ def edit(conf_id):
     form = ConfForm(obj=conf)
     form.populate_obj(conf)
     form.validate()
-
-    conf.year = form.year.data
-    conf.cfp_start = form.cfp_start.data
-    conf.cfp_end = form.cfp_end.data
+    conf.add_days(year=form.year.data, cfp_start=form.cfp_start.data, cfp_end=form.cfp_end.data)
     conf.update()
     return mhelp.redirect_url('conf.dashboard')
 
