@@ -13,7 +13,6 @@ a {
 </style>
 {% endblock %}
 {% block body %}
-
 <p class="pb-16 bg-red-500"></p>
 <section class="pb-20 bg-blueGray-200">
     <p class="p-5 bg-transparent"></p>
@@ -130,11 +129,15 @@ a {
                     {% for activity_ in activities %}
                     {% set activity = activity_[0] %}
                     {% if activity.type == 'normal_activity' %}
-                    {{ activity.start_time }} to {{ activity.end_time }}
+                    <br> {{ activity.start_time }} to {{ activity.end_time }}
+                    {% if current_user %}
+                    {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin %}
                     <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-normal-activity-modal-id-{{ activity.id }}')">
                         <i class="fa fa-pencil-alt"></i>
                     </button>
                     <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="return confirm('Are you sure to delete that activity?')">X</a>
+                    {% endif %}{% endif %}{% endif %}
                     <br>
                     -> {{ activity.text }}<br><br>
                     <!--edit normal activity modal-->
@@ -185,13 +188,17 @@ a {
                     {% endif %}
                     {% if activity.type == 'talk' %}
                     {% set talk = activity.get_talk() %}
-                    {{ activity.start_time }} to {{ activity.end_time }}
+                    <br> {{ activity.start_time }} to {{ activity.end_time }}
+                    {% if current_user %}
+                    {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin %}
                     <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-talk-activity-modal-id-{{ activity.id }}')">
                         <i class="fa fa-pencil-alt"></i>
                     </button>
                     <a href="{{ url_for('schedule.delete_activity', year=year, act_id=activity.id) }}" class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="return confirm('Are you sure to delete that activity?')">X</a>
+                    {% endif %}{% endif %}{% endif %}
                     <br>
-                    -> {{ talk.title }} by 
+                    -> {{ talk.title }} by
                     {% for author in talk.author_list.authors %}
                     {{author.first_name}} {{author.last_name}},
                     {% endfor %}
