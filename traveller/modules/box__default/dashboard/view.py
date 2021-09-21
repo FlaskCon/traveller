@@ -67,5 +67,5 @@ def index():
                     all_info[folder] = module_info
 
     context["all_info"] = all_info
-    flash(notify_success("Notif test"))
+    flash(notify_success("You have logged in successfully!"))
     return render_template("dashboard/index.html", **context)
