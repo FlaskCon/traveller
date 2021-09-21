@@ -44,6 +44,30 @@ SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost/traveller'
 'mysql+pymysql://username:password@localhost/dbname'.
 We are using MySQL but you can have a stab at a different db.
 
+<details>
+  <summary>Setting up MySQL Database (if this is your first time with the database )</summary>
+
+  - start the database
+  ```bash
+$ systemctl start mysql
+```
+
+(or)
+
+```bash
+$ service start mysql
+```
+- once you have started the database
+
+```bash
+$ mysql
+```
+```mysql
+mysql >  CREATE DATABASE traveller;
+```
+- This will create the batabase in your local mysql server, you can exit the Mysql CLI client and complete the remaining steps
+</details>
+
 Create or edit traveller/config.json with the information needed for each environment.
 
 for __development:__
