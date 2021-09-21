@@ -43,4 +43,4 @@ class TestDashboardEndpoints:
 
         assert response.status_code == 200
         assert b"Control panel" in response.data
-        assert b"Notif test" in response.data
+        assert b"You have logged in successfully!" in response.data
