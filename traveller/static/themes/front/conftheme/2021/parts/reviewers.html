@@ -1,25 +1,28 @@
 {% extends 'conftheme/2021/parts/base.html'%}
-
 {% block head %}
 <title>FlaskCon 2021</title>
 {% endblock %}
-
-
 {% block body %}
-  <br>
-  
-  <div class="paper container">
-    <h3>Reviewers</h3>
-    {% if reviewers != [] %}
-      {% for reviewer in reviewers %}
-        <hr>
-        <p>
-          <b>{{ reviewer.first_name }} {{ reviewer.last_name }}</b><br>
-          {% if reviewer.bio %}
-            {{ reviewer.bio.replace('\n', '<br>') | safe }}
-          {% endif %}
-        </p>
-      {% endfor %}
-    {% endif %}
-  </div>
+<p class="pb-16 bg-red-500"></p>
+<section class="pb-20 bg-blueGray-200">
+    <p class="p-5 bg-transparent"></p>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+            <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
+                <h3 class="text-3xl">Reviewers</h3><br><br>
+                {% if reviewers != [] %}
+                {% for reviewer in reviewers %}
+                <hr>
+                <p>
+                    <b>{{ reviewer.first_name }} {{ reviewer.last_name }}</b><br>
+                    {% if reviewer.bio %}
+                    {{ reviewer.bio.replace('\n', '<br>') | safe }}
+                    {% endif %}
+                </p>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
