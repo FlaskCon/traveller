@@ -17,10 +17,9 @@ def validate_email(self, field):
         ).scalar()
     if user is not None:
         raise ValidationError(f"email '{field.data}' is already in use.")
+
+
 class UserProfileForm(ModelForm):
-    email = EmailField('email', validators=[Email(), validate_email])
-    first_name = TextField('first_name', validators=[InputRequired()])
-    last_name = TextField('last_name', validators=[InputRequired()])
     class Meta:
         model = User
         #all relations not included by default wtforms-alchemy behaviour
@@ -30,17 +29,20 @@ class UserProfileForm(ModelForm):
         field_args = {
             'first_name': {
                 'render_kw': {
-                    'autocomplete': 'off'
+                    'autocomplete': 'off',
+                    'class': 'border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                 }
             },
             'last_name': {
                 'render_kw': {
-                    'cols': 80
+                    'cols': 80,
+                    'class': 'border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                 }
             },
             'email': {
                 'render_kw': {
-                    'cols': 80
+                    'cols': 80,
+                    'class': 'border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                 },
             }
            

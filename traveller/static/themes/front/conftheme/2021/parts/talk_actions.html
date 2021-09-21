@@ -1,67 +1,132 @@
 {% extends 'conftheme/2021/parts/base.html'%}
-
 {% block head %}
-<title>FlaskCon 2021</title>
+<title>Talk Edit | FlaskCon</title>
 <style type="text/css">
-  input[type='text']{
-        width: 90%;
-    }
-    textarea{
-        width: 90%
-    }
-    #summary{
-        height: 300px;
-    }
-    #description{
-        height: 500px;
-    }
-    #notes{
-        height: 200px;
-    }
-  a {
+input[type='text'] {
+    width: 90%;
+}
+
+textarea {
+    width: 90%
+}
+
+#summary {
+    height: 300px;
+}
+
+#description {
+    height: 500px;
+}
+
+#notes {
+    height: 200px;
+}
+
+a {
     word-wrap: break-word;
-  }
+}
 </style>
 {% endblock %}
-
-
 {% block body %}
-<br><br>
-
-<div class="paper container">
-
-  <label class="paper-btn btn-danger btn-small" for="modal-1">Delete</label>
-  <label class="paper-btn btn-primary btn-small" style="float:right; padding: 10px 15px;">
-    <a href="{{ url_for('y.profile', year=2021) }}" style="text-decoration:none; background-image: none; font-size:12pt;">
-    Back
-  </a>  
-  </label>
-
-<input class="modal-state" id="modal-1" type="checkbox">
-<div class="modal">
-  <label class="modal-bg" for="modal-1"></label>
-  <div class="modal-body">
-    <label class="btn-close" for="modal-1">X</label>
-    <h4 class="modal-title">Delete?</h4>
-    <h5 class="modal-subtitle">Are you sure you want to delete "{{talk.title}}"</h5>
-    <p class="modal-text">
-      <a href="">Yes!</a>
-    </p>
-    <label for="modal-1">~ No! ~</label>
-  </div>
-</div>
-
-    <br>
-
-    <form method="POST" action="{{ url_for('cfp.edit_talk', year=year, talk_id=talk_id) }}">
-    {%for field in SubmitTalkForm_(obj=talk)%}
-    {%if field.id not in ['csrf_token']%}
+<!-- <br><br>
+    <div class="paper container">
+        <label class="paper-btn btn-danger btn-small" for="modal-1">Delete</label>
+        <label class="paper-btn btn-primary btn-small" style="float:right; padding: 10px 15px;">
+            <a href="{{ url_for('y.profile', year=2021) }}" style="text-decoration:none; background-image: none; font-size:12pt;">
+                Back
+            </a>
+        </label>
+        <input class="modal-state" id="modal-1" type="checkbox">
+        <div class="modal">
+            <label class="modal-bg" for="modal-1"></label>
+            <div class="modal-body">
+                <label class="btn-close" for="modal-1">X</label>
+                <h4 class="modal-title">Delete?</h4>
+                <h5 class="modal-subtitle">Are you sure you want to delete "{{talk.title}}"</h5>
+                <p class="modal-text">
+                    <a href="">Yes!</a>
+                </p>
+                <label for="modal-1">~ No! ~</label>
+            </div>
+        </div>
+        <br>
+        <form method="POST" action="{{ url_for('cfp.edit_talk', year=year, talk_id=talk_id) }}">
+            {%for field in SubmitTalkForm_(obj=talk)%}
+            {%if field.id not in ['csrf_token']%}
             {{field.label}}
-        {%endif%}
-        {{field}}<br>
-    {%endfor%}
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <button class="btn-warning-primary" type="submit">save</button>
-    </form>
+            {%endif%}
+            {{field}}<br>
+            {%endfor%}
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="btn-warning-primary" type="submit">save</button>
+        </form>
+    </div> -->
+<p class="pb-16 bg-red-500"></p>
+<section class="pb-20 bg-blueGray-200">
+    <p class="p-5 bg-transparent"></p>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+            <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
+                <a href="{{ url_for('y.profile', year=2021) }}">
+                    <span class="underline p-5">Back</span>
+                </a>
+                <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('small-modal-id')">
+                    Delete
+                </button> <br><br>
+                <form method="POST" action="{{ url_for('cfp.edit_talk', year=year, talk_id=talk_id) }}">
+                    {%for field in SubmitTalkForm_(obj=talk)%}
+                    {%if field.id not in ['csrf_token']%}
+                    {{field.label}}<br>
+                    {%endif%}
+                    {{field}}<br><br>
+                    {%endfor%}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                        Submit
+                    </button>
+                </form>
+                <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="small-modal-id-backdrop"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+function toggleModal(modalID) {
+    document.getElementById(modalID).classList.toggle("hidden");
+    document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+    document.getElementById(modalID).classList.toggle("flex");
+    document.getElementById(modalID + "-backdrop").classList.toggle("flex");
+}
+</script>
+<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="small-modal-id">
+    <div class="relative w-auto my-6 mx-auto max-w-sm">
+        <!--content-->
+        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <!--header-->
+            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                <h3 class="text-3xl font-semibold">
+                    Delete?
+                </h3>
+                <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('small-modal-id')">
+                    <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                        ×
+                    </span>
+                </button>
+            </div>
+            <!--body-->
+            <div class="relative p-6 flex-auto">
+                <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                    Are you sure you want to delete "{{talk.title}}"?<br>
+                    <a href="{{url_for('cfp.delete_talk', year=2021, talk_id=talk.id)}}" class="underline">Yes!</a>
+                </p>
+            </div>
+            <!--footer-->
+            <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('small-modal-id')">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

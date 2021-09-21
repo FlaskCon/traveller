@@ -1,141 +1,190 @@
 {% extends 'conftheme/2021/parts/base.html'%}
-
 {% block head %}
-<title>FlaskCon 2021</title>
+<title>Profile | FlaskCon</title>
 <style type="text/css">
-  a {
+a {
     word-wrap: break-word;
-  }
-  input[type='text']{
-        width: 90%;
-        display:block;
-    }
-    input[type='email']{
-        width: 90%;
-        display:block;
-    }
-    input[type='submit']{
-        display:block;
-    }
-    textarea{
-        width: 90%
-    }
-    .mb-3, .my-3 {
-	    margin-bottom: 1rem !important;
-	}
+}
+
+input[type='text'] {
+    width: 90%;
+    display: block;
+}
+
+input[type='email'] {
+    width: 90%;
+    display: block;
+}
+
+input[type='submit'] {
+    display: block;
+}
+
+textarea {
+    width: 90%
+}
+
+.mb-3,
+.my-3 {
+    margin-bottom: 1rem !important;
+}
 </style>
 {% endblock %}
-
-
 {% block body %}
-<br><br>
-
-<div class="paper container">
-    <div class="row flex-spaces tabs">
-  <input id="tab1" type="radio" name="tabs" {% if checked_tab == 'submited_talks' %} checked {% endif %}>
-  <label for="tab1">Submitted Talks</label>
-
-  <input id="tab2" type="radio" name="tabs" {% if checked_tab == 'personal_info' %} checked {% endif %}>
-  <label for="tab2">Personal Info</label>
-
-  <input id="tab3" type="radio" name="tabs" {% if checked_tab == 'tab_3' %} checked {% endif %}>
-  <label for="tab3">Tab 3</label>
-
-  <input id="tab4" type="radio" name="tabs" {% if checked_tab == 'tab_4' %} checked {% endif %}>
-  <label for="tab4">Tab 4</label>
-
-  <div class="content container" id="content1">
-    <table class="table-hover">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {%for t in submitted_talks%}
-          <tr>
-            {% if t.accepted == 'pending' %}
-              {% set badge = '<span class="badge warning"><span class="text-primary">pending</span></span>' %}
-            {% elif  t.accepted == 'accepted' %}
-             {% set badge = '<span class="badge success">accepted</span>' %}
-            {% else %}
-              {% set badge = '<span class="badge danger">rejected</span>' %}
-            {% endif %}
-            <td>{{ t.title }}</td>
-            <td>{{ badge | safe }}</td>
-            <td>
-              <a href="{{ url_for('y.talk_actions', year=year, talk_id=t.id) }}"><button class="btn-warning-primary btn-small">settings</button></a>
-            </td>           
-          </tr>
-        {%endfor%}
-      </tbody>
-    </table>
-  </div>
-  <div class="content" id="content2">
-    <p>
-     <div class="personal_info container">
-    <h3>Personal info</h3>
-    <form method="POST" action="{{ url_for('profile.edit_profile', year=year) }}">
-        <div class="input-group mb-3">
-		    <div class="input-group-prepend">
-		        <span class="input-group-text"><i class="fa fa-id-card"></i></span>
-		    </div>
-		    {{ userprofile_form.email() }}
-		    {% if userprofile_form.email.errors %}
-		        <ul class="errors">
-		            {% for error in userprofile_form.email.errors %}
-			            <li>{{ error }}</li>
-		            {% endfor %}
-		        </ul>
-		    {% endif %}
-		</div>
-		<div class="input-group mb-3">
-		    <div class="input-group-prepend">
-		        <span class="input-group-text"><i class="fa fa-id-card"></i></span>
-		    </div>
-		    {{ userprofile_form.first_name() }}
-		    {% if userprofile_form.first_name.errors %}
-		        <ul class="errors">
-		            {% for error in userprofile_form.first_name.errors %}
-			            <li>{{ error }}</li>
-		            {% endfor %}
-		        </ul>
-		    {% endif %}
-		</div>
-		<div class="input-group mb-3">
-		    <div class="input-group-prepend">
-		        <span class="input-group-text"><i class="fa fa-id-card"></i></span>
-		    </div>
-		    {{ userprofile_form.last_name() }}
-		    {% if userprofile_form.last_name.errors %}
-		        <ul class="errors">
-		            {% for error in userprofile_form.last_nameerrors %}
-			            <li>{{ error }}</li>
-		            {% endfor %}
-		        </ul>
-		    {% endif %}
-		</div>
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <input type="submit" class="paper-btn btn-primary-outline" value="Submit"/>
-    </form>
-</div>
-    </p>
-  </div>
-  <div class="content" id="content3">
-    <p>
-      Bacon ipsum dolor sit amet beef venison beef ribs kielbasa...
-    </p>
-    <p>
-      Brisket meatball turkey short loin boudin leberkas meatloaf...
-    </p>
-  </div>
-  <div class="content" id="content4">
-    <p>
-      Bacon ipsum dolor sit amet landjaeger sausage brisket...
-    </p>
-  </div>
-</div>
-</div>
+<p class="pb-16 bg-red-500"></p>
+<section class="pb-20 bg-blueGray-200">
+    <p class="p-5 bg-transparent"></p>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+            <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
+                <div class="flex flex-wrap" id="wrapper-for-text-red">
+                    <div class="w-full">
+                        <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
+                            <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-white bg-red-600" data-tab-toggle="text-tab-profile-red" onclick="changeAtiveTab(event,'wrapper-for-text-red','red','text-tab-profile-red')">
+                                    Talks
+                                </a>
+                            </li>
+                            <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white" data-tab-toggle="text-tab-settings-red" onclick="changeAtiveTab(event,'wrapper-for-text-red','red','text-tab-settings-red')">
+                                    Profile
+                                </a>
+                            </li>
+                            <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white" data-tab-toggle="text-tab-options-red" onclick="changeAtiveTab(event,'wrapper-for-text-red','red','text-tab-options-red')">
+                                    Options
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+                            <div class="px-4 py-5 flex-auto">
+                                <div class="tab-content tab-space">
+                                    <div class="block" data-tab-content="true" id="text-tab-profile-red">
+                                        <p>
+                                            <table class="table-auto">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Title</th>
+                                                        <th>Status</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {%for t in submitted_talks%}
+                                                    <tr>
+                                                        {% if t.accepted == 'pending' %}
+                                                        {% set badge = '<span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-indigo-600 bg-indigo-200 uppercase last:mr-0 mr-1">
+                                                            pending
+                                                        </span>' %}
+                                                        {% elif t.accepted == 'accepted' %}
+                                                        {% set badge = '<span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-emerald-600 bg-emerald-200 uppercase last:mr-0 mr-1">
+                                                            accepted
+                                                        </span>' %}
+                                                        {% else %}
+                                                        {% set badge = '<span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-red-600 bg-red-200 uppercase last:mr-0 mr-1">
+                                                            rejected
+                                                        </span>' %}
+                                                        {% endif %}
+                                                        <td>{{ t.title }}</td>
+                                                        <td class="p-2">{{ badge | safe }}</td>
+                                                        <td>
+                                                            <a href="{{ url_for('y.talk_actions', year=year, talk_id=t.id) }}">
+                                                                <span class="font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+                                                                    <i class="fa fa-cog"></i> edit
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    {%endfor%}
+                                                </tbody>
+                                            </table>
+                                        </p>
+                                    </div>
+                                    <div class="hidden" data-tab-content="true" id="text-tab-settings-red">
+                                        <p>
+                                            <form method="POST" action="{{ url_for('profile.edit_profile', year=year) }}">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Email</span>
+                                                    </div>
+                                                    {{ userprofile_form.email() }}
+                                                    {% if userprofile_form.email.errors %}
+                                                    <ul class="errors">
+                                                        {% for error in userprofile_form.email.errors %}
+                                                        <li>{{ error }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">First Name</span>
+                                                    </div>
+                                                    {{ userprofile_form.first_name() }}
+                                                    {% if userprofile_form.first_name.errors %}
+                                                    <ul class="errors">
+                                                        {% for error in userprofile_form.first_name.errors %}
+                                                        <li>{{ error }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{ userprofile_form.last_name.label }}</span>
+                                                    </div>
+                                                    {{ userprofile_form.last_name() }}
+                                                    {% if userprofile_form.last_name.errors %}
+                                                    <ul class="errors">
+                                                        {% for error in userprofile_form.last_nameerrors %}
+                                                        <li>{{ error }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                    {% endif %}
+                                                </div>
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                                                    Save
+                                                </button>
+                                            </form>
+                                        </p>
+                                    </div>
+                                    <div class="hidden" data-tab-content="true" id="text-tab-options-red">
+                                        <p>
+                                            To be edited
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+function changeAtiveTab(event, wrapperID, color, tabID) {
+    let tabsWrapper = document.getElementById(wrapperID);
+    let tabsAnchors = tabsWrapper.querySelectorAll("[data-tab-toggle]");
+    let tabsContent = tabsWrapper.querySelectorAll("[data-tab-content]");
+    for (let i = 0; i < tabsAnchors.length; i++) {
+        if (tabsAnchors[i].getAttribute("data-tab-toggle") === tabID) {
+            tabsAnchors[i].classList.remove("text-" + color + "-600");
+            tabsAnchors[i].classList.remove("bg-white");
+            tabsAnchors[i].classList.add("text-white");
+            tabsAnchors[i].classList.add("bg-" + color + "-600");
+            tabsContent[i].classList.remove("hidden");
+            tabsContent[i].classList.add("block");
+        } else {
+            tabsAnchors[i].classList.add("text-" + color + "-600");
+            tabsAnchors[i].classList.add("bg-white");
+            tabsAnchors[i].classList.remove("text-white");
+            tabsAnchors[i].classList.remove("bg-" + color + "-600");
+            tabsContent[i].classList.add("hidden");
+            tabsContent[i].classList.remove("block");
+        }
+    }
+}
+</script>
 {% endblock %}

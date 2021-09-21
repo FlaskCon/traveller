@@ -72,10 +72,10 @@ class User(UserMixin, PkModel):
 
     username = db.Column(db.String(100), unique=True)
     _password = db.Column(db.String(128), nullable=False)
-    first_name = db.Column(db.String(128))
-    last_name = db.Column(db.String(128))
+    first_name = db.Column(db.String(128), info={'label': 'First name'})
+    last_name = db.Column(db.String(128), info={'label': 'Last name'})
     is_admin = db.Column(db.Boolean, default=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False, info={'label': 'Email'})
     date_registered = db.Column(
         db.DateTime, nullable=False, default=datetime.datetime.now()
     )
