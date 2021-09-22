@@ -69,7 +69,16 @@
                         <h6 class="text-xl font-semibold">CFP</h6>
                         <p class="mt-2 mb-4 text-blueGray-500">
                             Start: <span class="p-1 bg-yellow-200">{{ conf.cfp_start_repr() }}</span> 0:00 AM GMT<br>
-                            End: <span class="p-1 bg-yellow-200">{{ conf.cfp_end_repr() }}</span> 0:00 AM GMT
+                            End: <span class="p-1 bg-yellow-200">{{ conf.cfp_end_repr() }}</span> 0:00 AM GMT<br>
+                            <a href="{{ url_for('y.cfp', year=2021) }}">
+                                <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 mt-2" type="button">
+                                    {% if conf.cfp_start < today < conf.cfp_end %}
+  Submit talk!
+  {% else %}
+  CFP out of range!
+  {% endif %}
+</button>
+                            </a>
                         </p>
                     </div>
                 </div>
