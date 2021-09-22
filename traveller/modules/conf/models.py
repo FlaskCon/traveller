@@ -1,4 +1,5 @@
-
+import datetime
+import calendar
 from init import db
 from shopyo.api.models import PkModel
 
@@ -23,6 +24,14 @@ class Conf(PkModel):
 
     def __repr__(self):
         return 'conf:{}'.format(self.year)
+
+    def cfp_start_repr(self):
+        d = self.cfp_start
+        return '{} {} {}, {}'.format(calendar.day_name[d.weekday()], d.strftime("%B"), d.day, d.year)
+
+    def cfp_end_repr(self):
+        d = self.cfp_end
+        return '{} {} {}, {}'.format(calendar.day_name[d.weekday()], d.strftime("%B"), d.day, d.year)
 
 
 
