@@ -39,7 +39,8 @@ def landing_page(year):
     if reviewers is None:
         reviewers = []
     context.update({
-        'reviewers': reviewers
+        'reviewers': reviewers,
+        'conf': conf
         })
     return render_template('conftheme/{}/index.html'.format(year), **context)
 

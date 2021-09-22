@@ -19,6 +19,12 @@ a {
     <div class="container mx-auto px-4">
         <div class="flex flex-wrap">
             <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7" style="min-height: 800px;">
+
+                <h3 class="text-5xl">Schedule</h3><br>
+                <p>
+                    CFP Start: <span class="p-1 bg-yellow-200">{{ conf.cfp_start_repr() }}</span> 0:00 AM GMT<br>
+                            CFP End: <span class="p-1 bg-yellow-200">{{ conf.cfp_end_repr() }}</span> 0:00 AM GMT
+                </p><br>
                 {% if current_user.is_admin %}
                 {% include 'base/blocks/flashed_messages.html'%}
                 <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('add-day-modal')">
