@@ -32,6 +32,7 @@ class Conf(PkModel):
     def cfp_end_repr(self):
         d = self.cfp_end
         return '{} {} {}, {}'.format(calendar.day_name[d.weekday()], d.strftime("%B"), d.day, d.year)
+
     def add_days(self, year, cfp_start, cfp_end):
         if int(cfp_start.year) != year:
             raise ValueError("The year of the conference and the start date must be the same")
