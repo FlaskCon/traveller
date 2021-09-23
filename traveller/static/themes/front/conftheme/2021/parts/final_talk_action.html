@@ -1,29 +1,30 @@
 {% extends 'conftheme/2021/parts/base.html'%}
-
 {% block head %}
-<title>FlaskCon 2021</title>
+<title>Final Talk Action | FlaskCon</title>
 <style type="text/css">
-    input[type='text']{
-        width: 90%;
-    }
-    textarea{
-        width: 90%
-    }
-    #summary{
-        height: 300px;
-    }
-    #description{
-        height: 500px;
-    }
-    #notes{
-        height: 200px;
-    }
+input[type='text'] {
+    width: 90%;
+}
+
+textarea {
+    width: 90%
+}
+
+#summary {
+    height: 300px;
+}
+
+#description {
+    height: 500px;
+}
+
+#notes {
+    height: 200px;
+}
 </style>
 {% endblock %}
-
-
 {% block body %}
-<br><br>
+<!-- <br><br>
 
 <div class="paper container">
 <a href="{{ url_for('y.leaderboard', year=2021) }}"><button class="btn-warning-primary btn-small"><-</button></a>
@@ -47,5 +48,33 @@
     <button class="btn-warning-primary" type="submit">save</button>
 </form>
 
-</div>
+</div> -->
+<p class="pb-16 bg-red-500"></p>
+<section class="pb-20 bg-blueGray-200">
+    <p class="p-5 bg-transparent"></p>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+            <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
+                <a href="{{ url_for('y.leaderboard', year=2021) }}" class="underline">back</a><br><br>
+                <b>Authors</b><br>
+                {% for author in talk.author_list.authors %}
+                {{author.first_name}} {{author.last_name}} <br>
+                {% endfor %}
+                <br>
+                <form method="POST" action="{{ url_for('cfp.final_talk_action', year=year, talk_id=talk_id) }}">
+                    {%for field in AdminTalkForm_(obj=talk)%}
+                    {%if field.id not in ['csrf_token']%}
+                    {{field.label}}<br>
+                    {%endif%}
+                    {{field}}<br><br>
+                    {%endfor%}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                        Save
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

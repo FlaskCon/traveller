@@ -1,4 +1,4 @@
-
+from datetime import date
 from shopyo.api.module import ModuleHelp
 from flask import render_template
 from modules.box__default.auth.models import User
@@ -33,7 +33,14 @@ def index():
 
 @module_blueprint.route("/<int:year>/")
 def landing_page(year):
-    return render_template('conftheme/{}/index.html'.format(year))
+    context = mhelp.context()
+    conf = Conf.query.filter(Conf.year==year).first_or_404()
+    reviewers = conf.reviewer_list.reviewers if conf.reviewer_list is not None else None
+    if reviewers is None:
+        reviewers = []
+    today = date.today()
+    context.update(locals())
+    return render_template('conftheme/{}/index.html'.format(year), **context)
 
 
 @module_blueprint.route("/<int:year>/cfp/")
@@ -42,6 +49,7 @@ def cfp(year):
     context = mhelp.context()
     talk_form = SubmitTalkForm()
     conf = Conf.query.filter(Conf.year==year).first()
+    today = date.today()
     context.update(locals())
     return render_template('conftheme/{}/parts/cfp.html'.format(year), **context)
 
