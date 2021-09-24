@@ -205,9 +205,11 @@ a {
                     {% endif %}{% endif %}{% endif %}
                     <br>
                     -> {{ talk.title }} by
-                    {% for author in talk.author_list.authors %}
-                    {{author.first_name}} {{author.last_name}},
-                    {% endfor %}
+                    {% if talk is not none %}
+                        {% for author in talk.author_list.authors %}
+                            {{author.first_name}} {{author.last_name}},
+                        {% endfor %}
+                    {% endif %}
                     <br><br>
                     <!-- edit talk activity modal -->
                     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="edit-talk-activity-modal-id-{{ activity.id }}">
