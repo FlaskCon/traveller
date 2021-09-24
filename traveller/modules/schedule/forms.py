@@ -1,4 +1,3 @@
-
 from datetime import datetime as dt
 
 from modules.schedule.models import Day
