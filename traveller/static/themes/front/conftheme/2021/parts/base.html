@@ -45,29 +45,36 @@
               <span class="text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400">
                 Goto
               </span>
+              {% if current_user.is_admin %}
+                <a href="{{ url_for('dashboard.index') }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Dashboard</a>
+                <hr>
+              {% endif %}
               <a href="{{ url_for('y.landing_page', year=2021) }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
                 Home
               </a>
               <a href="{{ url_for('y.schedule', year=2021) }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Schedule</a>
               <a href="{{ url_for('y.reviewers', year=2021) }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Reviewers</a>
               {% if current_user.has_role('reviewer') or current_user.is_admin %}
+                <hr>
                 <a href="{{ url_for('y.review', year=2021) }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Review</a>
                 <a href="{{ url_for('y.leaderboard', year=2021) }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Leaderboard</a>
-                <a href="{{ url_for('y.profile', year=2021) }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Profile</a>
-              {% endif %}
+                
+                {% endif %}
               {% if current_user %}
                 {% if current_user.is_authenticated %}
-                  <a href="{{ url_for('auth.logout', next='/') }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Logout</a>
+                  <hr>
                   <a href="{{ url_for('y.cfp', year=2021) }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Submit Talk</a>
+                  <a href="{{ url_for('y.profile', year=2021) }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Profile</a>
+                  <hr>
+                  <a href="{{ url_for('auth.logout', next='/') }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Logout</a>
                 {% endif %}
                 {% if current_user.is_anonymous %}
+                  <hr>
                   <a href="{{ url_for('auth.register') }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Register</a>
                   <a href="{{ url_for('auth.login', next='/') }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Login</a>
                 {% endif %}
               {% endif %}
-              {% if current_user.is_admin %}
-                <a href="{{ url_for('dashboard.index') }}" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">Dashboard</a>
-              {% endif %}
+              
             </div>
           </li>
           <li class="flex items-center">
@@ -129,16 +136,13 @@
               <span class="block uppercase text-blueGray-500 text-sm font-semibold mb-2">Useful Links</span>
               <ul class="list-unstyled">
                 <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://www.creative-tim.com/presentation?ref=njs-landing">About Us</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="{{ url_for('y.about_page', year=2021) }}">About Us</a>
                 </li>
                 <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://blog.creative-tim.com?ref=njs-landing">Blog</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="{{ url_for('y.blog_page', year=2021) }}">Blog</a>
                 </li>
                 <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://www.github.com/creativetimofficial?ref=njs-landing">Github</a>
-                </li>
-                <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://www.creative-tim.com/bootstrap-themes/free?ref=njs-landing">Free Products</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="{{ url_for('y.contact_page', year=2021) }}">Contact Us</a>
                 </li>
               </ul>
             </div>
@@ -149,14 +153,12 @@
                   <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://github.com/creativetimofficial/notus-js/blob/main/LICENSE.md?ref=njs-landing">MIT License</a>
                 </li>
                 <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://creative-tim.com/terms?ref=njs-landing">Terms &amp; Conditions</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="{{ url_for('y.livestream_page', year=2021) }}">Live Stream</a>
                 </li>
                 <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://creative-tim.com/privacy?ref=njs-landing">Privacy Policy</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="{{ url_for('y.privacy_policy_page', year=2021) }}">Privacy Policy</a>
                 </li>
-                <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://creative-tim.com/contact-us?ref=njs-landing">Contact Us</a>
-                </li>
+                
               </ul>
             </div>
           </div>
