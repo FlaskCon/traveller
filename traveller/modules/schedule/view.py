@@ -81,7 +81,7 @@ def add_activity(year, day_id, act_type):
         activity.start_time = form.start_time.data
         activity.end_time = form.end_time.data
         activity.type = 'talk'
-        activity.talk_id = form.talks.data.id
+        activity.talk_id = form.talks.data.id if form.talks.data is not None else None
         day.activities.append(activity)
         day.update()
 

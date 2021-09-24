@@ -2,6 +2,7 @@
 Manages CFP. Adds talk to conferences
 Lets reviewers review talks
 '''
+from datetime import datetime as dt
 
 from shopyo.api.module import ModuleHelp
 from modules.conf.models import Conf
@@ -46,6 +47,7 @@ def add_talk(year):
         talk.author_list = AuthorList()
     talk.author_list.authors.append(current_user)
     talk.submitter_id = current_user.id
+    talk.year_submitted = str(dt.utcnow().year)
     talk.talk_conference = conf
     conf.talks.append(talk)
     conf.update()
