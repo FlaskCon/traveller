@@ -24,7 +24,6 @@ class NormalActivityForm(ModelForm):
     end_time = TimeField(label="end time")
 
 class TalkActivityForm(ModelForm):
-    
     class Meta:
         model = Activity
         exclude = ['talk_id', 'type', 'text']
@@ -35,9 +34,7 @@ class TalkActivityForm(ModelForm):
     talks = wtforms_alchemy.fields.QuerySelectField(
         'Talk',
         query_factory=lambda: Talk.query.filter(
-            Talk.year_submitted == str(dt.utcnow().year),
+            Talk.year == dt.utcnow().year,
             Talk.accepted == 'accepted'
             ).all()
     )
-    
-    
