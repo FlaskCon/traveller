@@ -1,4 +1,3 @@
-import datetime
 import calendar
 from init import db
 from shopyo.api.models import PkModel
@@ -107,8 +106,8 @@ class Talk(PkModel):
         info={'choices': [('accepted', 'accepted'), ('pending', 'pending'), ('rejected', 'rejected')]})
 
     submitter_id = db.Column(db.Integer)
-    conf_id = db.Column(db.Integer, db.ForeignKey('conferences.id'),
-        nullable=False)
+    year_submitted = db.Column(db.String(4), nullable=False)
+    conf_id = db.Column(db.Integer, db.ForeignKey('conferences.id'), nullable=False)
 
     author_list = db.relationship(
         "AuthorList", backref="author_list_talk", lazy=True, uselist=False
@@ -128,6 +127,7 @@ class Talk(PkModel):
                 score += sl.score
                 rs.append(sl.reviewer)
         return score
+
 
     def __repr__(self):
         return self.title
