@@ -5,7 +5,7 @@ from init import ModelForm
 class SubmitTalkForm(ModelForm):
     class Meta:
         model = Talk
-        exclude = ['accepted', 'slug', 'submitter_id', 'year_submitted']
+        exclude = ['accepted', 'slug', 'submitter_id']
         field_args = {
             'title': {
                 'render_kw': {

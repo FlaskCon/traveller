@@ -138,4 +138,3 @@ testing.db
 
 # configation files
 traveller/config.json
-traveller/config.py
