@@ -1,4 +1,3 @@
-import datetime
 import calendar
 from init import db
 from shopyo.api.models import PkModel
@@ -107,6 +106,7 @@ class Talk(PkModel):
         info={'choices': [('accepted', 'accepted'), ('pending', 'pending'), ('rejected', 'rejected')]})
 
     submitter_id = db.Column(db.Integer)
+    year = db.Column(db.Integer, nullable=False)
     conf_id = db.Column(db.Integer, db.ForeignKey('conferences.id'),
         nullable=False)
 
