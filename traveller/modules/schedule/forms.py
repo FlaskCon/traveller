@@ -1,3 +1,6 @@
+
+from datetime import datetime as dt
+
 from modules.schedule.models import Day
 from modules.schedule.models import Activity
 from modules.conf.models import Talk
@@ -31,5 +34,8 @@ class TalkActivityForm(ModelForm):
 
     talks = wtforms_alchemy.fields.QuerySelectField(
         'Talk',
-        query_factory=lambda: Talk.query.filter(Talk.accepted == 'accepted').all()
+        query_factory=lambda: Talk.query.filter(
+            Talk.year == dt.utcnow().year,
+            Talk.accepted == 'accepted'
+            ).all()
     )
