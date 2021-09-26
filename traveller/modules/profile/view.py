@@ -8,7 +8,6 @@ from modules.box__default.auth.models import User
 # from flask import render_template
 # from flask import url_for
 # from flask import redirect
-from flask import render_template, redirect, url_for
 #from flask import flash
 #from shopyo.api.html import notify_warning
 # from flask import request
@@ -35,7 +34,7 @@ def edit_profile(year):
         userprofile_form.populate_obj(current_user)
         current_user.update()
     context.update(locals())
-    return redirect(url_for('y.profile', year=year))
+    return mhelp.redirect_url('y.profile', year=year)
      
       
 #     talk = Talk.query.get(talk_id)
