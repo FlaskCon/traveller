@@ -6,6 +6,17 @@ input[type='text'] {
     width: 90%;
 }
 
+input[type='checkbox']{
+    border-radius: 5px;
+    color: #ef4544;
+}
+
+input[type='checkbox']:checked{
+    border-radius: 5px;
+    color: #ef4544;
+    outline-color: #ef4544;
+}
+
 textarea {
     width: 90%
 }
@@ -74,6 +85,13 @@ a {
                     Delete
                 </button> <br><br>
                 <form method="POST" action="{{ url_for('cfp.edit_talk', year=year, talk_id=talk_id) }}">
+                    <label for="co_authors">Authors</label><br>
+                    {% for author in talk.author_list.authors %}
+                        <input type="checkbox" name="co_authors" id="co_authors" 
+                        value="{{author.email}}" checked> {{author.email}} &nbsp;
+                    {% endfor %}
+                    <br><br>
+
                     {%for field in SubmitTalkForm_(obj=talk)%}
                     {%if field.id not in ['csrf_token']%}
                     {{field.label}}<br>
