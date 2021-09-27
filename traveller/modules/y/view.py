@@ -43,6 +43,31 @@ def landing_page(year):
     return render_template('conftheme/{}/index.html'.format(year), **context)
 
 
+@module_blueprint.route("/<int:year>/about")
+def about_page(year):
+    return render_template('conftheme/{}/parts/about_us.html'.format(year))
+
+
+@module_blueprint.route("/<int:year>/contact")
+def contact_page(year):
+    return render_template('conftheme/{}/parts/contact_us.html'.format(year))
+
+
+@module_blueprint.route("/<int:year>/blog")
+def blog_page(year):
+    return render_template('conftheme/{}/parts/blog.html'.format(year))
+
+
+@module_blueprint.route("/<int:year>/livestream")
+def livestream_page(year):
+    return render_template('conftheme/{}/parts/livestream.html'.format(year))
+
+
+@module_blueprint.route("/<int:year>/data_privacy_policy")
+def privacy_policy_page(year):
+    return render_template('conftheme/{}/parts/privacy_policy.html'.format(year))
+
+
 @module_blueprint.route("/<int:year>/cfp/")
 @login_required
 def cfp(year):
