@@ -58,7 +58,9 @@ textarea {
                 <a href="{{ url_for('y.leaderboard', year=2021) }}" class="underline">back</a><br><br>
                 <b>Authors</b><br>
                 {% for author in talk.author_list.authors %}
-                {{author.first_name}} {{author.last_name}} <br>
+                    {% if author.email in co_authors or author.id == talk.submitter_id %}
+                        {{author.first_name}} {{author.last_name}} <br>
+                    {% endif %}
                 {% endfor %}
                 <br>
                 <form method="POST" action="{{ url_for('cfp.final_talk_action', year=year, talk_id=talk_id) }}">

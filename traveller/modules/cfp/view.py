@@ -3,6 +3,7 @@ Manages CFP. Adds talk to conferences
 Lets reviewers review talks
 '''
 from shopyo.api.module import ModuleHelp
+from modules.box__default.auth.models import User
 from modules.conf.models import Conf
 from modules.conf.models import Talk
 from modules.conf.models import AuthorList
@@ -43,10 +44,19 @@ def add_talk(year):
     talk.create_slug()
     if talk.author_list is None:
         talk.author_list = AuthorList()
+        
     talk.author_list.authors.append(current_user)
     talk.submitter_id = current_user.id
     talk.year = year
     talk.talk_conference = conf
+
+    co_authors_email: str = form.co_authors.data
+    if len(co_authors_email) != 0:
+        co_authors_email_list: list = co_authors_email.split(',')
+        for author_email in co_authors_email_list:
+            user = User.query.filter(User.email==author_email).first()
+            talk.author_list.authors.append(user)
+
     conf.talks.append(talk)
     conf.update()
     return mhelp.redirect_url('y.cfp', year=year)
@@ -59,6 +69,13 @@ def edit_talk(year, talk_id):
     form = SubmitTalkForm(obj=talk)
     form.populate_obj(talk)
     form.validate()
+    co_authors_email: str = form.co_authors.data
+    if len(co_authors_email) != 0:
+        co_authors_email_list: list = co_authors_email.split(',')
+        for author_email in co_authors_email_list:
+            user = User.query.filter(User.email==author_email).first()
+            if user not in talk.author_list.authors:
+                talk.author_list.authors.append(user)
     talk.update()
     return mhelp.redirect_url('y.talk_actions', year=year, talk_id=talk_id)
 
@@ -93,6 +110,7 @@ def final_talk_action(year, talk_id):
     if request.method == 'GET':
         context = mhelp.context()
         talk = Talk.query.get(talk_id)
+        co_authors:list = talk.co_authors.split(',')
         AdminTalkForm_ = AdminTalkForm
 
         context.update(locals())
@@ -102,6 +120,15 @@ def final_talk_action(year, talk_id):
         form = AdminTalkForm(obj=talk)
         form.populate_obj(talk)
         form.validate()
+        
+        co_authors_email: str = form.co_authors.data
+        if len(co_authors_email) != 0:
+            co_authors_email_list: list = co_authors_email.split(',')
+            for author_email in co_authors_email_list:
+                user = User.query.filter(User.email==author_email).first()
+                if user not in talk.author_list.authors:
+                    talk.author_list.authors.append(user)
+
         talk.update()
         return mhelp.redirect_url('cfp.final_talk_action', year=year, talk_id=talk_id)
 
