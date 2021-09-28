@@ -19,6 +19,9 @@ from flask_login import current_user
 from flask_login import login_required
 
 
+from helpers.c2021.notif import alert_success
+
+
 # from shopyo.api.html import notify_success
 # from shopyo.api.forms import flash_errors
 
@@ -90,6 +93,7 @@ def profile(year):
     submitted_talks = [t for t in submitted_talks if t.talk_conference.year == year]
     checked_tab = 'submited_talks'
     context.update(locals())
+    
     return render_template('conftheme/{}/parts/profile.html'.format(year), **context)
 
 
