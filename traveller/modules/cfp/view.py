@@ -136,6 +136,5 @@ def final_talk_action(year, talk_id):
 @module_blueprint.route("/<year>/talk/<talk_id>/delete")
 @login_required
 def delete_talk(year, talk_id):
-    talk = Talk.query.get(talk_id)
-    talk.delete()    
+    #implement 
     return mhelp.redirect_url('y.profile', year=year)
