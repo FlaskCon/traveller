@@ -5,6 +5,7 @@ from flask_login import current_user
 from .forms import UserProfileForm
 #from sqlalchemy import func
 from modules.box__default.auth.models import User
+from helpers.c2021.notif import alert_success
 # from flask import render_template
 # from flask import url_for
 # from flask import redirect
@@ -33,7 +34,10 @@ def edit_profile(year):
     if userprofile_form.validate():
         userprofile_form.populate_obj(current_user)
         current_user.update()
+
     context.update(locals())
+
+    alert_success('Profile updated!')
     return mhelp.redirect_url('y.profile', year=year)
      
       

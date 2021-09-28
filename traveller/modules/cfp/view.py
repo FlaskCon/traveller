@@ -13,11 +13,12 @@ from modules.cfp.forms import AdminTalkForm
 from flask import render_template
 # from flask import url_for
 # from flask import redirect
-# from flask import flash
+from flask import flash
 from flask import request
-
 from flask_login import login_required
 from flask_login import current_user
+
+from helpers.c2021.notif import alert_success
 
 # from shopyo.api.html import notify_success
 # from shopyo.api.forms import flash_errors
@@ -59,6 +60,7 @@ def add_talk(year):
 
     conf.talks.append(talk)
     conf.update()
+    alert_success('Talk submitted!')
     return mhelp.redirect_url('y.cfp', year=year)
 
 
@@ -130,6 +132,7 @@ def final_talk_action(year, talk_id):
                     talk.author_list.authors.append(user)
 
         talk.update()
+        alert_success('Talk status changed!')
         return mhelp.redirect_url('cfp.final_talk_action', year=year, talk_id=talk_id)
 
 
