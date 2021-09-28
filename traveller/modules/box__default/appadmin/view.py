@@ -72,6 +72,7 @@ def user_add():
         first_name = request.form["first_name"]
         last_name = request.form["last_name"]
         admin_user = request.form.get("is_admin")
+        is_email_confirmed = request.form.get("is_email_confirmed")
         bio = request.form["bio"]
         if admin_user == "True":
             is_admin = True
@@ -85,6 +86,7 @@ def user_add():
         if not has_user:
             new_user = User()
             new_user.email = email
+            new_user.is_email_confirmed = is_email_confirmed
             new_user.is_admin = is_admin
             new_user.first_name = first_name
             new_user.last_name = last_name
@@ -166,11 +168,18 @@ def admin_update():
     last_name = request.form["last_name"]
     bio = request.form["bio"]
     is_admin = request.form.get("is_admin")
+    is_email_confirmed = request.form.get("is_email_confirmed")
 
     if is_admin:
         is_admin = True
     else:
         is_admin = False
+
+
+    if is_email_confirmed:
+        is_email_confirmed = True
+    else:
+        is_email_confirmed = False
 
     user = User.query.get(id)
 
@@ -179,6 +188,7 @@ def admin_update():
         return redirect("/admin")
 
     user.is_admin = is_admin
+    user.is_email_confirmed = is_email_confirmed
     user.email = email
     user.first_name = first_name
     user.last_name = last_name
