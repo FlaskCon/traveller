@@ -67,6 +67,7 @@ def user_add():
     """
     context = {}
     if request.method == "POST":
+        # return str(request.form)
         email = request.form["email"]
         password = request.form["password"]
         first_name = request.form["first_name"]
@@ -78,6 +79,11 @@ def user_add():
             is_admin = True
         else:
             is_admin = False
+
+        if is_email_confirmed == "True":
+            is_email_confirmed = True
+        else:
+            is_email_confirmed = False
 
         has_user = db.session.query(
             exists().where(User.email == email)
