@@ -155,7 +155,7 @@ class AuthorList(PkModel):
 
     __tablename__ = "author_lists"
 
-    talk_id = db.Column(db.Integer, db.ForeignKey("talks.id", ondelete="CASCADE"), nullable=False)
+    talk_id = db.Column(db.Integer, db.ForeignKey("talks.id"), nullable=False)
     authors = db.relationship(
         "User",
         secondary=talk_list_author_bridge,
