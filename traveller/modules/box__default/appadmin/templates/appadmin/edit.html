@@ -13,8 +13,7 @@
         <h2>Edit User</h2>
         <form action='/appadmin/update' method="post">
             <label>Edit User:<span> {{ user.email }} </span></label>
-            <div class="input-group mb-3">
-            </div>
+
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-envelope"></i></span>
@@ -30,7 +29,13 @@
             <div class="">
                 <div class="">
                     <input type="checkbox" name="is_admin" id="is_admin" class="" {{'checked' if user.is_admin}}>
-                    <label for="is_admin" class="custom-control-label">Admin User</label>
+                    <label for="is_admin" >Admin User</label>
+                </div>
+            </div>
+            <div class="">
+                <div class="">
+                    <input type="checkbox" name="is_email_confirmed" id="is_email_confirmed" class="" {{'checked' if user.is_email_confirmed}}>
+                    <label for="is_email_confirmed" >Email confirmed?</label>
                 </div>
             </div>
             <div class="input-group mb-3">
