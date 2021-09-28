@@ -16,9 +16,21 @@
     a{
     background-image: none;
     }
+    #flashed-messages{
+           position:fixed;
+       bottom:0;
+       right:0;
+       z-index: 100;
+    }
     </style>
   </head>
   <body class="text-blueGray-700 antialiased">
+    <div id="flashed-messages">
+      {% for message in get_flashed_messages() %}
+         {{ message | safe}}
+      {% endfor %}
+    </div>
+    
     <nav class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg  {{nav_text_color}}">
       <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
         <div class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"><a href="/" class="pr-2">
@@ -163,7 +175,7 @@
                   <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="#">Privacy Policy</a>
                 </li>
                 <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="#">Contact Us: flaskcon@python.org</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="#">Contact: flaskcon@gmail.com</a>
                 </li>
                 
               </ul>
@@ -210,5 +222,15 @@ placement: "bottom-start",
 document.getElementById(dropdownID).classList.toggle("hidden");
 document.getElementById(dropdownID).classList.toggle("block");
 }
+</script>
+
+<script>
+  function closeAlert(event){
+    let element = event.target;
+    while(element.nodeName !== "BUTTON"){
+      element = element.parentNode;
+    }
+    element.parentNode.parentNode.removeChild(element.parentNode);
+  }
 </script>
 </html>
