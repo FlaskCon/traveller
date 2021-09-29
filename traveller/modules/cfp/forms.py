@@ -46,7 +46,7 @@ class SubmitTalkForm(ModelForm):
 class AdminTalkForm(ModelForm):
     class Meta:
         model = Talk
-        exclude = ['submitter_id']
+        exclude = ['submitter_id', 'year']
         field_args = {
             'title': {
                 'render_kw': {
