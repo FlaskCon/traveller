@@ -23,6 +23,7 @@ class NormalActivityForm(ModelForm):
     start_time = TimeField(label="start time")
     end_time = TimeField(label="end time")
 
+
 class TalkActivityForm(ModelForm):
     class Meta:
         model = Activity
