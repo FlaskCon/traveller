@@ -94,25 +94,29 @@ def edit_talk(year, talk_id):
 @module_blueprint.route("/<year>/talk/<talk_id>/rate/<int:score>/<talk_num_>")
 @login_required
 def rate_talk(year, talk_id, score, talk_num_):
-    if score not in [0, 1, 2]:
-        return '---'
-    talk = Talk.query.get(talk_id)
-    reviewers = [sl.reviewer for sl in talk.score_lists]
-    if current_user not in reviewers:
-        
-        score_list = ScoreList()
-        score_list.score = score
-        score_list.reviewer = current_user
-        score_list.talk_id = talk.id
-        talk.score_lists.append(score_list)
-        talk.update()
+    if (current_user.has_role('reviewer') or current_user.is_admin):
+        if score not in [0, 1, 2]:
+            return '---'
+        talk = Talk.query.get(talk_id)
+        reviewers = [sl.reviewer for sl in talk.score_lists]
+        if current_user not in reviewers:
+            
+            score_list = ScoreList()
+            score_list.score = score
+            score_list.reviewer = current_user
+            score_list.talk_id = talk.id
+            talk.score_lists.append(score_list)
+            talk.update()
+        else:
+            for sl in talk.score_lists:
+                if sl.reviewer == current_user:
+                    sl.score = score
+                    sl.update()
+                    break
+        return mhelp.redirect_url('y.review', year=year, talk_num_=talk_num_)
     else:
-        for sl in talk.score_lists:
-            if sl.reviewer == current_user:
-                sl.score = score
-                sl.update()
-                break
-    return mhelp.redirect_url('y.review', year=year, talk_num_=talk_num_)
+        alert_danger('Permission denied!')
+        return mhelp.redirect_url('www.index')
 
 
 @module_blueprint.route("/<year>/talk/<talk_id>/final_talk_action", methods=["GET", "POST"])
