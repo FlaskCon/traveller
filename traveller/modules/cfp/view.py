@@ -72,23 +72,30 @@ def add_talk(year):
 @login_required
 def edit_talk(year, talk_id):
     talk = Talk.query.get(talk_id)
-    form = SubmitTalkForm(obj=talk)
-    form.populate_obj(talk)
-    form.validate()
+    if ((current_user in talk.author_list.authors) or current_user.is_admin):
+        
+        form = SubmitTalkForm(obj=talk)
+        form.populate_obj(talk)
+        form.validate()
 
-    co_authors_email_list: list = request.form.getlist('co_authors')
-    for author_email in co_authors_email_list:
-        user = User.query.filter(User.email==author_email).first()
-        if user not in talk.author_list.authors:
-            talk.author_list.authors.append(user)
+        co_authors_email_list: list = request.form.getlist('co_authors')
+        for author_email in co_authors_email_list:
+            user = User.query.filter(User.email==author_email).first()
+            if user not in talk.author_list.authors:
+                talk.author_list.authors.append(user)
 
-    for author in talk.author_list.authors:
-        if author.email not in co_authors_email_list \
-            and author.id != talk.submitter_id:
-            talk.author_list.authors.remove(author)
+        for author in talk.author_list.authors:
+            if author.email not in co_authors_email_list \
+                and author.id != talk.submitter_id:
+                talk.author_list.authors.remove(author)
 
-    talk.update()
-    return mhelp.redirect_url('y.talk_actions', year=year, talk_id=talk_id)
+        talk.update()
+        alert_success('Talk updated!')
+        return mhelp.redirect_url('y.talk_actions', year=year, talk_id=talk_id)
+    else:
+        alert_danger('Permission denied!')
+        return mhelp.redirect_url('www.index')
+
 
 
 @module_blueprint.route("/<year>/talk/<talk_id>/rate/<int:score>/<talk_num_>")
