@@ -112,7 +112,7 @@ class Talk(PkModel):
         nullable=False)
 
     author_list = db.relationship(
-        "AuthorList", backref="author_list_talk", lazy=True, uselist=False
+        "AuthorList", backref="author_list_talk", lazy=True, uselist=False, cascade='delete'
     )
     score_lists = db.relationship(
         "ScoreList", backref="score_list_talk", lazy=True

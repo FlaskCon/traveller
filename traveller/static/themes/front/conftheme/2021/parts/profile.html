@@ -61,7 +61,8 @@ textarea {
                                 <div class="tab-content tab-space">
                                     <div class="block" data-tab-content="true" id="text-tab-profile-red">
                                         <p>
-                                            <table class="table-auto">
+                                            {% if len(submitted_talks) != 0 %}
+                                                <table class="table-auto">
                                                 <thead>
                                                     <tr>
                                                         <th>Title</th>
@@ -98,6 +99,10 @@ textarea {
                                                     {%endfor%}
                                                 </tbody>
                                             </table>
+                                            {% else %}
+                                                No talks submitted.
+                                            {% endif %}
+                                            
                                         </p>
                                     </div>
                                     <div class="hidden" data-tab-content="true" id="text-tab-settings-red">
