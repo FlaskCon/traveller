@@ -49,7 +49,7 @@ def landing_page(year):
 
 
 @module_blueprint.route("/<int:year>/about")
-def about_page(year):
+def about(year):
     return render_template('conftheme/{}/parts/about_us.html'.format(year))
 
 
@@ -57,20 +57,6 @@ def about_page(year):
 def contact_page(year):
     return render_template('conftheme/{}/parts/contact_us.html'.format(year))
 
-
-@module_blueprint.route("/<int:year>/blog")
-def blog_page(year):
-    return render_template('conftheme/{}/parts/blog.html'.format(year))
-
-
-@module_blueprint.route("/<int:year>/livestream")
-def livestream_page(year):
-    return render_template('conftheme/{}/parts/livestream.html'.format(year))
-
-
-@module_blueprint.route("/<int:year>/data_privacy_policy")
-def privacy_policy_page(year):
-    return render_template('conftheme/{}/parts/privacy_policy.html'.format(year))
 
 
 @module_blueprint.route("/<int:year>/cfp/")
@@ -206,6 +192,24 @@ def reviewers(year):
         'reviewers': reviewers
         })
     return render_template('conftheme/{}/parts/reviewers.html'.format(year), **context)
+
+
+@module_blueprint.route("/<int:year>/code-of-conduct/")
+def coc(year):
+    context = mhelp.context()
+    return render_template('conftheme/{}/parts/code_of_conduct.html'.format(year), **context)
+
+
+@module_blueprint.route("/<int:year>/privacy-policy/")
+def privacy_policy(year):
+    context = mhelp.context()
+    return render_template('conftheme/{}/parts/privacy_policy.html'.format(year), **context)
+
+
+@module_blueprint.route("/<int:year>/setup/")
+def setup(year):
+    context = mhelp.context()
+    return render_template('conftheme/{}/parts/setup.html'.format(year), **context)
 
 
    

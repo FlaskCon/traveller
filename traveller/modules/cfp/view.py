@@ -157,7 +157,7 @@ def final_talk_action(year, talk_id):
 @login_required
 def delete_talk(year, talk_id):
     talk = Talk.query.get(talk_id)
-    if talk.submitter_id == current_user.id:
+    if ((talk.submitter_id == current_user.id) or current_user.is_admin):
         talk.delete()
         alert_success('Talk deleted!')
     else:

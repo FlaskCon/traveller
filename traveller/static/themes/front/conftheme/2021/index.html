@@ -38,11 +38,11 @@
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                     <div class="px-4 py-5 flex-auto">
                         <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
-                            <i class="fa fa-dollar-sign"></i>
+                            <i class="fa fa-thumbs-up"></i>
                         </div>
-                        <h6 class="text-xl font-semibold">Raise money for the Pallets and PSF</h6>
+                        <h6 class="text-xl font-semibold">100% Flask</h6>
                         <p class="mt-2 mb-4 text-blueGray-500">
-                            We are paid this year ... just to raise money to gap in the loss of revenues even be it by a little!
+                            Talks, community, initiatives and more!
                         </p>
                     </div>
                 </div>
@@ -51,11 +51,20 @@
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                     <div class="px-4 py-5 flex-auto">
                         <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
-                            <i class="fa fa-microphone"></i>
+                            
+                            <i class="fa fa-paper-plane"></i>
                         </div>
-                        <h6 class="text-xl font-semibold">Terrific Speakers</h6>
+                        <h6 class="text-xl font-semibold">CFP</h6>
                         <p class="mt-2 mb-4 text-blueGray-500">
-                            Be prepared to experience flask experts from around the world ~
+                                                        Start: <span class="p-1 bg-yellow-200">{{ conf.cfp_start_repr() }}</span> 0:00 AM GMT<br>
+                            End: <span class="p-1 bg-yellow-200">{{ conf.cfp_end_repr() }}</span> 0:00 AM GMT<br><br>
+                            <a href="{{ url_for('y.cfp', year=2021) }}">
+                                <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+                                    {% if conf.cfp_start < today < conf.cfp_end %}
+  Submit talk!
+  {% else %}
+  CFP out of range!
+  {% endif %}
                         </p>
                     </div>
                 </div>
@@ -64,19 +73,11 @@
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                     <div class="px-4 py-5 flex-auto">
                         <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">
-                            <i class="fa fa-paper-plane"></i>
+                            <i class="fa fa-code-branch"></i>
                         </div>
-                        <h6 class="text-xl font-semibold">CFP</h6>
+                        <h6 class="text-xl font-semibold">Community-driven</h6>
                         <p class="mt-2 mb-4 text-blueGray-500">
-                            Start: <span class="p-1 bg-yellow-200">{{ conf.cfp_start_repr() }}</span> 0:00 AM GMT<br>
-                            End: <span class="p-1 bg-yellow-200">{{ conf.cfp_end_repr() }}</span> 0:00 AM GMT<br>
-                            <a href="{{ url_for('y.cfp', year=2021) }}">
-                                <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 mt-2" type="button">
-                                    {% if conf.cfp_start < today < conf.cfp_end %}
-  Submit talk!
-  {% else %}
-  CFP out of range!
-  {% endif %}
+  From the website to staffs, the conf is 100% volunteer-driven!
 </button>
                             </a>
                         </p>
@@ -143,9 +144,11 @@
                         The conf this year is an opportunity not to miss!
                         Next year it's expected to become a regular conf.
                         The fare this year rocks. Be sure you are seated!
+                        <br>
+                        Contributions go towards the Pallets and PSF orgnisations.
                     </p><br><br>
                     <a href="#" class="font-bold text-blueGray-700 mt-8"><button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-                            Buy pass
+                            Buy tickets
                         </button></a>
                 </div>
             </div>

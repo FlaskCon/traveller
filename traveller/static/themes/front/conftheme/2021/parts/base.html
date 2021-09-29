@@ -36,7 +36,7 @@
         <div class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"><a href="/" class="pr-2">
           <img style="display: inline-block;" src="{{ url_for('static', filename='flaskcon2021.png') }}" width="40" height="40" class="bg-white rounded-full">
         </a>
-        <a class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white" href="https://github.com/FlaskCon/traveller">Star</a><button class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button" onclick="toggleNavbar('example-collapse-navbar')">
+        <a class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white" href="https://github.com/FlaskCon/traveller"><!-- Star --></a><button class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button" onclick="toggleNavbar('example-collapse-navbar')">
         <i class="text-white fas fa-bars"></i>
         </button>
       </div>
@@ -44,14 +44,14 @@
         <ul class="flex flex-col lg:flex-row list-none mr-auto">
           <li class="flex items-center">
             <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="https://github.com/FlaskCon/traveller/issues">
-              <i class="lg:text-blueGray-200 text-blueGray-400 far text-lg leading-lg mr-2 fa fa-bug"></i>
-            Bugs</a>
+              <!-- <i class="lg:text-blueGray-200 text-blueGray-400 far text-lg leading-lg mr-2 fa fa-bug"></i>
+            Bugs --></a>
           </li>
         </ul>
         <ul class="flex flex-col lg:flex-row list-none lg:ml-auto items-center">
           <li class="inline-block relative">
-            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="#pablo" onclick="openDropdown(event,'demo-pages-dropdown')">
-              Pages
+            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="#" onclick="openDropdown(event,'demo-pages-dropdown')">
+              nav
             </a>
             <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" id="demo-pages-dropdown">
               <span class="text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400">
@@ -149,16 +149,17 @@
               <ul class="list-unstyled">
                 <li>
 
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="#">About Us</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="{{ url_for('y.about', year=2021) }}">About Us</a>
                 </li>
                 <li>
                   <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://dev.to/flaskcon">Blog</a>
                 </li>
                 <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://github.com/flaskcon">Github</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://github.com/flaskcon/traveller"><i class="fa fa-star"></i> Star project</a>
                 </li>
                 <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="#">Submit talks instructions</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://github.com/flaskcon/traveller/issues"><i class="fa fa-bug"></i>
+            Report bugs</a>
                 </li>
               </ul>
             </div>
@@ -166,13 +167,13 @@
               <span class="block uppercase text-blueGray-500 text-sm font-semibold mb-2">Other Resources</span>
               <ul class="list-unstyled">
                 <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="#">Conf setup</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="{{ url_for('y.setup', year=2021) }}">Conf setup</a>
                 </li>
                 <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="#">Terms &amp; Conditions</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="{{ url_for('y.coc', year=2021) }}">Code of Conduct</a>
                 </li>
                 <li>
-                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="#">Privacy Policy</a>
+                  <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="{{ url_for('y.privacy_policy', year=2021) }}">Privacy Policy</a>
                 </li>
                 <li>
                   <a class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="#">Contact: flaskcon@gmail.com</a>
@@ -187,7 +188,7 @@
       <div class="flex flex-wrap items-center md:justify-between justify-center">
         <div class="w-full md:w-4/12 px-4 mx-auto text-center">
           <div class="text-sm text-blueGray-500 font-semibold py-1">
-            Copyright © <span id="get-current-year"></span> FlaskCon, A PSF-registered trademark owned by the
+            Copyright © <span id="get-current-year"></span> FlaskCon, A PSF-registered trademark owned by 
             <a href="https://www.palletsprojects.com/" class="text-blueGray-500 hover:text-blueGray-800">Pallets</a>.
           </div>
         </div>
