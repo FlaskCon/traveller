@@ -81,26 +81,26 @@ class Talk(PkModel):
     title = db.Column(
         db.String(200),
         nullable=False,
-        info={'label': 'Title'})
+        info={'label': 'Title*'})
     slug = db.Column(db.String(200))
     summary = db.Column(
         db.Text(300),
         nullable=False,
-        info={'label': 'Summary max. 300 chars'}
+        info={'label': 'Summary* (max. 300 chars)'}
         )
     description = db.Column(
         db.Text(3000),
         nullable=False,
-        info={'label': 'Description max. 3000 chars'}
+        info={'label': 'Description* (max. 3000 chars)'}
         )
     notes = db.Column(
         db.Text(200),
-        info={'label': 'Notes max. 200 chars'}
+        info={'label': 'Notes (max. 200 chars)'}
         )
     level = db.Column(
         db.String(20),
         nullable=False,
-        info={'label': 'Level', 'choices': [('beginner', 'beginner'), ('intermediate', 'intermediate'), ('advanced', 'advanced')]})
+        info={'label': 'Level*', 'choices': [('beginner', 'beginner'), ('intermediate', 'intermediate'), ('advanced', 'advanced')]})
     accepted = db.Column(
         db.String(20),
         default='pending',
