@@ -18,7 +18,7 @@ from flask import request
 from flask_login import login_required
 from flask_login import current_user
 
-from helpers.c2021.notif import alert_success
+from helpers.c2021.notif import alert_success, alert_danger
 
 # from shopyo.api.html import notify_success
 # from shopyo.api.forms import flash_errors
@@ -36,7 +36,11 @@ def index():
 @login_required
 def add_talk(year):
     form = SubmitTalkForm()
-    form.validate()
+
+    if not form.validate():
+        alert_danger('Talk not submitted!')
+        return mhelp.redirect_url('y.cfp', year=year)
+
     conf = Conf.query.filter(
         Conf.year==year
         ).first_or_404()
