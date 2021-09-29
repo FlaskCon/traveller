@@ -33,6 +33,11 @@ textarea {
                 <h3 class="text-3xl">Submit a new talk</h3>
                 {% if conf.cfp_start < today < conf.cfp_end %}
                 <form method="POST" action="{{ url_for('cfp.add_talk', year=conf.year) }}">
+                    <label for="co_authors">Co-Authors</label><br>
+                    <textarea name="co_authors" id="co_authors" cols="80" rows="5"
+                    placeholder="Enter email address of each co-author on a newline"></textarea>
+                    <br>
+
                     {%for field in talk_form%}
                     {%if field.id not in ['csrf_token']%}
                     {{field.label}}

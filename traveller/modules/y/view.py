@@ -4,6 +4,8 @@ from flask import render_template
 from modules.box__default.auth.models import User
 from modules.conf.models import Conf
 from modules.conf.models import Talk
+from modules.conf.models import talk_list_author_bridge
+from init import db
 from modules.schedule.forms import DayForm
 from modules.cfp.forms import SubmitTalkForm
 from modules.schedule.models import Schedule
@@ -87,9 +89,15 @@ def cfp(year):
 def profile(year):
     context = mhelp.context()
     userprofile_form = UserProfileForm(obj=current_user)
-    submitted_talks = Talk.query.filter(
-        Talk.submitter_id == current_user.id
+    author_talks_list:list = db.session.query(talk_list_author_bridge).filter(
+        talk_list_author_bridge.c.user_id == current_user.id
         ).all()
+
+    submitted_talks:list = []
+    for author_talk in author_talks_list:
+        talk = Talk.query.get(author_talk[1])        
+        submitted_talks.append(talk)
+    
     submitted_talks = [t for t in submitted_talks if t.talk_conference.year == year]
     checked_tab = 'submited_talks'
     context.update(locals())
@@ -103,8 +111,6 @@ def profile(year):
 def talk_actions(year, talk_id):
     context = mhelp.context()
     talk = Talk.query.get(talk_id)
-    if (not int(current_user.id) == int(talk.submitter_id)):
-        return '---'
     SubmitTalkForm_ = SubmitTalkForm
     context.update(locals())
     return render_template('conftheme/{}/parts/talk_actions.html'.format(year), **context)
@@ -170,8 +176,7 @@ def schedule(year):
     conf = Conf.query.filter(
         Conf.year == year
         ).first_or_404()
-    if conf is not None:
-        if conf.schedule is None:
+    if conf is not None and conf.schedule is None:
             conf.schedule = Schedule()
 
     weekmap = {
