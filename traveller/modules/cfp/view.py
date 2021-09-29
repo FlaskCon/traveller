@@ -76,7 +76,9 @@ def edit_talk(year, talk_id):
         
         form = SubmitTalkForm(obj=talk)
         form.populate_obj(talk)
-        form.validate()
+        if not form.validate():
+            alert_danger('Talk not updated!')
+            return mhelp.redirect_url('y.cfp', year=year)
 
         co_authors_email_list: list = request.form.getlist('co_authors')
         for author_email in co_authors_email_list:
@@ -141,7 +143,10 @@ def final_talk_action(year, talk_id):
             talk = Talk.query.get(talk_id)
             form = AdminTalkForm(obj=talk)
             form.populate_obj(talk)
-            form.validate()
+
+            if not form.validate():
+                alert_danger('Talk status not changed!')
+                return mhelp.redirect_url('y.cfp', year=year)
 
             talk.update()
             alert_success('Talk status changed!')

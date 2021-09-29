@@ -1,12 +1,8 @@
 {% extends 'conftheme/2021/parts/base.html'%}
 {% block head %}
 <style type="text/css">
-input[type='text'] {
-    width: 90%;
-}
-
-textarea {
-    width: 90%
+input[type='text'], textarea {
+    width: 83.33%
 }
 
 #summary {
@@ -36,7 +32,7 @@ textarea {
                 {% if conf.cfp_start < today < conf.cfp_end %}
                 <form method="POST" action="{{ url_for('cfp.add_talk', year=conf.year) }}">
                     <label for="co_authors">Co-Authors</label><br>
-                    <textarea name="co_authors" id="co_authors" cols="80" rows="5"
+                    <textarea name="co_authors" id="co_authors" cols="80" rows="3" class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm border shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                     placeholder="Enter email address of each co-author on a newline"></textarea>
                     <br>
 
