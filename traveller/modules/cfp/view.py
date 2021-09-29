@@ -118,22 +118,27 @@ def rate_talk(year, talk_id, score, talk_num_):
 @module_blueprint.route("/<year>/talk/<talk_id>/final_talk_action", methods=["GET", "POST"])
 @login_required
 def final_talk_action(year, talk_id):
-    if request.method == 'GET':
-        context = mhelp.context()
-        talk = Talk.query.get(talk_id)
-        AdminTalkForm_ = AdminTalkForm
+    if current_user.is_admin:
+        if request.method == 'GET':
+            context = mhelp.context()
+            talk = Talk.query.get(talk_id)
+            AdminTalkForm_ = AdminTalkForm
 
-        context.update(locals())
-        return render_template('conftheme/{}/parts/final_talk_action.html'.format(year), **context)
-    elif request.method == 'POST':
-        talk = Talk.query.get(talk_id)
-        form = AdminTalkForm(obj=talk)
-        form.populate_obj(talk)
-        form.validate()
+            context.update(locals())
+            return render_template('conftheme/{}/parts/final_talk_action.html'.format(year), **context)
+        elif request.method == 'POST':
+            talk = Talk.query.get(talk_id)
+            form = AdminTalkForm(obj=talk)
+            form.populate_obj(talk)
+            form.validate()
 
-        talk.update()
-        alert_success('Talk status changed!')
-        return mhelp.redirect_url('cfp.final_talk_action', year=year, talk_id=talk_id)
+            talk.update()
+            alert_success('Talk status changed!')
+            return mhelp.redirect_url('cfp.final_talk_action', year=year, talk_id=talk_id)
+
+    else:
+        alert_danger('No permission to view page!')
+        return mhelp.redirect_url('www.index')
 
 
 
@@ -141,5 +146,9 @@ def final_talk_action(year, talk_id):
 @login_required
 def delete_talk(year, talk_id):
     talk = Talk.query.get(talk_id)
-    talk.delete()    
+    if talk.submitter_id == current_user.id:
+        talk.delete()
+        alert_success('Talk deleted!')
+    else:
+        alert_danger("You don't have access to delete talks!")
     return mhelp.redirect_url('y.profile', year=year)
