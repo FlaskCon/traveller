@@ -115,7 +115,7 @@ class Talk(PkModel):
         "AuthorList", backref="author_list_talk", lazy=True, uselist=False, cascade='delete'
     )
     score_lists = db.relationship(
-        "ScoreList", backref="score_list_talk", lazy=True
+        "ScoreList", backref="score_list_talk", lazy=True, cascade='delete'
     )
 
     def create_slug(self):
