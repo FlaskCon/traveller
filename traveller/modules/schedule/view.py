@@ -9,8 +9,11 @@ from modules.schedule.models import Activity
 from modules.schedule.forms import DayForm
 from modules.schedule.forms import NormalActivityForm
 from modules.schedule.forms import TalkActivityForm
+
 from shopyo.api.html import notify_danger
-from helpers.c2021.notif import alert_success, alert_danger
+from helpers.c2021.notif import alert_success
+from helpers.c2021.notif import alert_danger
+
 
 from flask_login import login_required
 from flask_login import current_user
@@ -49,7 +52,7 @@ def add_day(year):
             return mhelp.redirect_url('y.schedule', year=year)
 
         if form.date.data < date.today():
-            flash(notify_danger("new schedule date should be today or later"))
+            alert_danger("new schedule date should be today or later")
             return mhelp.redirect_url('y.schedule', year=year)
 
         day = Day(
@@ -67,7 +70,7 @@ def add_activity(year, day_id, act_type):
         form = NormalActivityForm()
         form.validate()
         if form.end_time.data < form.start_time.data:
-            flash(notify_danger("End time should be greater than start date"))
+            alert_danger("End time should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity()
         form.populate_obj(activity)
@@ -81,7 +84,7 @@ def add_activity(year, day_id, act_type):
         form.validate()
         print(form.end_time.data, form.start_time.data)
         if form.end_time.data < form.start_time.data:
-            flash(notify_danger("End time should be greater than start date"))
+            alert_danger("End time should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity()
         # form.populate_obj(activity)
@@ -101,7 +104,7 @@ def edit_activity(year, act_id, act_type):
         form = NormalActivityForm()
         form.validate()
         if form.end_time.data < form.start_time.data:
-            flash(notify_danger("End time should be greater than start date"))
+            alert_danger("End time should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity.query.get(act_id)
         form.populate_obj(activity)
@@ -110,7 +113,7 @@ def edit_activity(year, act_id, act_type):
         form = TalkActivityForm()
         form.validate()
         if form.end_time.data < form.start_time.data:
-            flash(notify_danger("End date should be greater than start date"))
+            alert_danger("End date should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity.query.get(act_id)
         activity.start_time = form.start_time.data

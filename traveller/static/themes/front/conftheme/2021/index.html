@@ -61,10 +61,12 @@
                             <a href="{{ url_for('y.cfp', year=2021) }}">
                                 <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
                                     {% if conf.cfp_start < today < conf.cfp_end %}
-  Submit talk!
-  {% else %}
-  CFP out of range!
-  {% endif %}
+                                        Submit talk!
+                                    {% elif conf.cfp_start < today %}
+                                        The call for proposals has not yet started.
+                                    {% else %}
+                                        The call for proposals has ended.
+                                    {% endif %}
                         </p>
                     </div>
                 </div>
@@ -77,7 +79,7 @@
                         </div>
                         <h6 class="text-xl font-semibold">Community-driven</h6>
                         <p class="mt-2 mb-4 text-blueGray-500">
-  From the website to staffs, the conf is 100% volunteer-driven!
+  From the website to staff, the conference is 100% volunteer-driven!
 </button>
                             </a>
                         </p>
@@ -94,11 +96,11 @@
                     A week full of fun
                 </h3>
                 <p class="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
-                    We are planning to gouche in 30 talks and one day of community projects.
+                    We are planning 30 talks and one day of community projects.
                     To that end we'd be happy to put in a whole week of conference.
                 </p>
                 <p class="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600">
-                    The conference has the aim of exploring the Flask community itself. It's the opportunity to meet the whole Flask landscape as well to get pull in the cutting edge features of Flask.
+                    The conference has the aim of exploring the Flask community itself. It's an opportunity to see the whole Flask landscape and get a peak at the cutting edge features of Flask.
                 </p>
                 <a href="{{ url_for('y.schedule', year=2021) }}" class="font-bold text-blueGray-700 mt-8"><button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
                         Check Schedule
@@ -115,7 +117,7 @@
                             Meet folks!
                         </h4>
                         <p class="text-md font-light mt-2 text-white">
-                            The live QnA as well as talk setup maximises interaction time with speakers. Join a fun, casual ride and make flask friends with folks all over the world!
+                            The live Q&A and talk setup maximizes interaction time with speakers. Join the fun and make Flask friends with folks from all over the world!
                         </p>
                     </blockquote>
                 </div>
@@ -141,9 +143,9 @@
                     </div>
                     <h3 class="text-3xl font-semibold">Book your tickets</h3>
                     <p class="mt-4 text-lg leading-relaxed text-blueGray-500">
-                        The conf this year is an opportunity not to miss!
-                        Next year it's expected to become a regular conf.
-                        The fare this year rocks. Be sure you are seated!
+                        The conference this year is an opportunity not to be missed!
+                        We expect it will become a regular annual conference.
+                        Be sure to get a spot!
                         <br>
                         Contributions go towards the Pallets and PSF orgnisations.
                     </p><br><br>
@@ -161,7 +163,7 @@
             <div class="w-full lg:w-6/12 px-4">
                 <h2 class="text-4xl font-semibold">Here are our Reviewers</h2>
                 <p class="text-lg leading-relaxed m-4 text-blueGray-500">
-                    A great panel to say the least!
+                    A great panel!
                 </p>
             </div>
         </div>
