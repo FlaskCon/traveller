@@ -16,7 +16,7 @@ class Day(PkModel):
     
     date = db.Column(db.Date, nullable=False)
     activities = db.relationship('Activity',
-        backref=db.backref('activity_day', lazy=True))
+        backref=db.backref('activity_day', lazy=True), cascade='save-update, delete')
 
     schedule_id = db.Column(db.Integer, db.ForeignKey("schedules.id"), nullable=False)
 
@@ -30,9 +30,9 @@ class Activity(PkModel):
     
 
     type = db.Column(db.String(300))
-    text = db.Column(db.String(300))
-    start_time = db.Column(db.Time)
-    end_time = db.Column(db.Time)
+    text = db.Column(db.String(300), info={'label': 'Text:'})
+    start_time = db.Column(db.Time, info={'label': 'Start time:'})
+    end_time = db.Column(db.Time, info={'label': 'End time:'})
     talk_id = db.Column(db.Integer)
     day_id = db.Column(db.Integer, db.ForeignKey("days.id"), nullable=False)
 

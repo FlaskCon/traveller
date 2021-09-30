@@ -9,8 +9,14 @@ from modules.schedule.models import Activity
 from modules.schedule.forms import DayForm
 from modules.schedule.forms import NormalActivityForm
 from modules.schedule.forms import TalkActivityForm
+
+from shopyo.api.html import notify_danger
+from helpers.c2021.notif import alert_success
 from helpers.c2021.notif import alert_danger
 
+
+from flask_login import login_required
+from flask_login import current_user
 # from flask import render_template
 # from flask import url_for
 # from flask import redirect
@@ -32,25 +38,28 @@ def index():
 
 @module_blueprint.route("/<int:year>/day/", methods=["POST"])
 def add_day(year):
-    conf = Conf.query.filter(
-            Conf.year==year
-        ).first()
+    if current_user.is_admin:
+        conf = Conf.query.filter(
+                Conf.year==year
+            ).first()
 
-    if conf.schedule is None:
-        conf.schedule = Schedule()
+        if conf.schedule is None:
+            conf.schedule = Schedule()
 
-    form = DayForm()
-    form.validate()
+        form = DayForm()
+        if not form.validate():
+            alert_danger('Day not added!')
+            return mhelp.redirect_url('y.schedule', year=year)
 
-    if form.date.data < date.today():
-        alert_danger("new schedule date should be today or later")
-        return mhelp.redirect_url('y.schedule', year=year)
+        if form.date.data < date.today():
+            alert_danger("new schedule date should be today or later")
+            return mhelp.redirect_url('y.schedule', year=year)
 
-    day = Day(
-        date=form.date.data
-        )
-    conf.schedule.days.append(day)
-    conf.update()
+        day = Day(
+            date=form.date.data
+            )
+        conf.schedule.days.append(day)
+        conf.update()
     return mhelp.redirect_url('y.schedule', year=year)
 
 
@@ -73,6 +82,7 @@ def add_activity(year, day_id, act_type):
         form = TalkActivityForm()
 
         form.validate()
+        print(form.end_time.data, form.start_time.data)
         if form.end_time.data < form.start_time.data:
             alert_danger("End time should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
@@ -106,10 +116,32 @@ def edit_activity(year, act_id, act_type):
             alert_danger("End date should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity.query.get(act_id)
-        form.populate_obj(activity)
+        activity.start_time = form.start_time.data
+        activity.end_time = form.end_time.data
+        activity.talk_id = form.talks.data.id if form.talks.data is not None else None
+
         activity.update()
     return mhelp.redirect_url('y.schedule', year=year)
 
+
+@module_blueprint.route("/<int:year>/day/<day_id>/edit", methods=["POST"])
+def edit_day(year, day_id):
+    if current_user.is_admin:
+        day = Day.query.get(day_id)
+
+        form = DayForm(obj=day)
+        form.populate_obj(day)
+        if not form.validate():
+            alert_danger('Day not edited!')
+            return mhelp.redirect_url('y.schedule', year=year)
+
+        if form.date.data < date.today():
+            flash(notify_danger("new schedule date should be today or later"))
+            return mhelp.redirect_url('y.schedule', year=year)
+
+        day.update()
+        alert_success('Day edited!')
+    return mhelp.redirect_url('y.schedule', year=year)
 
 @module_blueprint.route("/<int:year>/act/<act_id>/delete", methods=["GET"])
 def delete_activity(year, act_id):
@@ -117,14 +149,15 @@ def delete_activity(year, act_id):
     activity.delete()
     return mhelp.redirect_url('y.schedule', year=year)
 
-# If "dashboard": "/dashboard" is set in info.json
-#
-# @module_blueprint.route("/dashboard", methods=["GET"])
-# def dashboard():
 
-#     context = mhelp.context()
+@module_blueprint.route("/<int:year>/day/<day_id>/delete")
+@login_required
+def delete_day(year, day_id):
+    if not current_user.is_admin:
+        alert_danger("You don't have access to delete days!")
+        return mhelp.redirect_url('y.schedule', year=year)
 
-#     context.update({
-
-#         })
-#     return mhelp.render('dashboard.html', **context)
+    day = Day.query.get(day_id)
+    day.delete()
+    alert_success('Day deleted!')
+    return mhelp.redirect_url('y.schedule', year=year)
