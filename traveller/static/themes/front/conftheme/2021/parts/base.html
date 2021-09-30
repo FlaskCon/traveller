@@ -22,6 +22,17 @@
        right:0;
        z-index: 100;
     }
+
+    #navmenu::after {
+      display: inline-block;
+      margin-left: .255em;
+      vertical-align: .255em;
+      content: "";
+      border-top: .3em solid;
+      border-right: .3em solid transparent;
+      border-bottom: 0;
+      border-left: .3em solid transparent;
+    }
     </style>
   </head>
   <body class="text-blueGray-700 antialiased">
@@ -36,22 +47,16 @@
         <div class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"><a href="/" class="pr-2">
           <img style="display: inline-block;" src="{{ url_for('static', filename='flaskcon2021.png') }}" width="40" height="40" class="bg-white rounded-full">
         </a>
-        <a class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white" href="https://github.com/FlaskCon/traveller"><!-- Star --></a><button class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button" onclick="toggleNavbar('example-collapse-navbar')">
-        <i class="text-white fas fa-bars"></i>
+        <button class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button" onclick="toggleNavbar('example-collapse-navbar')">
+          <i class="text-white fas fa-bars"></i>
         </button>
       </div>
       <div class="lg:flex flex-grow items-center bg-white lg:bg-opacity-0 lg:shadow-none hidden" id="example-collapse-navbar">
-        <ul class="flex flex-col lg:flex-row list-none mr-auto">
-          <li class="flex items-center">
-            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="https://github.com/FlaskCon/traveller/issues">
-              <!-- <i class="lg:text-blueGray-200 text-blueGray-400 far text-lg leading-lg mr-2 fa fa-bug"></i>
-            Bugs --></a>
-          </li>
-        </ul>
+        
         <ul class="flex flex-col lg:flex-row list-none lg:ml-auto items-center">
           <li class="inline-block relative">
-            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="#" onclick="openDropdown(event,'demo-pages-dropdown')">
-              nav
+            <a id="navmenu" class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-md uppercase font-bold" href="#" onclick="openDropdown(event,'demo-pages-dropdown')">
+              Menu
             </a>
             <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" id="demo-pages-dropdown">
               <span class="text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400">
@@ -90,10 +95,10 @@
             </div>
           </li>
           <li class="flex items-center">
-            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fflaskcon.com" target="_blank"><i class="lg:text-blueGray-200 text-blueGray-400 fab fa-facebook text-lg leading-lg"></i><span class="lg:hidden inline-block ml-2">Share</span></a>
+            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fflaskcon.com" target="_blank"><i class="lg:text-blueGray-200 text-blueGray-400 fab fa-facebook text-lg leading-lg"></i><span class="inline-block ml-2">Share</span></a>
           </li>
           <li class="flex items-center">
-            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="https://twitter.com/intent/tweet?text=Hi%20there%2C%20i%20am%20attending%20%40FlaskCon!&url=https%3A%2F%2Fflaskcon.com" target="_blank"><i class="lg:text-blueGray-200 text-blueGray-400 fab fa-twitter text-lg leading-lg"></i><span class="lg:hidden inline-block ml-2">Tweet</span></a>
+            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="https://twitter.com/intent/tweet?text=Hi%20there%2C%20i%20am%20attending%20%40FlaskCon!&url=https%3A%2F%2Fflaskcon.com" target="_blank"><i class="lg:text-blueGray-200 text-blueGray-400 fab fa-twitter text-lg leading-lg"></i><span class="inline-block ml-2">Tweet</span></a>
           </li>
           <!-- <li class="flex items-center">
             <button
