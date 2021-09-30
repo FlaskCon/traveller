@@ -67,9 +67,7 @@ class TestAdminInvalidAccess:
             f"{module_info['url_prefix']}{route}", follow_redirects=True
         )
 
-        assert response.status_code == 200
-        assert request.path == url_for("dashboard.index")
-        assert b"You need to be an admin to view this page" in response.data
+        assert response.status_code == 404
 
     @pytest.mark.usefixtures("login_non_admin_user")
     @pytest.mark.parametrize("route", routes_post)
@@ -78,9 +76,7 @@ class TestAdminInvalidAccess:
             f"{module_info['url_prefix']}{route}", follow_redirects=True
         )
 
-        assert response.status_code == 200
-        assert request.path == url_for("dashboard.index")
-        assert b"You need to be an admin to view this page" in response.data
+        assert response.status_code == 404
 
 
 @pytest.mark.usefixtures("login_admin_user")

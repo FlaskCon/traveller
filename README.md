@@ -172,6 +172,13 @@ class DevelopmentConfig(Config):
 Go to [http://127.0.0.1:1080](http://127.0.0.1:1080) where it serves it’s web interface by default. See mails arrive in your inbox!
 Particularly useful when registering!
 
+## Running tests
+
+Go to traveller/traveller
+
+```
+python -m pytest .
+```
 
 ## Some functionalities of app
 
