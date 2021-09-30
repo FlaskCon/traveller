@@ -162,6 +162,7 @@ class TestAuthEndpoints:
         assert user.is_email_confirmed is False
 
     @pytest.mark.usefixtures("login_non_admin_user")
+    @pytest.mark.skip(reason="No mail confirmation workflow for conf")
     def test_user_not_confirmed_for_already_confirmed_user(self, test_client):
         response = test_client.get(
             url_for("auth.confirm", token="sometoken"), follow_redirects=True
@@ -172,6 +173,7 @@ class TestAuthEndpoints:
         assert b"Account already confirmed." in response.data
 
     @pytest.mark.usefixtures("login_unconfirmed_user")
+    @pytest.mark.skip(reason="No mail confirmation workflow for conf")
     def test_user_confirmed_on_valid_token(self, test_client):
         token = current_user.generate_confirmation_token()
         response = test_client.get(
@@ -195,6 +197,7 @@ class TestAuthEndpoints:
         assert b"The confirmation link is invalid/expired." in response.data
 
     @pytest.mark.usefixtures("login_non_admin_user")
+    @pytest.mark.skip(reason="No mail confirmation workflow for conf")
     def test_do_not_allow_email_resend_for_confirmed(self, test_client):
         response = test_client.get(
             url_for("auth.resend"), follow_redirects=True
@@ -224,6 +227,7 @@ class TestAuthEndpoints:
         assert b"A new confirmation email has been sent" in response.data
 
     @pytest.mark.usefixtures("login_non_admin_user")
+    @pytest.mark.skip(reason="No mail confirmation workflow for conf")
     def test_confirmed_user_is_redirected_to_dashboard(self, test_client):
         response = test_client.get(
             url_for("auth.unconfirmed"), follow_redirects=True
@@ -271,6 +275,7 @@ class TestAuthEndpoints:
         assert current_user.email == admin_user.email
         assert request.path == url_for("dashboard.index")
 
+    @pytest.mark.skip(reason="No mail confirmation workflow for conf")
     def test_valid_dashboard_login_is_case_insensitive(self, test_client):
         User.create(email="foo@bar.com", password="pass", is_admin=True)
         data = {"email": "Foo@Bar.com", "password": "pass"}
