@@ -23,7 +23,36 @@ You may also want to install dev_requirements.txt
 $ python -m pip install -r dev_requirements.txt
 ```
 
-Create a db named traveller or whatever you want in your MySQL db
+We are using MySQL but you can have a stab at a different db.
+
+Create a db named traveller or whatever you want in your MySQL db.
+
+<details>
+  <summary>Setting up MySQL Database on Linux(if this is your first time with the database )</summary>
+
+  - Start MySQL database
+  ```bash
+  $ systemctl start mysql
+  ```
+
+  (or)
+
+  ```bash
+  $ service mysql start
+  ```
+  - After starting MySQL database, login into the shell 
+
+  ```bash
+  $ mysql
+  ```
+  - Create a database  
+  ```mysql
+  mysql >  CREATE DATABASE traveller;
+  ```
+  - This will create the database in your local MySQL server, you can exit the Mysql shell and complete the remaining steps
+</details>
+
+Change directory to the traveller folder
 
 ```bash
 $ cd traveller
@@ -42,31 +71,6 @@ In instance/config.py set the __SQLALCHEMY_URI__. For MySQL it will be like this
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost/traveller'
 ```
 'mysql+pymysql://username:password@localhost/dbname'.
-We are using MySQL but you can have a stab at a different db.
-
-<details>
-  <summary>Setting up MySQL Database (if this is your first time with the database )</summary>
-
-  - start the database
-  ```bash
-$ systemctl start mysql
-```
-
-(or)
-
-```bash
-$ service start mysql
-```
-- once you have started the database
-
-```bash
-$ mysql
-```
-```mysql
-mysql >  CREATE DATABASE traveller;
-```
-- This will create the batabase in your local mysql server, you can exit the Mysql CLI client and complete the remaining steps
-</details>
 
 Create or edit traveller/config.json with the information needed for each environment.
 
@@ -176,8 +180,8 @@ Particularly useful when registering!
 
 Go to traveller/traveller
 
-```
-python -m pytest .
+```bash
+$ python -m pytest .
 ```
 
 ## Some functionalities of app
@@ -185,7 +189,6 @@ python -m pytest .
 Go to: [http://127.0.0.1:5000/dashboard](http://127.0.0.1:5000/dashboard)
 
 Login with __username: admin@domain.com__ and __password: pass__
-
 
 Click on admin and create a new role called reviewer
 
