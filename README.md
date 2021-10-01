@@ -28,7 +28,7 @@ We are using MySQL but you can have a stab at a different db.
 Create a db named traveller or whatever you want in your MySQL db.
 
 <details>
-  <summary>Setting up MySQL Database on Linux(if this is your first time with the database )</summary>
+  <summary>Setting up MySQL Database on Linux(if this is your first time with using MySQL database )</summary>
 
   - Start MySQL database
   ```bash
