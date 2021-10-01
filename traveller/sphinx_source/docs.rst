@@ -4,20 +4,27 @@
 Documentation
 =============
 
-Sphinx and the other needed packages are included in **traveller/traveller/sphinx_source/docs_requirements.txt**.
+Sphinx and the other needed packages are included in **traveller/sphinx_source/docs_requirements.txt**.
 
 To setup Sphinx:
 
+Install the required packages using
+
 .. code:: bash
 
-    $ cd traveller/traveller/sphinx_source
+    $ python -m pip install -r docs_requirements.txt
+    
+then change directory to the folder containing the source and build files for the documenatation
 
-Run in traveller/traveller/sphinx_source folder:
+.. code:: bash
+
+    $ cd traveller/sphinx_source
+
+Run the command below in the traveller/sphinx_source folder to generate HTML pages for the documentation.
 
 .. code:: bash
 
     $ make html
     
-to generate html pages
  
-You can view the generated html pages in **_build/html** folder
+You can view the generated HTML pages in **_build/html** folder
