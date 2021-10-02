@@ -22,6 +22,7 @@ ma = Marshmallow()
 login_manager = LoginManager()
 migrate = Migrate()
 mail = Mail()
+images = UploadSet("images", IMAGES, default_dest=lambda x: "static/images")
 
 from flask_wtf import FlaskForm
 from wtforms_alchemy import model_form_factory
