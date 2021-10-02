@@ -4,7 +4,17 @@
 # Traveller
 
 
-## Setup
+## Quick Start with Docker Compose
+
+Install Docker Compose and Docker on your machine if you haven't already:  [Install Docker Compose](https://docs.docker.com/compose/install/)
+
+```bash
+git clone https://github.com/FlaskCon/traveller
+
+docker-compose up
+```
+
+## Manual Setup
 
 Create venv named venv inside root folder
 
@@ -23,39 +33,23 @@ You may also want to install dev_requirements.txt
 $ python -m pip install -r dev_requirements.txt
 ```
 
-We are using MySQL but you can have a stab at a different db.
+### Create a database using PostgreSQL.
 
-Create a db named traveller or whatever you want in your MySQL db.
+Here is an excellent guide on how to install and use PostgreSQL on Ubuntu 20.04:  [PostgreSQL Ubuntu 20.04 Guide](https://www.linode.com/docs/guides/how-to-install-use-postgresql-ubuntu-20-04/)
 
-<details>
-  <summary>Setting up MySQL Database on Linux(if this is your first time with using MySQL database )</summary>
+```bash
+$ sudo -u postgres psql
+postgres=# create database traveller;
+postgres=# create user traveller with encrypted password 'traveller';
+postgres=# grant all privileges on database traveller to traveller;
+```
 
-  - Start MySQL database
-  ```bash
-  $ systemctl start mysql
-  ```
-
-  (or)
-
-  ```bash
-  $ service mysql start
-  ```
-  - After starting MySQL database, login into the shell 
-
-  ```bash
-  $ mysql
-  ```
-  - Create a database  
-  ```mysql
-  mysql >  CREATE DATABASE traveller;
-  ```
-  - This will create the database in your local MySQL server, you can exit the Mysql shell and complete the remaining steps
-</details>
+### Site Configuration
 
 Change directory to the traveller folder
 
 ```bash
-$ cd traveller
+$ cd web/traveller
 ```
 
 Create folder called instance and a file called config.py in it
@@ -65,12 +59,11 @@ $ mkdir instance #auto ignored by git
 $ touch instance/config.py
 ```
 
-In instance/config.py set the __SQLALCHEMY_URI__. For MySQL it will be like this (the file should contain only that):
+In instance/config.py set the __SQLALCHEMY_URI__. For PostgreSQL it will be like this (the file should contain only that):
 
 ```
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost/traveller'
+SQLALCHEMY_DATABASE_URI = 'postgresql://traveller:traveller@localhost:5432/traveller'
 ```
-'mysql+pymysql://username:password@localhost/dbname'.
 
 Create or edit traveller/config.json with the information needed for each environment.
 

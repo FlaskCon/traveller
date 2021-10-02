@@ -138,3 +138,6 @@ testing.db
 
 # configation files
 traveller/config.json
+
+# docker compose
+volumes

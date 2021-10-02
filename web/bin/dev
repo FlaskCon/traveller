@@ -1,0 +1,8 @@
+#!/bin/bash
+####################################
+#
+# Run the app in development mode
+#
+####################################
+
+python manage.py rundebug

@@ -35,7 +35,7 @@ class ProductionConfig(BaseConfig):
 
     # database configs
     SQLALCHEMY_DATABASE_URI = (
-        os.environ.get("SQLALCHEMY_DATABASE_URI") or "sqlite:///shopyo.db"
+        os.environ.get("DATABASE_URL") or "sqlite:///shopyo.db"
     )
 
 
@@ -52,7 +52,7 @@ class DevelopmentConfig(BaseConfig):
     EMAIL_CONFIRMATION_DISABLED = False
 
     # flask-mailman configs
-    MAIL_SERVER = "localhost"
+    MAIL_SERVER = os.environ.get("MAIL_SERVER") or "localhost"
     MAIL_PORT = 1025
     MAIL_USE_TLS = False
     MAIL_USE_SSL = False
@@ -60,7 +60,11 @@ class DevelopmentConfig(BaseConfig):
     MAIL_PASSWORD = ""
     MAIL_DEFAULT_SENDER = "ma@mail.com"
 
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://username:password@localhost/db_name'
+    #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://username:password@localhost/db_name'
+    # database configs
+    SQLALCHEMY_DATABASE_URI = (
+        os.environ.get("DATABASE_URL") or "sqlite:///shopyo.db"
+    )
 
     # database configs
     # Add the below line with corrected values in config.py

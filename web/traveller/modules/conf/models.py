@@ -84,17 +84,17 @@ class Talk(PkModel):
         info={'label': 'Title*'})
     slug = db.Column(db.String(200))
     summary = db.Column(
-        db.Text(300),
+        db.String(300),
         nullable=False,
         info={'label': 'Summary* (max. 300 chars)'}
         )
     description = db.Column(
-        db.Text(3000),
+        db.String(3000),
         nullable=False,
         info={'label': 'Description* (max. 3000 chars)'}
         )
     notes = db.Column(
-        db.Text(200),
+        db.String(200),
         info={'label': 'Notes (max. 200 chars)'}
         )
     level = db.Column(

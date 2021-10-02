@@ -1,0 +1,13 @@
+#!/bin/bash
+####################################
+#
+# Remake the PyPI package after setup.py changes
+#
+####################################
+
+# Delete stale data
+rm -rf *.egg-info
+rm -rf build
+
+# Package
+./bin/pack

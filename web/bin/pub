@@ -1,0 +1,12 @@
+#!/bin/bash
+####################################
+#
+# Publish the PyPI package to PyPI
+#
+####################################
+
+# Publish to PyPI
+twine upload dist/*
+
+# Remove the dist directory
+rm -rf dist
