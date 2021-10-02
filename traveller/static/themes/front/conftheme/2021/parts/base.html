@@ -7,8 +7,8 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='flaskcon2021.png') }}" />
     <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='flaskcon2021.png') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    <script type="text/javascript" src="https://unpkg.com/notus@0.3.2/src/notus.js"></script>
+    <link href="https://unpkg.com/tailwindcss@%5E2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/notus@0.3.2/src/notus.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='notusjs/assets/styles/tailwind.css') }}" />
     {% block head %}
     {% endblock %}
@@ -45,7 +45,7 @@
     <nav class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg  {{nav_text_color}}">
       <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
         <div class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"><a href="/" class="pr-2">
-          <img style="display: inline-block;" src="{{ url_for('static', filename='flaskcon2021.png') }}" width="40" height="40" class="bg-white rounded-full">
+          <img style="display: inline-block;" src="{{ url_for('static', filename='flaskcon2021.png') }}" width="40" height="40" class="bg-white rounded-full" alt="The FlaskCon logo">
         </a>
         <button class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button" onclick="toggleNavbar('example-collapse-navbar')">
           <i class="text-white fas fa-bars"></i>
@@ -200,43 +200,43 @@
       </div>
     </div>
   </footer>
-</body>
-<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
-<script>
-/* Make dynamic date appear */
-(function() {
-if (document.getElementById("get-current-year")) {
-document.getElementById(
-"get-current-year"
-).innerHTML = new Date().getFullYear();
-}
-})();
-/* Function for opning navbar on mobile */
-function toggleNavbar(collapseID) {
-document.getElementById(collapseID).classList.toggle("hidden");
-document.getElementById(collapseID).classList.toggle("block");
-}
-/* Function for dropdowns */
-function openDropdown(event, dropdownID) {
-let element = event.target;
-while (element.nodeName !== "A") {
-element = element.parentNode;
-}
-Popper.createPopper(element, document.getElementById(dropdownID), {
-placement: "bottom-start",
-});
-document.getElementById(dropdownID).classList.toggle("hidden");
-document.getElementById(dropdownID).classList.toggle("block");
-}
-</script>
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+    <script>
+      /* Make dynamic date appear */
+      (function() {
+        if (document.getElementById("get-current-year")) {
+          document.getElementById(
+                  "get-current-year"
+          ).innerHTML = new Date().getFullYear();
+        }
+      })();
+      /* Function for opning navbar on mobile */
+      function toggleNavbar(collapseID) {
+        document.getElementById(collapseID).classList.toggle("hidden");
+        document.getElementById(collapseID).classList.toggle("block");
+      }
+      /* Function for dropdowns */
+      function openDropdown(event, dropdownID) {
+        let element = event.target;
+        while (element.nodeName !== "A") {
+          element = element.parentNode;
+        }
+        Popper.createPopper(element, document.getElementById(dropdownID), {
+          placement: "bottom-start",
+        });
+        document.getElementById(dropdownID).classList.toggle("hidden");
+        document.getElementById(dropdownID).classList.toggle("block");
+      }
+    </script>
 
-<script>
-  function closeAlert(event){
-    let element = event.target;
-    while(element.nodeName !== "BUTTON"){
-      element = element.parentNode;
-    }
-    element.parentNode.parentNode.removeChild(element.parentNode);
-  }
-</script>
+    <script>
+      function closeAlert(event){
+        let element = event.target;
+        while(element.nodeName !== "BUTTON"){
+          element = element.parentNode;
+        }
+        element.parentNode.parentNode.removeChild(element.parentNode);
+      }
+    </script>
+</body>
 </html>
