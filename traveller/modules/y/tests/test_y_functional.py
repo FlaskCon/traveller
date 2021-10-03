@@ -1,10 +1,39 @@
+import pytest
+
+from modules.conf.models import AuthorList
+
+
+@pytest.fixture(scope="module", autouse=True)
+def provide_conf_data(db, non_admin_user, conf, last_conf, talk, last_talk, schedule):
+    print(non_admin_user)
+    conf.reviewer_list.reviewers.append(non_admin_user)
+    db.session.add(conf)
+    db.session.add(last_conf)
+
+    talk.create_slug()
+    talk.author_list = AuthorList()
+    talk.author_list.authors.append(non_admin_user)
+    talk.submitter_id = non_admin_user.id
+    talk.talk_conference = conf
+    db.session.add(talk)
+
+    last_talk.create_slug()
+    last_talk.author_list = AuthorList()
+    last_talk.author_list.authors.append(non_admin_user)
+    last_talk.submitter_id = non_admin_user.id
+    last_talk.talk_conference = last_conf
+    db.session.add(last_talk)
+
+    db.session.add(schedule)
+    db.session.commit()
+
 
 def test_view_landing_page__invalid_year(test_client, current_year):
     res = test_client.get(f"/y/{current_year + 5}", follow_redirects=True)
     assert res.status_code == 404
 
 
-def test_view_landing_page(test_client, current_year, db):
+def test_view_landing_page(test_client, current_year):
     res = test_client.get(f"/y/{current_year}", follow_redirects=True)
     assert res.status_code == 200
     assert f"FLASKCON {current_year}".encode("ascii") in res.data
