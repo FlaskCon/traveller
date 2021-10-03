@@ -3,6 +3,9 @@ ARG PYTHON_IMAGE=python:3.9.5-slim-buster
 ## Dev stage
 FROM ${PYTHON_IMAGE} as dev
 
+# Copy the startup script
+COPY ./startdev.sh /tmp/startdev.sh
+
 # Copy requirements file
 COPY ./requirements.txt /tmp/requirements.txt
 RUN pip3 install -r /tmp/requirements.txt
@@ -15,10 +18,10 @@ RUN mkdir -p /traveller && useradd -d /traveller -u 1000 traveller && chown -R t
 
 USER traveller
 
-WORKDIR /traveller
-
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-ENTRYPOINT ["bash", "./startdev.sh"]
+ENTRYPOINT ["bash", "/tmp/startdev.sh"]
+
+WORKDIR /traveller
