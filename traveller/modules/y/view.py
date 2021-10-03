@@ -31,10 +31,6 @@ mhelp = ModuleHelp(__file__, __name__)
 globals()[mhelp.blueprint_str] = mhelp.blueprint
 module_blueprint = globals()[mhelp.blueprint_str]
 
-@module_blueprint.route("/")
-def index():
-    return mhelp.info['display_string']
-
 
 @module_blueprint.route("/<int:year>/")
 def landing_page(year):
@@ -56,7 +52,6 @@ def about(year):
 @module_blueprint.route("/<int:year>/contact")
 def contact_page(year):
     return render_template('conftheme/{}/parts/contact_us.html'.format(year))
-
 
 
 @module_blueprint.route("/<int:year>/cfp/")
@@ -81,15 +76,14 @@ def profile(year):
 
     submitted_talks:list = []
     for author_talk in author_talks_list:
-        talk = Talk.query.get(author_talk[1])        
+        talk = Talk.query.get(author_talk[1])
         submitted_talks.append(talk)
-    
+
     submitted_talks = [t for t in submitted_talks if t.talk_conference.year == year]
     checked_tab = 'submited_talks'
     context.update(locals())
-    
-    return render_template('conftheme/{}/parts/profile.html'.format(year), **context)
 
+    return render_template('conftheme/{}/parts/profile.html'.format(year), **context)
 
 
 @module_blueprint.route("/<int:year>/profile/talk/<talk_id>")
@@ -103,12 +97,13 @@ def talk_actions(year, talk_id):
 
 
 def get_talk(talks, i):
+    if i < 0:
+        return None
+
     try:
-        t = talks[i]
-        if i < 0:
-            return None
+        talk = talks[i]
         return i
-    except Exception as e:
+    except IndexError:
         return None
 
 
@@ -123,13 +118,10 @@ def review(year, talk_num_=1):
     talks = conf.talks
     if talks:
         talk_num = talk_num_ - 1
-        
-        
-        
         len_ = len
         next_talk = get_talk(talks, talk_num+1)
         prev_talk = get_talk(talks, talk_num-1)
-        
+
         current_score = 0
         talk = talks[talk_num]
         for sl in talk.score_lists:
@@ -138,7 +130,6 @@ def review(year, talk_num_=1):
                 break
         context.update(locals())
     return render_template('conftheme/{}/parts/review.html'.format(year), **context)
-
 
 
 @module_blueprint.route("/<int:year>/leaderboard/")
@@ -162,8 +153,9 @@ def schedule(year):
     conf = Conf.query.filter(
         Conf.year == year
         ).first_or_404()
+
     if conf is not None and conf.schedule is None:
-            conf.schedule = Schedule()
+        conf.schedule = Schedule()
 
     weekmap = {
         0: 'Monday',
@@ -185,7 +177,10 @@ def schedule(year):
 def reviewers(year):
     context = mhelp.context()
     conf = Conf.query.filter(Conf.year==year).first_or_404()
-    reviewers = conf.reviewer_list.reviewers if conf.reviewer_list is not None else None
+    reviewers = None
+    if conf.reviewer_list:
+        reviewers = conf.reviewer_list.reviewers
+
     if reviewers is None:
         reviewers = []
     context.update({
@@ -212,7 +207,7 @@ def setup(year):
     return render_template('conftheme/{}/parts/setup.html'.format(year), **context)
 
 
-   
+
 # If "dashboard": "/dashboard" is set in info.json
 #
 # @module_blueprint.route("/dashboard", methods=["GET"])
