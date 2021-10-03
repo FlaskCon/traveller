@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+    volumes:
+      - db:/var/lib/mysql
+  maildev:
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025
+    environment:
+      MAILDEV_WEB_USER: admin
+      MAILDEV_WEB_PASS: password
+      MAILDEV_INCOMING_USER: ''
+      MAILDEV_INCOMING_PASS: ''
+      MAILDEV_WEB_PORT: 1080
+      MAILDEV_SMTP_PORT: 1025
+    volumes:
+      - mail-maildev-data:/var/lib/maildev
+  app:
+    depends_on:
+      - mysqldb
+      - maildev
+    build: ./
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $FLASK_LOCAL_PORT:$FLASK_DOCKER_PORT
+    stdin_open: true
+    tty: true
+
+volumes: 
+  db:
+  mail-maildev-data:
