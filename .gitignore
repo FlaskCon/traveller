@@ -138,4 +138,4 @@ testing.db
 
 # configation files
 traveller/config.json
-traveller/images/
+traveller/uploads/
