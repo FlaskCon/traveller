@@ -1,6 +1,12 @@
 # Local dev environment
 
 version: "3.8"
+
+volumes:
+  db_data:
+  dba_data:
+  maildev_data:
+
 services:
 
   web:
@@ -9,22 +15,15 @@ services:
       target: dev
     depends_on:
       - db
-    environment:
-      - DEBUG=${DEBUG}
-      - FLASK_ENV=${FLASK_ENV}
-      - SECRET_KEY=${SECRET_KEY}
-      - DATABASE_URL=${DATABASE_URL}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_USER=${POSTGRES_USER}
+      - maildev
+    env_file: ./config/.env.dev
     ports:
       - 5000:5000
     networks:
       - traveller
     restart: "no"
     volumes:
-      - "./web/traveller:/traveller"
+      - ./web/traveller:/traveller
 
   # Database Admin
   dbadmin:
@@ -34,25 +33,21 @@ services:
     restart: "no"
     ports:
         - "8888:80"
-    environment:
-        - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
-        - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    env_file: ./config/.env.dev
     volumes:
-        - ./volumes/pgadmin:/var/lib/pgadmin4/storage
+        - dba_data:/var/lib/pgadmin4/storage
     networks:
       - traveller
 
   # Database
   db:
     image: postgres:14.0
+    env_file: ./config/.env.dev
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_USER=${POSTGRES_USER}
       - PGDATA=/pg-data
     restart: "no"
     volumes:
-      - "./volumes/postgres:/pg-data"
+      - db_data:/pg-data
     networks:
       - traveller
 
@@ -60,6 +55,8 @@ services:
   maildev:
     image: maildev/maildev
     restart: "no"
+    volumes:
+      - maildev_data:/var/lib/maildev
     networks:
       - traveller
 
