@@ -17,7 +17,6 @@ RUN mkdir instance
 RUN touch instance/config.py
 
 RUN python manage.py initialise
-RUN flask seed dev
 RUN python manage.py db migrate
 RUN python manage.py db upgrade
 
