@@ -9,17 +9,12 @@ WORKDIR /app
 COPY requirements.txt /app
 RUN pip install -r requirements.txt
 
-COPY dev_requirements.txt /app
-RUN pip install -r dev_requirements.txt
-
 COPY . /app 
 
 WORKDIR /app/traveller
 
 RUN mkdir instance
 RUN touch instance/config.py
-#temporary until i get the docker compose up
-RUN echo SQLALCHEMY_DATABASE_URI = '"mysql+pymysql://hB3NLp4kiW:5GBiMgmHyB@remotemysql.com:3306/hB3NLp4kiW"' >> ./instance/config.py
 
 RUN python manage.py initialise
 RUN flask seed dev

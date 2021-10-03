@@ -4,14 +4,19 @@ services:
   mysqldb:
     image: mysql
     restart: unless-stopped
-    env_file: ./.env
     environment:
-      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db_name
+      MYSQL_USER: username
     ports:
-      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+      - 3306:3306
     volumes:
       - db:/var/lib/mysql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
   maildev:
     image: maildev/maildev
     ports:
@@ -32,9 +37,8 @@ services:
       - maildev
     build: ./
     restart: unless-stopped
-    env_file: ./.env
     ports:
-      - $FLASK_LOCAL_PORT:$FLASK_DOCKER_PORT
+      - 5000:5000
     stdin_open: true
     tty: true
 
