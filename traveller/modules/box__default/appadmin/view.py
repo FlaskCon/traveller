@@ -52,7 +52,12 @@ def user_list():
 
     """
     context = {}
-    context["users"] = User.query.all()
+    users = User.query.all()
+    # resolve image
+    for user in users:
+        if user.image:
+            user.image = images.url(user.image)
+    context["users"] = users
     return render_template("appadmin/index.html", **context)
 
 

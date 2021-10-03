@@ -3,11 +3,17 @@
 {% block pagehead %}
 <title>{{active_page.capitalize()}}</title>
 <style>
-    .hidden{
+  .hidden{
     display: none;
   }
   .show{
     display: inline-block;
+  }
+  .avatar {
+    object-fit: cover;
+    border-radius:50%;
+    width: 50px;
+    height: 50px;
   }
 </style>
 {% endblock %}
@@ -42,6 +48,7 @@ $(function() {
                         <th>Password</th>
                         <th>Admin</th>
                         <th>Roles</th>
+                        <th>Image</th>
                         <th style="border: none;"></th>
                     </tr>
                 </thead>
@@ -58,6 +65,11 @@ $(function() {
                                 {{role.name}}:{{role.permission_level}}
                             </div>
                             {%endfor%}
+                        </td>
+                        <td>
+                            {% if user.image %}
+                                <img class="avatar" src="{{user.image}}">
+                            {% endif %}
                         </td>
                         <td style="border: none;">
                             <div style='display: inline-block; '>
