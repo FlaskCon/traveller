@@ -167,6 +167,9 @@ def admin_edit(id):
         flash(notify_warning("Unable to edit. Invalid user id"))
         return redirect("/appadmin")
 
+    if user.image is not None:
+        user.image = images.url(user.image)
+
     context["user"] = user
     context["user_roles"] = [r.name for r in user.roles]
     context["roles"] = Role.query.all()
@@ -223,6 +226,14 @@ def admin_update():
             role_id = key.split("_")[1]
             role = Role.get_by_id(role_id)
             user.roles.append(role)
+
+    # handle image upload
+    if 'image' in request.files:
+        image_file = request.files['image']
+        # replace symbols in email
+        filename = email.translate({ord(x): '_' for x in ['.', '@']})
+        image_path = images.save(image_file, 'profile', filename)
+        user.image = image_path
 
     user.update()
     flash(notify_success("User successfully updated"))
