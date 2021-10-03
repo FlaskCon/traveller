@@ -19,6 +19,7 @@ from sqlalchemy import exists
 # from config import Config
 
 from init import db
+from init import images
 
 from .admin import admin_required
 from modules.box__default.auth.models import Role
@@ -98,6 +99,14 @@ def user_add():
             new_user.last_name = last_name
             new_user.password = password
             new_user.bio = bio
+
+            # handle image upload
+            if 'image' in request.files:
+                image_file = request.files['image']
+                # replace symbols in email
+                filename = email.translate({ord(x): '_' for x in ['.', '@']})
+                image_path = images.save(image_file, 'profile', filename)
+                new_user.image = image_path
 
             for key in request.form:
                 if key.startswith("role_"):
