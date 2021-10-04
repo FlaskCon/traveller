@@ -68,7 +68,11 @@ def add_activity(year, day_id, act_type):
     if act_type == 'normal_activity':
         day = Day.query.get(day_id)
         form = NormalActivityForm()
-        form.validate()
+
+        if not form.validate():
+            alert_danger("Activity not added!") 
+            return mhelp.redirect_url('y.schedule', year=year)
+
         if form.end_time.data < form.start_time.data:
             alert_danger("End time should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
@@ -81,11 +85,13 @@ def add_activity(year, day_id, act_type):
         day = Day.query.get(day_id)
         form = TalkActivityForm()
 
-        form.validate()
-        print(form.end_time.data, form.start_time.data)
+        if not form.validate():
+            alert_danger("Activity not added!") 
+            return mhelp.redirect_url('y.schedule', year=year)
         if form.end_time.data < form.start_time.data:
             alert_danger("End time should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
+
         activity = Activity()
         # form.populate_obj(activity)
         activity.start_time = form.start_time.data
@@ -102,7 +108,9 @@ def add_activity(year, day_id, act_type):
 def edit_activity(year, act_id, act_type):
     if act_type == 'normal_activity':
         form = NormalActivityForm()
-        form.validate()
+        if not form.validate():
+            alert_danger("Activity not edited!")
+            return mhelp.redirect_url('y.schedule', year=year)
         if form.end_time.data < form.start_time.data:
             alert_danger("End time should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
@@ -111,7 +119,10 @@ def edit_activity(year, act_id, act_type):
         activity.update()
     elif act_type == 'talk':
         form = TalkActivityForm()
-        form.validate()
+        if not form.validate():
+            alert_danger("Activity not edited!")
+            return mhelp.redirect_url('y.schedule', year=year)
+
         if form.end_time.data < form.start_time.data:
             alert_danger("End date should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
@@ -145,6 +156,9 @@ def edit_day(year, day_id):
 
 @module_blueprint.route("/<int:year>/act/<act_id>/delete", methods=["GET"])
 def delete_activity(year, act_id):
+    if not current_user.is_admin:
+        alert_danger("You don't have access to delete activity.")
+        return mhelp.redirect_url('y.schedule', year=year)
     activity = Activity.query.get(act_id)
     activity.delete()
     return mhelp.redirect_url('y.schedule', year=year)
