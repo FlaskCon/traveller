@@ -160,10 +160,11 @@ def final_talk_action(year, talk_id):
 @module_blueprint.route("/<year>/talk/<talk_id>/delete")
 @login_required
 def delete_talk(year, talk_id):
+    redirect_page = request.args.get('redirect')
     talk = Talk.query.get(talk_id)
-    if ((talk.submitter_id == current_user.id) or current_user.is_admin):
+
+    if talk.submitter_id == current_user.id or current_user.is_admin:
         talk.delete()
         alert_success('Talk deleted!')
-    else:
-        alert_danger("You don't have access to delete talks!")
-    return mhelp.redirect_url('y.profile', year=year)
+        return mhelp.redirect_url('y.leaderboard', year=year) if redirect_page == 'leaderboard' \
+             else mhelp.redirect_url('y.profile', year=year)
