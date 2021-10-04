@@ -145,7 +145,7 @@ def final_talk_action(year, talk_id):
             form.populate_obj(talk)
             if not form.validate():
                 alert_danger('Talk status not changed!')
-                return mhelp.redirect_url('cfp.final_talk_action', year=year, talk_id=talk_id)
+                return mhelp.redirect_url('y.cfp', year=year)
 
             talk.update()
             alert_success('Talk status changed!')
@@ -157,18 +157,13 @@ def final_talk_action(year, talk_id):
 
 
 
-@module_blueprint.route("/<year>/talk/<talk_id>/delete", methods=["POST"])
+@module_blueprint.route("/<year>/talk/<talk_id>/delete")
 @login_required
 def delete_talk(year, talk_id):
     talk = Talk.query.get(talk_id)
-
-    if talk.submitter_id == current_user.id:
-            talk.delete()
-            alert_success('Talk deleted!')
-            return mhelp.redirect_url('y.profile', year=year)
-    if current_user.is_admin:
+    if ((talk.submitter_id == current_user.id) or current_user.is_admin):
         talk.delete()
         alert_success('Talk deleted!')
-        return mhelp.redirect_url('y.leaderboard', year=year)
-    
-    
+    else:
+        alert_danger("You don't have access to delete talks!")
+    return mhelp.redirect_url('y.profile', year=year)
