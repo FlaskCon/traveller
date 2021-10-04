@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from flask import flash
 
 from shopyo.api.module import ModuleHelp
@@ -11,7 +11,8 @@ from modules.schedule.forms import NormalActivityForm
 from modules.schedule.forms import TalkActivityForm
 
 from shopyo.api.html import notify_danger
-from helpers.c2021.notif import alert_success, alert_danger
+from helpers.c2021.notif import alert_success
+from helpers.c2021.notif import alert_danger
 
 
 from flask_login import login_required
@@ -37,40 +38,33 @@ def index():
 
 @module_blueprint.route("/<int:year>/day/", methods=["POST"])
 def add_day(year):
-    if not current_user.is_admin:
-        alert_danger("You don't have access to add day!")
-        return mhelp.redirect_url('y.schedule', year=year)
+    if current_user.is_admin:
+        conf = Conf.query.filter(
+                Conf.year==year
+            ).first()
 
-    conf = Conf.query.filter(
-            Conf.year==year
-        ).first()
+        if conf.schedule is None:
+            conf.schedule = Schedule()
 
-    if conf.schedule is None:
-        conf.schedule = Schedule()
+        form = DayForm()
+        if not form.validate():
+            alert_danger('Day not added!')
+            return mhelp.redirect_url('y.schedule', year=year)
 
-    form = DayForm()
-    if not form.validate():
-        alert_danger('Day not added!')
-        return mhelp.redirect_url('y.schedule', year=year)
+        if form.date.data < date.today():
+            alert_danger("new schedule date should be today or later")
+            return mhelp.redirect_url('y.schedule', year=year)
 
-    if form.date.data < date.today():
-        alert_danger("New schedule date should be today or later")
-        return mhelp.redirect_url('y.schedule', year=year)
-
-    day = Day(
-        date=form.date.data
-        )
-    conf.schedule.days.append(day)
-    conf.update()
+        day = Day(
+            date=form.date.data
+            )
+        conf.schedule.days.append(day)
+        conf.update()
     return mhelp.redirect_url('y.schedule', year=year)
 
 
 @module_blueprint.route("/<int:year>/day/<day_id>/<act_type>", methods=["POST"])
 def add_activity(year, day_id, act_type):
-    if not current_user.is_admin:
-        alert_danger("You don't have access to add activity!")
-        return mhelp.redirect_url('y.schedule', year=year)
-
     if act_type == 'normal_activity':
         day = Day.query.get(day_id)
         form = NormalActivityForm()
@@ -93,6 +87,7 @@ def add_activity(year, day_id, act_type):
             alert_danger("End time should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity()
+        # form.populate_obj(activity)
         activity.start_time = form.start_time.data
         activity.end_time = form.end_time.data
         activity.type = 'talk'
@@ -105,10 +100,6 @@ def add_activity(year, day_id, act_type):
 
 @module_blueprint.route("/<int:year>/act/<act_id>/edit/<act_type>", methods=["POST"])
 def edit_activity(year, act_id, act_type):
-    if not current_user.is_admin:
-        alert_danger("You don't have access to edit activity!")
-        return mhelp.redirect_url('y.schedule', year=year)
-
     if act_type == 'normal_activity':
         form = NormalActivityForm()
         form.validate()
@@ -135,41 +126,35 @@ def edit_activity(year, act_id, act_type):
 
 @module_blueprint.route("/<int:year>/day/<day_id>/edit", methods=["POST"])
 def edit_day(year, day_id):
-    if not current_user.is_admin:
-        alert_danger("You don't have access to edit day!")
-        return mhelp.redirect_url('y.schedule', year=year)
-    day = Day.query.get(day_id)
+    if current_user.is_admin:
+        day = Day.query.get(day_id)
 
-    form = DayForm(obj=day)
-    form.populate_obj(day)
-    if not form.validate():
-        alert_danger('Day not edited!')
-        return mhelp.redirect_url('y.schedule', year=year)
+        form = DayForm(obj=day)
+        form.populate_obj(day)
+        if not form.validate():
+            alert_danger('Day not edited!')
+            return mhelp.redirect_url('y.schedule', year=year)
 
-    if form.date.data < date.today():
-        alert_danger("New schedule date should be today or later")
-        return mhelp.redirect_url('y.schedule', year=year)
+        if form.date.data < date.today():
+            flash(notify_danger("new schedule date should be today or later"))
+            return mhelp.redirect_url('y.schedule', year=year)
 
-    day.update()
-    alert_success('Day edited!')
+        day.update()
+        alert_success('Day edited!')
     return mhelp.redirect_url('y.schedule', year=year)
 
 @module_blueprint.route("/<int:year>/act/<act_id>/delete", methods=["GET"])
 def delete_activity(year, act_id):
-    if not current_user.is_admin:
-        alert_danger("You don't have access to delete activity!")
-        return mhelp.redirect_url('y.schedule', year=year)
     activity = Activity.query.get(act_id)
     activity.delete()
-    alert_success('Activity deleted!')
     return mhelp.redirect_url('y.schedule', year=year)
 
 
-@module_blueprint.route("/<int:year>/day/<day_id>/delete", methods=["POST"])
+@module_blueprint.route("/<int:year>/day/<day_id>/delete")
 @login_required
 def delete_day(year, day_id):
     if not current_user.is_admin:
-        alert_danger("You don't have access to delete day!")
+        alert_danger("You don't have access to delete days!")
         return mhelp.redirect_url('y.schedule', year=year)
 
     day = Day.query.get(day_id)
