@@ -54,7 +54,7 @@ def add_day(year):
         return mhelp.redirect_url('y.schedule', year=year)
 
     if form.date.data < date.today():
-        alert_danger("new schedule date should be today or later")
+        alert_danger("New schedule date should be today or later")
         return mhelp.redirect_url('y.schedule', year=year)
 
     day = Day(
