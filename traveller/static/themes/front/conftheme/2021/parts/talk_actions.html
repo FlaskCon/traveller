@@ -55,10 +55,7 @@ a {
                 <form method="POST" action="{{ url_for('cfp.edit_talk', year=year, talk_id=talk_id) }}">
                     <label for="co_authors">Authors</label><br>
                     {% for author in talk.author_list.authors %}
-                        {% if author.id == talk.submitter_id %}
-                            <input type="checkbox" name="co_authors" id="co_authors" 
-                            value="{{author.email}}" checked disabled> {{author.email}} &nbsp;
-                        {% else %}
+                        {% if author.id != talk.submitter_id %}
                             <input type="checkbox" name="co_authors" id="co_authors" 
                             value="{{author.email}}" checked> {{author.email}} &nbsp;
                         {% endif %}
@@ -104,9 +101,10 @@ function toggleModal(modalID) {
             <div class="relative p-6 flex-auto">
                 <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
                     Are you sure you want to delete "{{talk.title}}"?<br>
-                    <a href="{{url_for('cfp.delete_talk', year=2021, talk_id=talk.id)}}">
-                       <span class="underline p-5">Yes!</span>
-                    </a>
+                   <form action="{{url_for('cfp.delete_talk', year=2021, talk_id=talk.id)}}" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="rounded p-2 bg-red-500 text-white" style="font-weight:bold;">Yes!</button>
+                    </form>
                 </p>
             </div>
             <!--footer-->

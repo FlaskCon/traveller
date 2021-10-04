@@ -81,10 +81,13 @@ function toggleModal(modalID) {
             <!--body-->
             <div class="relative p-6 flex-auto">
                 <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                    
                     Are you sure you want to delete "{{talk.title}}"?<br>
-                    <a href="{{url_for('cfp.delete_talk', year=2021, talk_id=talk.id)}}">
-                        <span class="underline p-5">Yes!</span>
-                    </a>
+                    <form action="{{url_for('cfp.delete_talk', year=2021, talk_id=talk.id)}}" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="rounded p-2 bg-red-500 text-white" style="font-weight:bold;">Yes!</button>
+                    </form>
+                    
                 </p>
             </div>
             <!--footer-->
