@@ -37,6 +37,7 @@ textarea {
                 <form method="POST" action="{{ url_for('cfp.add_talk', year=conf.year) }}">
                     <label for="co_authors">Co-Authors</label><br>
                     <textarea name="co_authors" id="co_authors" cols="80" rows="5"
+                    class="border-1 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                     placeholder="Enter email address of each co-author on a newline"></textarea>
                     <br>
 
