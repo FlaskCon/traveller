@@ -53,17 +53,26 @@ a {
                 </button> <br><br>
 
                 <form method="POST" action="{{ url_for('cfp.edit_talk', year=year, talk_id=talk_id) }}">
-                    <label for="co_authors">Authors</label><br>
-                    {% for author in talk.author_list.authors %}
-                        {% if author.id == talk.submitter_id %}
-                            <input type="checkbox" name="co_authors" id="co_authors" 
-                            value="{{author.email}}" checked disabled> {{author.email}} &nbsp;
-                        {% else %}
-                            <input type="checkbox" name="co_authors" id="co_authors" 
-                            value="{{author.email}}" checked> {{author.email}} &nbsp;
-                        {% endif %}
-                    {% endfor %}
-                    <br><br>
+                    {% if len(talk.author_list.authors) > 1 %}
+                        <label for="co_authors">Authors</label><br>
+                        <div class="flex flex-wrap">
+                        {% for author in talk.author_list.authors %}
+                            {% if author.id != talk.submitter_id %}
+                                    <div class="lg:w-3/12 mb-1 px-1">
+                                        <input type="checkbox" name="current_co_authors" id="current_co_authors" 
+                                        value="{{author.email}}" checked> {{author.email}} &nbsp;
+                                    </div>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                        <br><br>
+                    {% endif %}
+                    
+                    <label for="co_authors">Add Co-Authors</label><br>
+                    <textarea name="co_authors" id="co_authors" cols="80" rows="5" 
+                    class="border-1 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                    placeholder="Enter email address of each co-author on a newline"></textarea>
+                    <br>
 
                     {%for field in SubmitTalkForm_(obj=talk)%}
                     {%if field.id not in ['csrf_token']%}

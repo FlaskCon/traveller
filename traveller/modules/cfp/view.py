@@ -80,16 +80,19 @@ def edit_talk(year, talk_id):
             alert_danger('Talk not updated!')
             return mhelp.redirect_url('y.cfp', year=year)
 
-        co_authors_email_list: list = request.form.getlist('co_authors')
-        for author_email in co_authors_email_list:
+        current_co_authors_email_list: list = request.form.getlist('current_co_authors')
+        co_authors_email: str = request.form.get('co_authors')
+        new_co_authors_email_list:list = co_authors_email.split('\n') if len(co_authors_email) != 0 else []
+
+        for author in talk.author_list.authors:
+            if author.email not in current_co_authors_email_list \
+                and author.id != talk.submitter_id:
+                talk.author_list.authors.remove(author)
+                
+        for author_email in new_co_authors_email_list:
             user = User.query.filter(User.email==author_email).first()
             if user not in talk.author_list.authors:
                 talk.author_list.authors.append(user)
-
-        for author in talk.author_list.authors:
-            if author.email not in co_authors_email_list \
-                and author.id != talk.submitter_id:
-                talk.author_list.authors.remove(author)
 
         talk.update()
         alert_success('Talk updated!')
