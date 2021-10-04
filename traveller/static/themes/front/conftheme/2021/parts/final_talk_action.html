@@ -82,7 +82,7 @@ function toggleModal(modalID) {
             <div class="relative p-6 flex-auto">
                 <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
                     Are you sure you want to delete "{{talk.title}}"?<br>
-                    <a href="{{url_for('cfp.delete_talk', year=2021, talk_id=talk.id)}}">
+                    <a href="{{url_for('cfp.delete_talk', year=2021, talk_id=talk.id, redirect='leaderboard')}}">
                         <span class="underline p-5">Yes!</span>
                     </a>
                 </p>
