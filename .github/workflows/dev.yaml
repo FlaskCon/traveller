@@ -1,8 +1,5 @@
 name: Staging Deployment
 on:
-  push:
-    branches:
-      - dev
   pull_request:
     branches:
       - dev
@@ -26,8 +23,7 @@ jobs:
         key: ${{ secrets.STAGING_KEY }}
         script_stop: true
         script: |
-          sudo su - flaskuser
-          cd ~/traveller
+          cd /home/flaskuser/traveller
           git pull
           source venv/bin/activate
           pip install -r requirements.txt
