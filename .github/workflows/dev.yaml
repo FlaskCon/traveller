@@ -1,0 +1,34 @@
+name: Staging Deployment
+on:
+  pull_request:
+    branches:
+      - dev
+    paths-ignore:
+      - '*.md',
+      - '*.rst'
+  workflow_dispatch:
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Update staging
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: root
+        key: ${{ secrets.STAGING_KEY }}
+        script: |
+          sudo su - flaskuer
+          cd ~/traveller
+          git pull
+          source venv/bin/activate
+          pip install -r requirements.txt
+          pip install -r dev_requirements.txt
+          cd traveller/
+          python manage.py db migrate
+          python manage.py db upgrade
+          exit
+          systemctl reload gunicorn-traveller.service
+          echo "Done"
