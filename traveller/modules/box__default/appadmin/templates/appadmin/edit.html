@@ -2,6 +2,17 @@
 {% set active_page = "admin" %}
 {% block pagehead %}
 <title>edit</title>
+<style>
+  .avatar {
+    object-fit: cover;
+    border-radius:50%;
+    width: 50px;
+    height: 50px;
+  }
+  .hide-field {
+    display: none;
+  }
+</style>
 {% endblock %}
 {% block sidebar %}
 {%include 'appadmin/blocks/sidebar.html'%}
@@ -11,7 +22,7 @@
 <div class="card">
     <div class="card-body">
         <h2>Edit User</h2>
-        <form action='/appadmin/update' method="post">
+        <form action='/appadmin/update' method="post" enctype="multipart/form-data">
             <label>Edit User:<span> {{ user.email }} </span></label>
 
             <div class="input-group mb-3">
@@ -50,6 +61,23 @@
                 </div>
                 <input type="text" name="last_name" class="form-control" placeholder="Last Name" autocomplete="off" value="{{ user.last_name }}">
             </div>
+            {% if user.image %}
+                <div class="input-group mb-3 d-flex align-items-center">
+                    <label class="mr-2 mb-0">Current image:</label>
+                    <img class="avatar mr-2" src="{{user.image}}">
+                    <label class="btn btn-outline-warning">
+                        <input type="file" name="image" class="hide-field" accept="image"/>
+                        Change Image
+                    </label>
+                </div>
+            {% else %}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-image"></i></span>
+                    </div>
+                    <input type="file" name="image" class="form-control" accept="image">
+                </div>
+            {% endif %}
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-info"></i></span>

@@ -75,6 +75,7 @@ def add_conf():
         talk.author_list = AuthorList()
         talk.author_list.authors.append(admin)
         talk.conf_id = conf.id
+        talk.year = 2021
 
         talk.save(commit=False)
 
@@ -101,5 +102,6 @@ def add_reviewers():
         user.roles.append(r1)
         user.email_confirm_date = datetime.datetime.now()
         user.save(commit=False)
+        user.image = "https://i.pravatar.cc/300"
 
     db.session.commit()

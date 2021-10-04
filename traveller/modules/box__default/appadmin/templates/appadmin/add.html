@@ -36,7 +36,7 @@
 <div class="container col-md-6 off-set-3">
     <div class="card">
         <div class="card-body">
-            <form action="/appadmin/add" method="post">
+            <form action="/appadmin/add" method="post" enctype="multipart/form-data">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-envelope"></i></span>
@@ -60,6 +60,12 @@
                         <span class="input-group-text"><i class="fa fa-info"></i></span>
                     </div>
                     <input type="text" name="last_name" class="form-control" placeholder="Last Name" autocomplete="off">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-image"></i></span>
+                    </div>
+                    <input type="file" name="image" class="form-control" accept="image">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
