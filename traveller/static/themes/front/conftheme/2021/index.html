@@ -30,7 +30,8 @@
                         FLASKCON 2021
                     </h1>
                     <p class="mt-4 text-lg text-blueGray-200 content-center">
-                        1, 2, 3 & 4th December 2021<br>
+                        <!-- 1, 2, 3 & 4th December 2021<br> -->
+                        1<sup>st</sup>&mdash;4<sup>th</sup> December, 2021
                     </p>
                     <img style="display: inline-block;" src="{{ url_for('static', filename='flaskcon2021.png') }}" width="200" height="200" alt="The FlaskCon logo">
                 </div>
@@ -111,7 +112,7 @@
                     To that end we'd be happy to put in a whole week of conference.
                 </p>
                 <p class="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600">
-                    The conference has the aim of exploring the Flask community itself. It's an opportunity to see the whole Flask landscape and get a peak at the cutting edge features of Flask.
+                    The conference has the aim of exploring the Flask community itself. It's an opportunity to see the whole landscape of Flask and get a peek at new, cutting edge features.
                 </p>
                 <a href="{{ url_for('y.schedule', year=2021) }}" class="font-bold text-blueGray-700 mt-8"><button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
                         Check Schedule
@@ -182,7 +183,7 @@
             {% if reviewers != [] %}
             {% for reviewer in reviewers %}
                 <div class="lg:w-3/12 mb-12 px-4 reviewers">
-                    <div class="px-6">
+                    <div class="px-6 mb-12">
                         <img alt="..." src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=785&q=80" class="shadow-lg rounded-full mx-auto max-w-120-px" />
                         <div class="pt-6 text-center">
                             <h5 class="text-xl font-bold">{{ reviewer.first_name }} {{ reviewer.last_name }}</h5>
