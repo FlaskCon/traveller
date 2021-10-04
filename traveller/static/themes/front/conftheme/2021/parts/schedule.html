@@ -47,19 +47,26 @@ a {
                 {% endif %}
 
                 {% for day in schedule.days %}
+
                     <div>
                         <span class="text-4xl">{{ weekmap[day.date.weekday()] }} {{ day.date.day }}/{{ day.date.month }}/{{ day.date.year }}</span>
+                        {% if current_user.is_admin %}
                         <span class="day_tools">
                             <button class="bg-lightBlue-500 text-white font-bold text-sm pt-2 pb-2 pr-3 pl-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-day-modal-id-{{ day.id }}')">
                                 <i class="fa fa-pencil-alt"></i>
                             </button>
-                            <a href="{{ url_for('schedule.delete_day', year=year, day_id=day.id) }}" class="bg-red-500 text-white font-bold text-sm pt-2 pb-2 pr-3 pl-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="return confirm('Do you want to delete that day?')">
-                                <i class="fa fa-trash-alt"></i>
-                            </a>
+
+                            <form action="{{ url_for('schedule.delete_day', year=year, day_id=day.id) }}" method="post" style="display:inline-block">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="bg-red-500 text-white font-bold text-sm pt-2 pb-2 pr-3 pl-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                 onclick="return confirm('Do you want to delete that day?')">
+                                    <i class="fa fa-trash-alt"></i>
+                                </button>
+                            </form>
                         </span>
                     
                         <br>
-                        {% if current_user.is_admin %}
+                        
                         <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('add-normal-activity-modal-{{day.id}}')">
                             + Normal Activity
                         </button>
