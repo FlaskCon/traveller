@@ -10,11 +10,10 @@ on:
       - '*.md'
       - '*.rst'
   workflow_dispatch:
-    - dev
 jobs:
   deploy:
     name: Staging Deployment
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.closed == true
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
