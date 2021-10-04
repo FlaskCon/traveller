@@ -4,7 +4,7 @@ on:
     branches:
       - dev
     paths-ignore:
-      - '*.md',
+      - '*.md'
       - '*.rst'
   workflow_dispatch:
 jobs:
@@ -19,6 +19,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: root
         key: ${{ secrets.STAGING_KEY }}
+        script_stop: true
         script: |
           sudo su - flaskuer
           cd ~/traveller
