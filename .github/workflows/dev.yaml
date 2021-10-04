@@ -12,7 +12,8 @@ on:
   workflow_dispatch:
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true
+    name: Staging Deployment
+    if: github.event.pull_request.merged == true || github.event.workflow_dispatch
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -24,7 +25,7 @@ jobs:
         key: ${{ secrets.STAGING_KEY }}
         script_stop: true
         script: |
-          sudo su - flaskuer
+          sudo su - flaskuser
           cd ~/traveller
           git pull
           source venv/bin/activate
