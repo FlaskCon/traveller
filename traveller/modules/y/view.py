@@ -33,7 +33,7 @@ module_blueprint = globals()[mhelp.blueprint_str]
 
 @module_blueprint.route("/")
 def index():
-    return mhelp.info['display_string']
+    return mhelp.redirect_url('y.landing_page', year=date.today().year)
 
 
 @module_blueprint.route("/<int:year>/")
