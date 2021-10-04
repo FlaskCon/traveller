@@ -5,6 +5,8 @@ for more details on pytest
 """
 import json
 import os
+import pathlib
+
 import pytest
 import datetime
 from flask import url_for
@@ -26,7 +28,7 @@ def unconfirmed_user():
     """
     A pytest fixture that returns a non admin user
     """
-    user = User()
+    user = User(id=1)
     user.email = "unconfirmed@domain.com"
     user.password = "pass"
     user.is_email_confirmed = False
@@ -38,9 +40,11 @@ def non_admin_user():
     """
     A pytest fixture that returns a non admin user
     """
-    user = User()
+    user = User(id=2)
     user.email = "admin1@domain.com"
     user.password = "pass"
+    user.first_name = "TestFirst"
+    user.last_name = "TestSecond"
     user.is_email_confirmed = True
     user.email_confirm_date = datetime.datetime.now()
     return user
@@ -51,7 +55,7 @@ def admin_user():
     """
     A pytest fixture that returns an admin user
     """
-    user = User()
+    user = User(id=3)
     user.email = "admin2@domain.com"
     user.password = "pass"
     user.is_admin = True
@@ -92,8 +96,10 @@ def db(test_client, non_admin_user, admin_user, unconfirmed_user):
     _db.session.add(admin_user)
     _db.session.add(unconfirmed_user)
 
+
+    config_json_file = pathlib.Path(__file__).parent.resolve().joinpath("config.json")
     # add the default settings
-    with open("config.json", "r") as config:
+    with open(config_json_file, "r") as config:
         config = json.load(config)
     for name, value in config["settings"].items():
         s = Settings(setting=name, value=value)
@@ -127,6 +133,11 @@ def db_session(db):
     transaction.rollback()
     connection.close()
     session.remove()
+
+
+@pytest.fixture(scope="session")
+def current_year():
+    return datetime.datetime.now().year
 
 
 @pytest.fixture
