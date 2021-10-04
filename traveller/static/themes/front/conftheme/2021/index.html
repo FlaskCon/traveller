@@ -2,6 +2,18 @@
 {% extends 'conftheme/2021/parts/base.html'%}
 {% block head %}
 <title>Index | FlaskCon</title>
+<style>
+   @media (max-width: 640px) {
+        .mobile-hide{
+            display: none!important;
+        }
+        .reviewers{
+            margin:auto;
+            margin-bottom: 3rem;
+        }
+    }
+    
+</style>
 {% endblock %}
 {% block body %}
 <div class="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
@@ -34,7 +46,7 @@
 <section class="pb-20 bg-blueGray-200 -mt-24">
     <div class="container mx-auto px-4">
         <div class="flex flex-wrap">
-            <div class="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">
+            <div class="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center mobile-hide">
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                     <div class="px-4 py-5 flex-auto">
                         <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
@@ -51,12 +63,11 @@
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                     <div class="px-4 py-5 flex-auto">
                         <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
-                            
                             <i class="fa fa-paper-plane"></i>
                         </div>
                         <h6 class="text-xl font-semibold">CFP</h6>
                         <p class="mt-2 mb-4 text-blueGray-500">
-                                                        Start: <span class="p-1 bg-yellow-200">{{ conf.cfp_start_repr() }}</span> 0:00 AM GMT<br>
+                            Start: <span class="p-1 bg-yellow-200">{{ conf.cfp_start_repr() }}</span> 0:00 AM GMT<br>
                             End: <span class="p-1 bg-yellow-200">{{ conf.cfp_end_repr() }}</span> 0:00 AM GMT<br><br>
                             <a href="{{ url_for('y.cfp', year=2021) }}">
                                 <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
@@ -73,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="pt-6 w-full md:w-4/12 px-4 text-center">
+            <div class="pt-6 w-full md:w-4/12 px-4 text-center mobile-hide">
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                     <div class="px-4 py-5 flex-auto">
                         <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">
@@ -87,8 +98,8 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-wrap items-center mt-32">
-            <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
+        <div class="flex flex-wrap items-center mt-28">
+            <div class="w-full md:w-5/12 px-4 mb-10 mr-auto ml-auto">
                 <div class="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
                     <i class="fa fa-calendar-alt text-xl"></i>
                 </div>
@@ -106,7 +117,7 @@
                         Check Schedule
                     </button></a>
             </div>
-            <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
+            <div class="w-full md:w-4/12 px-4 mb-10 mr-auto ml-auto">
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-pink-500">
                     <img alt="..." src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80" class="w-full align-middle rounded-t-lg" />
                     <blockquote class="relative p-8 mb-4">
@@ -133,7 +144,7 @@
     </div>
     <div class="container mx-auto px-4">
         <div class="items-center flex flex-wrap">
-            <div class="w-full md:w-4/12 ml-auto mr-auto px-4">
+            <div class="w-full md:w-4/12 mb-10 ml-auto mr-auto px-4">
                 <img alt="..." class="max-w-full rounded-lg shadow-lg" src="https://images.unsplash.com/photo-1533905203314-1e0d73d74502?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=869&q=80" />
             </div>
             <div class="w-full md:w-5/12 ml-auto mr-auto px-4">
@@ -157,7 +168,7 @@
         </div>
     </div>
 </section>
-<section class="pt-20 pb-48">
+<section class="pt-10 pb-40">
     <div class="container mx-auto px-4">
         <div class="flex flex-wrap justify-center text-center mb-20">
             <div class="w-full lg:w-6/12 px-4">
@@ -170,7 +181,7 @@
         <div class="flex flex-wrap">
             {% if reviewers != [] %}
             {% for reviewer in reviewers %}
-                <div class="lg:w-3/12 m-auto mb-12 px-4">
+                <div class="lg:w-3/12 mb-12 px-4 reviewers">
                     <div class="px-6">
                         <img alt="..." src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=785&q=80" class="shadow-lg rounded-full mx-auto max-w-120-px" />
                         <div class="pt-6 text-center">
