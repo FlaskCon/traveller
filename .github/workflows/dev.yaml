@@ -18,6 +18,7 @@ jobs:
     - name: Update staging
       uses: appleboy/ssh-action@master
       with:
+        debug: true
         host: ${{ secrets.STAGING_HOST }}
         username: root
         key: ${{ secrets.STAGING_KEY }}
