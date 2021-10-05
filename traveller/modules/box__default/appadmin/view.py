@@ -58,7 +58,7 @@ def user_list():
     # resolve image
     for user in users:
         if user.image:
-            user.image = images.url(user.image)
+            user.image = user.get_profile_image_url()
     context["users"] = users
     return render_template("appadmin/index.html", **context)
 
@@ -177,7 +177,7 @@ def admin_edit(id):
         return redirect("/appadmin")
 
     if user.image is not None:
-        user.image = images.url(user.image)
+        user.image = user.get_profile_image_url()
 
     context["user"] = user
     context["user_roles"] = [r.name for r in user.roles]
