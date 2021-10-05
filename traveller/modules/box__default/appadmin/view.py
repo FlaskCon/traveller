@@ -30,6 +30,8 @@ from shopyo.api.html import notify_success
 dirpath = os.path.dirname(os.path.abspath(__file__))
 module_info = {}
 
+allowed_mimetypes = ['png', 'jpg', 'jpeg']
+
 with open(dirpath + "/info.json") as f:
     module_info = json.load(f)
 
@@ -108,6 +110,13 @@ def user_add():
             # handle image upload
             if 'image' in request.files:
                 image_file = request.files['image']
+                        
+                # Check for MIME type 
+                mime_trailing = image_file.content_type.split("/")[-1]
+                if mime_trailing not in allowed_mimetypes:
+                    flash(notify_warning("Image type is invalid"))
+                    return redirect(request.url)
+                    
                 # replace symbols in email
                 filename = email.translate({ord(x): '_' for x in ['.', '@']})
                 image_path = images.save(image_file, 'profile', filename)
@@ -118,7 +127,7 @@ def user_add():
                     role_id = key.split("_")[1]
                     role = Role.get_by_id(role_id)
                     new_user.roles.append(role)
-            new_user.save()
+            # new_user.save()
             return redirect(url_for("appadmin.user_add"))
 
         flash(notify_warning("User with same email already exists"))
@@ -230,6 +239,13 @@ def admin_update():
     # handle image upload
     if 'image' in request.files:
         image_file = request.files['image']
+
+        # Check for MIME type 
+        mime_trailing = image_file.content_type.split("/")[-1]
+        if mime_trailing not in allowed_mimetypes:
+            flash(notify_warning("Image type is invalid"))
+            return redirect(request.url)
+
         # replace symbols in email
         filename = email.translate({ord(x): '_' for x in ['.', '@']})
         image_path = images.save(image_file, 'profile', filename)
