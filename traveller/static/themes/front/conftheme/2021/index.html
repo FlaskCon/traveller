@@ -12,7 +12,7 @@
             margin-bottom: 3rem;
         }
     }
-    
+
 </style>
 {% endblock %}
 {% block body %}
@@ -29,9 +29,9 @@
                     <h1 class="text-white font-semibold text-5xl">
                         FLASKCON 2021
                     </h1>
-                    <p class="mt-4 text-lg text-blueGray-200 content-center">
+                    <p class="mt-4 text-lg text-gray-100 content-center">
                         <!-- 1, 2, 3 & 4th December 2021<br> -->
-                        1<sup>st</sup>&mdash;4<sup>th</sup> December, 2021
+                        1<sup>st</sup> &mdash; 4<sup>th</sup> December, 2021
                     </p>
                     <img style="display: inline-block;" src="{{ url_for('static', filename='flaskcon2021.png') }}" width="200" height="200" alt="The FlaskCon logo">
                 </div>
@@ -44,7 +44,7 @@
         </svg>
     </div>
 </div>
-<section class="pb-20 bg-blueGray-200 -mt-24">
+<section class="pb-20 bg-gray-100 -mt-24">
     <div class="container mx-auto px-4">
         <div class="flex flex-wrap">
             <div class="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center mobile-hide">
@@ -63,7 +63,7 @@
             <div class="w-full md:w-4/12 px-4 text-center">
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                     <div class="px-4 py-5 flex-auto">
-                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
+                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
                             <i class="fa fa-paper-plane"></i>
                         </div>
                         <h6 class="text-xl font-semibold">CFP</h6>
@@ -71,7 +71,7 @@
                             Start: <span class="p-1 bg-yellow-200">{{ conf.cfp_start_repr() }}</span> 0:00 AM GMT<br>
                             End: <span class="p-1 bg-yellow-200">{{ conf.cfp_end_repr() }}</span> 0:00 AM GMT<br><br>
                             <a href="{{ url_for('y.cfp', year=2021) }}">
-                                <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+                                <button class="bg-red-500 text-white font-bold uppercase text-base px-8 py-3 rounded-md shadow-md hover:bg-red-600 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-300" type="button">
                                     {% if conf.cfp_start < today < conf.cfp_end %}
                                         Submit talk!
                                     {% elif conf.cfp_start < today %}
@@ -88,7 +88,7 @@
             <div class="pt-6 w-full md:w-4/12 px-4 text-center mobile-hide">
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                     <div class="px-4 py-5 flex-auto">
-                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">
+                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
                             <i class="fa fa-code-branch"></i>
                         </div>
                         <h6 class="text-xl font-semibold">Community-driven</h6>
@@ -101,7 +101,7 @@
         </div>
         <div class="flex flex-wrap items-center mt-28">
             <div class="w-full md:w-5/12 px-4 mb-10 mr-auto ml-auto">
-                <div class="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
+                <div class="text-gray-100 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-red-400">
                     <i class="fa fa-calendar-alt text-xl"></i>
                 </div>
                 <h3 class="text-3xl mb-2 font-semibold leading-normal">
@@ -114,17 +114,14 @@
                 <p class="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600">
                     The conference has the aim of exploring the Flask community itself. It's an opportunity to see the whole landscape of Flask and get a peek at new, cutting edge features.
                 </p>
-                <a href="{{ url_for('y.schedule', year=2021) }}" class="font-bold text-blueGray-700 mt-8"><button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+                <a href="{{ url_for('y.schedule', year=2021) }}" class="font-bold text-gray-100 mt-8"><button class="bg-red-500 text-white font-bold uppercase text-base px-8 py-3 rounded-md shadow-md hover:bg-red-600 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-300" type="button">
                         Check Schedule
                     </button></a>
             </div>
             <div class="w-full md:w-4/12 px-4 mb-10 mr-auto ml-auto">
-                <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-pink-500">
+                <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-red-400">
                     <img alt="..." src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80" class="w-full align-middle rounded-t-lg" />
                     <blockquote class="relative p-8 mb-4">
-                        <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 583 95" class="absolute left-0 w-full block h-95-px -top-94-px">
-                            <polygon points="-30,95 583,95 583,65" class="text-pink-500 fill-current"></polygon>
-                        </svg>
                         <h4 class="text-xl font-bold text-white">
                             Meet folks!
                         </h4>
@@ -150,8 +147,8 @@
             </div>
             <div class="w-full md:w-5/12 ml-auto mr-auto px-4">
                 <div class="md:pr-12">
-                    <div class="text-pink-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-pink-300">
-                        <i class="fa fa-ticket-alt"></i>
+                    <div class="text-gray-100 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-red-400">
+                        <i class="fa fa-file-invoice-dollar text-2xl"></i>
                     </div>
                     <h3 class="text-3xl font-semibold">Book your tickets</h3>
                     <p class="mt-4 text-lg leading-relaxed text-blueGray-500">
@@ -161,7 +158,7 @@
                         <br>
                         Contributions go towards the Pallets and PSF orgnisations.
                     </p><br><br>
-                    <a href="#" class="font-bold text-blueGray-700 mt-8"><button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+                    <a href="#" class="font-bold text-gray-100 mt-8"><button class="bg-red-500 text-white font-bold uppercase text-base px-8 py-3 rounded-md shadow-md hover:bg-red-600 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-300" type="button">
                             Buy tickets
                         </button></a>
                 </div>
