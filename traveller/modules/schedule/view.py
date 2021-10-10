@@ -67,6 +67,9 @@ def add_day(year):
 def add_activity(year, day_id, act_type):
     if act_type == 'normal_activity':
         day = Day.query.get(day_id)
+        if day is None:
+            alert_danger('Invalid day.')
+            return mhelp.redirect_url('y.schedule', year=year)
         form = NormalActivityForm()
 
         if not form.validate():
@@ -83,6 +86,9 @@ def add_activity(year, day_id, act_type):
         day.update()
     elif act_type == 'talk':
         day = Day.query.get(day_id)
+        if day is None:
+            alert_danger('Invalid day.')
+            return mhelp.redirect_url('y.schedule', year=year)
         form = TalkActivityForm()
 
         if not form.validate():
@@ -115,6 +121,9 @@ def edit_activity(year, act_id, act_type):
             alert_danger("End time should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity.query.get(act_id)
+        if activity is None:
+            alert_danger('Invalid activity.')
+            return mhelp.redirect_url('y.schedule', year=year)
         form.populate_obj(activity)
         activity.update()
     elif act_type == 'talk':
@@ -127,6 +136,9 @@ def edit_activity(year, act_id, act_type):
             alert_danger("End date should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
         activity = Activity.query.get(act_id)
+        if activity is None:
+            alert_danger('Invalid activity.')
+            return mhelp.redirect_url('y.schedule', year=year)
         activity.start_time = form.start_time.data
         activity.end_time = form.end_time.data
         activity.talk_id = form.talks.data.id if form.talks.data is not None else None
@@ -140,6 +152,9 @@ def edit_day(year, day_id):
     if current_user.is_admin:
         day = Day.query.get(day_id)
 
+        if day is None:
+            alert_danger('Invalid day.')
+            return mhelp.redirect_url('y.schedule', year=year)
         form = DayForm(obj=day)
         form.populate_obj(day)
         if not form.validate():
@@ -160,6 +175,9 @@ def delete_activity(year, act_id):
         alert_danger("You don't have access to delete activity.")
         return mhelp.redirect_url('y.schedule', year=year)
     activity = Activity.query.get(act_id)
+    if activity is None:
+        alert_danger('Invalid activity.')
+        return mhelp.redirect_url('y.schedule', year=year)
     activity.delete()
     return mhelp.redirect_url('y.schedule', year=year)
 
@@ -172,6 +190,9 @@ def delete_day(year, day_id):
         return mhelp.redirect_url('y.schedule', year=year)
 
     day = Day.query.get(day_id)
+    if day is None:
+        alert_danger('Invalid day.')
+        return mhelp.redirect_url('y.schedule', year=year)
     day.delete()
     alert_success('Day deleted!')
     return mhelp.redirect_url('y.schedule', year=year)
