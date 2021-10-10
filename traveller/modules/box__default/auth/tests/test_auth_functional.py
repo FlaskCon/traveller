@@ -262,7 +262,7 @@ class TestAuthEndpoints:
 
         response.status_code == 200
         assert request.path == url_for("auth.login")
-        assert b"please check your user id and password" in response.data
+        assert b"Please check your email and password" in response.data
 
     def test_valid_dashboard_login(self, test_client, admin_user):
         response = test_client.post(

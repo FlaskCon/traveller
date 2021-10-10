@@ -55,6 +55,8 @@ def add():
 def edit(conf_id):
     form = ConfForm()
     conf = Conf.query.get(conf_id)
+    if conf is None:
+        return mhelp.redirect_url('conf.dashboard')
     form = ConfForm(obj=conf)
     form.populate_obj(conf)
     form.validate()
@@ -66,6 +68,8 @@ def edit(conf_id):
 @module_blueprint.route("/<conf_id>/delete", methods=["POST"])
 def delete(conf_id):
     conf = Conf.query.get(conf_id)
+    if conf is None:
+        return mhelp.redirect_url('conf.dashboard')
     conf.delete()
     return mhelp.redirect_url('conf.dashboard')
 
@@ -73,6 +77,8 @@ def delete(conf_id):
 @module_blueprint.route("/<conf_id>/reviewers/update", methods=["POST"])
 def update_reviewers(conf_id):
     conf = Conf.query.get(conf_id)
+    if conf is None:
+        return mhelp.redirect_url('conf.dashboard')
     if conf.reviewer_list is None:
         conf.reviewer_list = ReviewerList()
     conf.reviewer_list.reviewers = []

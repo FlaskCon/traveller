@@ -72,6 +72,9 @@ def add_talk(year):
 @login_required
 def edit_talk(year, talk_id):
     talk = Talk.query.get(talk_id)
+    if talk is None:
+        alert_danger('Invalid talk.')
+        return mhelp.redirect_url('y.cfp', year=year)
     if ((current_user in talk.author_list.authors) or current_user.is_admin):
         
         form = SubmitTalkForm(obj=talk)
@@ -110,6 +113,9 @@ def rate_talk(year, talk_id, score, talk_num_):
         if score not in [0, 1, 2]:
             return '---'
         talk = Talk.query.get(talk_id)
+        if talk is None:
+            alert_danger('Invalid talk.')
+            return mhelp.redirect_url('www.index')
         reviewers = [sl.reviewer for sl in talk.score_lists]
         if current_user not in reviewers:
             
@@ -144,6 +150,9 @@ def final_talk_action(year, talk_id):
             return render_template('conftheme/{}/parts/final_talk_action.html'.format(year), **context)
         elif request.method == 'POST':
             talk = Talk.query.get(talk_id)
+            if talk is None:
+                alert_danger('Invalid talk.')
+                return mhelp.redirect_url('y.cfp', year=year)
             form = AdminTalkForm(obj=talk)
             form.populate_obj(talk)
             if not form.validate():
@@ -169,6 +178,12 @@ def delete_talk(year, talk_id):
     if talk.submitter_id != current_user.id or not current_user.is_admin:
         alert_danger("You don't have access to delete talk.")
         if redirect_page == 'leaderboard':
+            return mhelp.redirect_url('y.leaderboard', year=year) 
+        else: return mhelp.redirect_url('y.profile', year=year)
+    
+    if talk is None:
+        if redirect_page == 'leaderboard':
+            alert_danger('Invalid talk.')
             return mhelp.redirect_url('y.leaderboard', year=year) 
         else: return mhelp.redirect_url('y.profile', year=year)
 

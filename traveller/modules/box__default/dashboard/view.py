@@ -67,6 +67,5 @@ def index():
                     module_info = json.load(f)
                     all_info[folder] = module_info
 
-    context["all_info"] = all_info
-    flash(notify_success("You have logged in successfully!"))
+    context["all_info"] = all_info    
     return render_template("dashboard/index.html", **context)

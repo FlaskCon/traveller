@@ -3,7 +3,7 @@ import os
 import datetime
 from flask import Blueprint
 from flask import flash
-from flask import redirect
+from flask import redirect, escape
 from flask import render_template
 from flask import url_for
 from flask import current_app
@@ -23,6 +23,7 @@ from .models import User
 from .email import send_async_email
 from .forms import LoginForm
 from .forms import RegistrationForm
+from helpers.c2021.notif import alert_success
 
 
 dirpath = os.path.dirname(os.path.abspath(__file__))
@@ -122,30 +123,43 @@ def login():
     context = {}
     login_form = LoginForm()
     context["form"] = login_form
-    if login_form.validate_on_submit():
+    if request.method == "POST":
+        if not login_form.validate_on_submit():
+            return render_template("auth/login.html", **context)
+
         email = login_form.email.data
         password = login_form.password.data
         user = User.query.filter(
             func.lower(User.email) == func.lower(email)
         ).first()
         if user is None or not user.check_password(password):
-            flash(notify_danger("please check your user id and password"))
+            flash(notify_danger("Please check your email and password"))
             return redirect(url_for("auth.login"))
         login_user(user)
         if "next" not in request.form:
             if current_user.is_admin:
                 next_url = url_for("dashboard.index")
+                flash(notify_success("You have logged in successfully!"))
             else:
                 next_url = url_for('www.index')
+                alert_success("You have logged in successfully!")
 
         else:
             if request.form["next"] == "":
                 if current_user.is_admin:
                     next_url = url_for("dashboard.index")
+                    flash(notify_success("You have logged in successfully!"))
                 else:
                     next_url = url_for('www.index')
+                    alert_success("You have logged in successfully!")
             else:
+                if not current_user.is_admin:
+                    next_url = get_safe_redirect("/")
+                    alert_success("You have logged in successfully!")
+                    return redirect(next_url)
+
                 next_url = get_safe_redirect(request.form["next"])
+                flash(notify_success("You have logged in successfully!"))
         return redirect(next_url)
     return render_template("auth/login.html", **context)
 
@@ -154,19 +168,13 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash(notify_success("Successfully logged out"))
 
-    if "next" not in request.args:
-        if current_user.is_admin:
-            next_url = url_for("dashboard.index")
-        else:
-            next_url = url_for('www.index')
+    if "next" not in request.args or request.args.get("next") == "":
+        next_url = url_for("auth.login")
+        flash(notify_success("Successfully logged out"))
     else:
-        if request.args.get("next") == "":
-            if current_user.is_admin:
-                next_url = url_for("dashboard.index")
-            else:
-                next_url = url_for('www.index')
-        else:
-            next_url = get_safe_redirect(request.args.get("next"))
+        flash(notify_success("Successfully logged out"))
+        rediect_url = url_for("auth.login", next=request.args.get("next"))
+        next_url = get_safe_redirect(rediect_url)
+        
     return redirect(next_url)

@@ -13,14 +13,16 @@ from .models import User
 
 class LoginForm(FlaskForm):
     email = EmailField(
-        "email",
+        "Email",
         [DataRequired(), Email(message=("Not a valid email address."))],
-        render_kw={"class": "form-control", "autocomplete": "off"},
+        render_kw={"class": "form-control", "autocomplete": "off", 
+        "placeholder": "e.g. johndoe@example.com"},
     )
     password = PasswordField(
         "Password",
         [DataRequired()],
-        render_kw={"class": "form-control", "autocomplete": "off"},
+        render_kw={"class": "form-control", "autocomplete": "off", 
+        "placeholder": "enter your password"},
     )
 
 
