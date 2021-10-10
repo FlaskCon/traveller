@@ -1,5 +1,6 @@
 alembic==1.5.8
 click==7.1.2
+cryptography==35.0.0
 decorator==4.4.2
 dnspython==2.1.0
 email-validator==1.1.1
