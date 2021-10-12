@@ -14,6 +14,7 @@ from flask_admin.contrib import sqla as flask_admin_sqla
 from flask_admin import AdminIndexView
 from flask_admin import expose
 from flask_admin.menu import MenuLink
+from flask_uploads import configure_uploads
 
 from modules.box__default.settings.helpers import get_setting
 from modules.box__default.settings.models import Settings
@@ -25,6 +26,7 @@ from init import ma
 from init import migrate
 from init import mail
 from init import modules_path
+from init import images
 from shopyo.api.file import trycopy
 import seed
 
@@ -91,6 +93,7 @@ def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
     configuration = app_config[config_name]
     app.config.from_object(configuration)
+    configure_uploads(app, images)
 
     if config_name != "testing":
         # load the instance config, if it exists, when not testing

@@ -19,6 +19,7 @@ from sqlalchemy import exists
 # from config import Config
 
 from init import db
+from init import images
 
 from .admin import admin_required
 from modules.box__default.auth.models import Role
@@ -28,6 +29,8 @@ from shopyo.api.html import notify_success
 
 dirpath = os.path.dirname(os.path.abspath(__file__))
 module_info = {}
+
+allowed_mimetypes = ['png', 'jpg', 'jpeg']
 
 with open(dirpath + "/info.json") as f:
     module_info = json.load(f)
@@ -51,7 +54,12 @@ def user_list():
 
     """
     context = {}
-    context["users"] = User.query.all()
+    users = User.query.all()
+    # resolve image
+    for user in users:
+        if user.image:
+            user.image = user.get_profile_image_url()
+    context["users"] = users
     return render_template("appadmin/index.html", **context)
 
 
@@ -99,12 +107,27 @@ def user_add():
             new_user.password = password
             new_user.bio = bio
 
+            # handle image upload
+            if 'image' in request.files:
+                image_file = request.files['image']
+                        
+                # Check for MIME type 
+                mime_trailing = image_file.content_type.split("/")[-1]
+                if mime_trailing not in allowed_mimetypes:
+                    flash(notify_warning("Image type is invalid"))
+                    return redirect(request.url)
+                    
+                # replace symbols in email
+                filename = email.translate({ord(x): '_' for x in ['.', '@']})
+                image_path = images.save(image_file, 'profile', filename)
+                new_user.image = image_path
+
             for key in request.form:
                 if key.startswith("role_"):
                     role_id = key.split("_")[1]
                     role = Role.get_by_id(role_id)
                     new_user.roles.append(role)
-            new_user.save()
+            # new_user.save()
             return redirect(url_for("appadmin.user_add"))
 
         flash(notify_warning("User with same email already exists"))
@@ -152,6 +175,9 @@ def admin_edit(id):
     if user is None:
         flash(notify_warning("Unable to edit. Invalid user id"))
         return redirect("/appadmin")
+
+    if user.image is not None:
+        user.image = user.get_profile_image_url()
 
     context["user"] = user
     context["user_roles"] = [r.name for r in user.roles]
@@ -209,6 +235,21 @@ def admin_update():
             role_id = key.split("_")[1]
             role = Role.get_by_id(role_id)
             user.roles.append(role)
+
+    # handle image upload
+    if 'image' in request.files:
+        image_file = request.files['image']
+
+        # Check for MIME type 
+        mime_trailing = image_file.content_type.split("/")[-1]
+        if mime_trailing not in allowed_mimetypes:
+            flash(notify_warning("Image type is invalid"))
+            return redirect(request.url)
+
+        # replace symbols in email
+        filename = email.translate({ord(x): '_' for x in ['.', '@']})
+        image_path = images.save(image_file, 'profile', filename)
+        user.image = image_path
 
     user.update()
     flash(notify_success("User successfully updated"))

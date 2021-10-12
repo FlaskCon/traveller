@@ -12,6 +12,7 @@ class BaseConfig:
     STATIC = os.path.join(base_path, "static")
     UPLOADED_PATH_IMAGE = os.path.join(STATIC, "uploads", "images")
     UPLOADED_PATH_THUMB = os.path.join(STATIC, "uploads", "thumbs")
+    UPLOADS_AUTOSERVE = False
 
 
 class ProductionConfig(BaseConfig):

@@ -13,6 +13,7 @@ from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 from flask import current_app
 from init import db
+from init import images
 from shopyo.api.models import PkModel
 
 role_user_bridge = db.Table(
@@ -82,6 +83,7 @@ class User(UserMixin, PkModel):
     is_email_confirmed = db.Column(db.Boolean(), nullable=False, default=False)
     email_confirm_date = db.Column(db.DateTime)
     bio = db.Column(db.String(200))
+    image = db.Column(db.String(128))
 
     # A user can have many roles and a role can have many users
     roles = db.relationship(
@@ -92,6 +94,9 @@ class User(UserMixin, PkModel):
 
     def __repr__(self):
         return f"<User-id: {self.id}, User-email: {self.email}>"
+
+    def get_profile_image_url(self):
+        return images.url(self.image)
 
     @hybrid_property
     def password(self):

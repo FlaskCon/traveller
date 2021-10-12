@@ -102,5 +102,6 @@ def add_reviewers():
         user.roles.append(r1)
         user.email_confirm_date = datetime.datetime.now()
         user.save(commit=False)
+        user.image = "https://i.pravatar.cc/300"
 
     db.session.commit()
