@@ -13,6 +13,7 @@ from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 from flask import current_app
 from init import db
+from init import images
 from shopyo.api.models import PkModel
 
 role_user_bridge = db.Table(
@@ -93,6 +94,9 @@ class User(UserMixin, PkModel):
 
     def __repr__(self):
         return f"<User-id: {self.id}, User-email: {self.email}>"
+
+    def get_profile_image_url(self):
+        return images.url(self.image)
 
     @hybrid_property
     def password(self):

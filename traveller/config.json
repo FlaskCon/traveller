@@ -9,5 +9,6 @@
       "ACTIVE_FRONT_THEME": "blogus",
       "ACTIVE_BACK_THEME": "boogle",
       "CURRENCY": "MUR"
-    }
+    },
+    "UPLOADS_AUTOSERVE": false
 }
