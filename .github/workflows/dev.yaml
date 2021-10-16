@@ -20,7 +20,7 @@ jobs:
       with:
         debug: true
         host: ${{ secrets.STAGING_HOST }}
-        username: flaskuser
+        username: root
         key: ${{ secrets.STAGING_KEY }}
         script_stop: true
         script: |
