@@ -67,19 +67,19 @@ a {
                         </div>
                         <br><br>
                     {% endif %}
-                    
-                    <label for="co_authors">Add Co-Authors</label><br>
-                    <textarea name="co_authors" id="co_authors" cols="80" rows="5" 
-                    class="border-1 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
-                    placeholder="Enter email address of each co-author on a newline"></textarea>
-                    <br>
-
+                   
                     {%for field in SubmitTalkForm_(obj=talk)%}
                     {%if field.id not in ['csrf_token']%}
                     {{field.label}}<br>
                     {%endif%}
                     {{field}}<br><br>
                     {%endfor%}
+                    
+                    <label for="co_authors">Add Co-Authors</label><br>
+                    <textarea name="co_authors" id="co_authors" cols="80" rows="5" 
+                    class="border-1 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                    placeholder="Enter email address of each co-author on a newline"></textarea>
+                    <br>
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
                         Submit
