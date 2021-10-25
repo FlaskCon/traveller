@@ -41,17 +41,17 @@ textarea {
                     <div class="w-full">
                         <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
                             <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-white bg-red-600" data-tab-toggle="text-tab-profile-red" onclick="changeAtiveTab(event,'wrapper-for-text-red','red','text-tab-profile-red')">
+                                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-white bg-red-600" data-tab-toggle="text-tab-profile-red" onclick="changeActiveTab(event,'wrapper-for-text-red','red','text-tab-profile-red')">
                                     Talks
                                 </a>
                             </li>
                             <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white" data-tab-toggle="text-tab-settings-red" onclick="changeAtiveTab(event,'wrapper-for-text-red','red','text-tab-settings-red')">
+                                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white" data-tab-toggle="text-tab-settings-red" onclick="changeActiveTab(event,'wrapper-for-text-red','red','text-tab-settings-red')">
                                     Profile
                                 </a>
                             </li>
                             <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white" data-tab-toggle="text-tab-options-red" onclick="changeAtiveTab(event,'wrapper-for-text-red','red','text-tab-options-red')">
+                                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white" data-tab-toggle="text-tab-options-red" onclick="changeActiveTab(event,'wrapper-for-text-red','red','text-tab-options-red')">
                                     Options
                                 </a>
                             </li>
@@ -169,7 +169,7 @@ textarea {
     </div>
 </section>
 <script type="text/javascript">
-function changeAtiveTab(event, wrapperID, color, tabID) {
+function changeActiveTab(event, wrapperID, color, tabID) {
     let tabsWrapper = document.getElementById(wrapperID);
     let tabsAnchors = tabsWrapper.querySelectorAll("[data-tab-toggle]");
     let tabsContent = tabsWrapper.querySelectorAll("[data-tab-content]");

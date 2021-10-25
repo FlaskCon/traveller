@@ -10,12 +10,40 @@ a {
     height: 500px;
     overflow-y: scroll;
 }
+#day-tab-selector{
+    flex-direction: row;
+  }
 
 @media (max-width: 640px) {
   .day_tools {
     display: block;
     margin-top: 5px;
   }
+  #day-tab-selector{
+    flex-direction: column;
+  }
+  
+}
+@media (max-width: 1280px) {
+    .activity a{
+        max-width: 100%;
+    }
+}
+.activity a.beginner:hover{
+    border: 1px solid #8b0000b0;
+    border-radius: 0.25rem;
+}
+.activity a.intermediate:hover{
+    border: 1px solid #008b17b0;
+    border-radius: 0.25rem;
+}
+.activity a.advance:hover{
+    border: 1px solid #00098bb0;
+    border-radius: 0.25rem;
+}
+.activity a.normal:hover{
+    border: 1px solid #020202b0;
+    border-radius: 0.25rem;
 }
 
 
@@ -36,10 +64,9 @@ a {
             <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7" style="min-height: 800px;">
 
                 <h3 class="text-5xl">Schedule</h3><br>
-                <p>
-                    CFP Start: <span class="p-1 bg-yellow-200">{{ conf.cfp_start_repr() }}</span> 0:00 AM GMT<br>
-                            CFP End: <span class="p-1 bg-yellow-200">{{ conf.cfp_end_repr() }}</span> 0:00 AM GMT
-                </p><br>
+                <p>CFP Start: <span class="p-1 bg-yellow-200">{{ conf.cfp_start_repr() }}</span> 0:00 AM GMT</p>
+                <p>CFP End: <span class="p-1 bg-yellow-200">{{ conf.cfp_end_repr() }}</span> 0:00 AM GMT</p>
+                <br>
                 {% if current_user.is_admin %}
                     <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('add-day-modal')">
                         + Day
@@ -150,52 +177,53 @@ a {
                         <!-- end talk add -->
                         {% endif %}
                     </div>
-                    <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="edit-day-modal-id-{{ day.id }}">
-                        <div class="relative w-auto my-6 mx-auto max-w-3xl">
-                            <!--content-->
-                            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                                <!--header-->
-                                <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                                    <h3 class="text-3xl font-semibold">
-                                        Edit Day
-                                    </h3>
-                                    
-                                </div>
-                                <!--body-->
-                                <div class="relative p-6 flex-auto">
-                                    <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
-                                        <form method="POST" action="{{ url_for('schedule.edit_day', day_id=day.id, year=year) }}">
-                                            {%for field in DayForm_(obj=day)%}
-                                            {%if field.id not in ['csrf_token']%}
-                                            {{field.label}}
-                                            {%endif%}
-                                            {{field}}<br>
-                                            {%endfor%}
-                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                            <button class="bg-emerald-500 text-white font-bold text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
-                                                Save
-                                            </button>
-                                        </form>
-                                    </p>
-                                </div>
-                                <!--footer-->
-                                <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                                    <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-day-modal-id-{{ day.id }}')">
-                                        Close
-                                    </button>
+                    {% if current_user.is_admin %}
+                        <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="edit-day-modal-id-{{ day.id }}">
+                            <div class="relative w-auto my-6 mx-auto max-w-3xl">
+                                <!--content-->
+                                <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                    <!--header-->
+                                    <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                                        <h3 class="text-3xl font-semibold">
+                                            Edit Day
+                                        </h3>
+                                        
+                                    </div>
+                                    <!--body-->
+                                    <div class="relative p-6 flex-auto">
+                                        <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                            <form method="POST" action="{{ url_for('schedule.edit_day', day_id=day.id, year=year) }}">
+                                                {%for field in DayForm_(obj=day)%}
+                                                {%if field.id not in ['csrf_token']%}
+                                                {{field.label}}
+                                                {%endif%}
+                                                {{field}}<br>
+                                                {%endfor%}
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                <button class="bg-emerald-500 text-white font-bold text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                                                    Save
+                                                </button>
+                                            </form>
+                                        </p>
+                                    </div>
+                                    <!--footer-->
+                                    <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                        <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-day-modal-id-{{ day.id }}')">
+                                            Close
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="edit-day-modal-id-{{ day.id }}-backdrop"></div>
-
+                        <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="edit-day-modal-id-{{ day.id }}-backdrop"></div>
+                    {% endif %}
                     <div>
 
-                        {% set activities = day.get_sorted_activities() %}
+                        {% set activities = day.get_sorted_activities_based_on_timezone("Africa/Accra") %}
                         {% for activity_ in activities %}
                         {% set activity = activity_[0] %}
                         {% if activity.type == 'normal_activity' %}
-                            &nbsp;{{ activity.start_time }} to {{ activity.end_time }} ---> {{ activity.text }}
+                            &nbsp;{{ activity_[1].strftime("%I:%M") }} {{ activity_[1].strftime("%p") }} {{ activity_[2] }} ---> {{ activity.text }}
                             {% if current_user %}
                             {% if current_user.is_authenticated %}
                             {% if current_user.is_admin %}
@@ -210,46 +238,48 @@ a {
                             
                             {% endif %}{% endif %}{% endif %}
                             <br>
-                        <!--edit normal activity modal-->
-                        <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="edit-normal-activity-modal-id-{{ activity.id }}">
-                            <div class="relative w-auto my-6 mx-auto max-w-3xl">
-                                <!--content-->
-                                <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                                    <!--header-->
-                                    <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                                        <h3 class="text-3xl font-semibold">
-                                            Edit activity
-                                        </h3>
-                                    </div>
-                                    <!--body-->
-                                    <div class="relative p-6 flex-auto">
-                                        <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
-                                            <form method="POST" action="{{ url_for('schedule.edit_activity', year=year,
-                    act_id=activity.id, act_type='normal_activity') }}">
-                                                {%for field in NormalActivityForm_(obj=activity)%}
-                                                {%if field.id not in ['csrf_token']%}
-                                                {{field.label}}<br>
-                                                {%endif%}
-                                                {{field}}<br><br>
-                                                {%endfor%}
-                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                                <button class="bg-emerald-500 text-white font-bold text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
-                                                    Save
+                            {% if current_user.is_admin %}
+                                <!--edit normal activity modal-->
+                                <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="edit-normal-activity-modal-id-{{ activity.id }}">
+                                    <div class="relative w-auto my-6 mx-auto max-w-3xl">
+                                        <!--content-->
+                                        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                            <!--header-->
+                                            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                                                <h3 class="text-3xl font-semibold">
+                                                    Edit activity
+                                                </h3>
+                                            </div>
+                                            <!--body-->
+                                            <div class="relative p-6 flex-auto">
+                                                <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                                    <form method="POST" action="{{ url_for('schedule.edit_activity', year=year,
+                            act_id=activity.id, act_type='normal_activity') }}">
+                                                        {%for field in NormalActivityForm_(obj=activity)%}
+                                                        {%if field.id not in ['csrf_token']%}
+                                                        {{field.label}}<br>
+                                                        {%endif%}
+                                                        {{field}}<br><br>
+                                                        {%endfor%}
+                                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                        <button class="bg-emerald-500 text-white font-bold text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                                                            Save
+                                                        </button>
+                                                    </form>
+                                                </p>
+                                            </div>
+                                            <!--footer-->
+                                            <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-normal-activity-modal-id-{{ activity.id }}')">
+                                                    Close
                                                 </button>
-                                            </form>
-                                        </p>
-                                    </div>
-                                    <!--footer-->
-                                    <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                                        <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-normal-activity-modal-id-{{ activity.id }}')">
-                                            Close
-                                        </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="edit-normal-activity-modal-id-{{ activity.id }}-backdrop"></div>
-                        <!-- end edit normal activity modal -->
+                                <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="edit-normal-activity-modal-id-{{ activity.id }}-backdrop"></div>
+                                <!-- end edit normal activity modal -->
+                            {% endif %}
                         {% endif %}
                         
                         <!-- edit talk activity modal -->
@@ -261,6 +291,7 @@ a {
                                 {{author.first_name}} {{author.last_name}}
                             {% endfor %}
                         {% endif %}
+
                         {% if current_user %}
                         {% if current_user.is_authenticated %}
                         {% if current_user.is_admin %}
@@ -276,47 +307,48 @@ a {
                         
                         {% endif %}{% endif %}{% endif %}
                         <br>
-                        
-                        <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="edit-talk-activity-modal-id-{{ activity.id }}">
-                            <div class="relative w-auto my-6 mx-auto max-w-3xl">
-                                <!--content-->
-                                <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                                    <!--header-->
-                                    <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                                        <h3 class="text-3xl font-semibold">
-                                            Edit talk activity
-                                        </h3>
-                                    
-                                    </div>
-                                    <!--body-->
-                                    <div class="relative p-6 flex-auto">
-                                        <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
-                                            <form method="POST" action="{{ url_for('schedule.edit_activity', year=year,
-                    act_id=activity.id, act_type='talk') }}">
-                                                {%for field in TalkActivityForm_(obj=activity)%}
-                                                {%if field.id not in ['csrf_token']%}
-                                                {{field.label}}<br>
-                                                {%endif%}
-                                                {{field}}<br><br>
-                                                {%endfor%}
-                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                                <button class="bg-emerald-500 text-white font-bold text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
-                                                    Save
+                            {% if current_user.is_admin %}
+                                <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="edit-talk-activity-modal-id-{{ activity.id }}">
+                                    <div class="relative w-auto my-6 mx-auto max-w-3xl">
+                                        <!--content-->
+                                        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                            <!--header-->
+                                            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                                                <h3 class="text-3xl font-semibold">
+                                                    Edit talk activity
+                                                </h3>
+                                            
+                                            </div>
+                                            <!--body-->
+                                            <div class="relative p-6 flex-auto">
+                                                <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                                    <form method="POST" action="{{ url_for('schedule.edit_activity', year=year,
+                            act_id=activity.id, act_type='talk') }}">
+                                                        {%for field in TalkActivityForm_(obj=activity)%}
+                                                        {%if field.id not in ['csrf_token']%}
+                                                        {{field.label}}<br>
+                                                        {%endif%}
+                                                        {{field}}<br><br>
+                                                        {%endfor%}
+                                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                        <button class="bg-emerald-500 text-white font-bold text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                                                            Save
+                                                        </button>
+                                                    </form>
+                                                </p>
+                                            </div>
+                                            <!--footer-->
+                                            <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-talk-activity-modal-id-{{ activity.id }}')">
+                                                    Close
                                                 </button>
-                                            </form>
-                                        </p>
-                                    </div>
-                                    <!--footer-->
-                                    <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                                        <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('edit-talk-activity-modal-id-{{ activity.id }}')">
-                                            Close
-                                        </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="edit-talk-activity-modal-id-{{ activity.id }}-backdrop"></div>
-                        <!-- end edit talk activity modal -->
+                                <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="edit-talk-activity-modal-id-{{ activity.id }}-backdrop"></div>
+                                <!-- end edit talk activity modal -->                              
+                            {% endif %}
                         {% endif %}
                         {% endfor %}
                     </div>
@@ -325,55 +357,57 @@ a {
         </div>
     </div>
 </section>
-{% if current_user.is_admin %}
-{% include 'base/blocks/flashed_messages.html'%}
-<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="add-day-modal">
-    <div class="relative w-auto my-6 mx-auto max-w-3xl">
-        <!--content-->
-        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                <h3 class="text-3xl font-semibold">
-                    Add Day
-                </h3>
-                
-            </div>
-            <!--body-->
-            <div class="relative p-6 flex-auto">
-                <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
-                    <form method="POST" action="{{ url_for('schedule.add_day', year=year) }}">
-                        {%for field in DayForm_()%}
-                        {%if field.id not in ['csrf_token']%}
-                        {{field.label}}
-                        {%endif%}
-                        {{field}}<br>
-                        {%endfor%}
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <button class="bg-emerald-500 text-white font-bold text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
-                            Save
+    {% if current_user.is_admin %}
+        {% include 'base/blocks/flashed_messages.html'%}
+        <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="add-day-modal">
+            <div class="relative w-auto my-6 mx-auto max-w-3xl">
+                <!--content-->
+                <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <!--header-->
+                    <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                        <h3 class="text-3xl font-semibold">
+                            Add Day
+                        </h3>
+                        
+                    </div>
+                    <!--body-->
+                    <div class="relative p-6 flex-auto">
+                        <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                            <form method="POST" action="{{ url_for('schedule.add_day', year=year) }}">
+                                {%for field in DayForm_()%}
+                                {%if field.id not in ['csrf_token']%}
+                                {{field.label}}
+                                {%endif%}
+                                {{field}}<br>
+                                {%endfor%}
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button class="bg-emerald-500 text-white font-bold text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                                    Save
+                                </button>
+                            </form>
+                        </p>
+                    </div>
+                    <!--footer-->
+                    <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('add-day-modal')">
+                            Close
                         </button>
-                    </form>
-                </p>
-            </div>
-            <!--footer-->
-            <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('add-day-modal')">
-                    Close
-                </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="add-day-modal-backdrop"></div>
+        <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="add-day-modal-backdrop"></div>
 
 
-<script type="text/javascript">
-function toggleModal(modalID) {
-    document.getElementById(modalID).classList.toggle("hidden");
-    document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
-    document.getElementById(modalID).classList.toggle("flex");
-    document.getElementById(modalID + "-backdrop").classList.toggle("flex");
-}
-</script>
-{% endif %}
+        <script type="text/javascript">
+        function toggleModal(modalID) {
+            document.getElementById(modalID).classList.toggle("hidden");
+            document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+            document.getElementById(modalID).classList.toggle("flex");
+            document.getElementById(modalID + "-backdrop").classList.toggle("flex");
+        }
+        </script>
+    {% endif %}
+
+
 {% endblock %}

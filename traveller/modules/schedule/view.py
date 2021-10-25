@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from zoneinfo import ZoneInfo
 from flask import flash
 
 from shopyo.api.module import ModuleHelp
@@ -54,7 +55,7 @@ def add_day(year):
         if form.date.data < date.today():
             alert_danger("new schedule date should be today or later")
             return mhelp.redirect_url('y.schedule', year=year)
-
+        
         day = Day(
             date=form.date.data
             )
@@ -67,6 +68,7 @@ def add_day(year):
 def add_activity(year, day_id, act_type):
     if act_type == 'normal_activity':
         day = Day.query.get(day_id)
+        
         if day is None:
             alert_danger('Invalid day.')
             return mhelp.redirect_url('y.schedule', year=year)
@@ -75,13 +77,25 @@ def add_activity(year, day_id, act_type):
         if not form.validate():
             alert_danger("Activity not added!") 
             return mhelp.redirect_url('y.schedule', year=year)
-
+       
         if form.end_time.data < form.start_time.data:
             alert_danger("End time should be greater than start date")
             return mhelp.redirect_url('y.schedule', year=year)
+
+        # re.search(r"[0-9]{2}:[03]{2}:[0-9]{2}", "01:00:00")
+        # [True for i in ("10:30:00", "12:00:00") if "09:00:00" <= i <= "18:00:00"]
+        starttime_in_iso_format = f"{day.date} {form.start_time.data}"
+        endtime_in_iso_format = f"{day.date} {form.end_time.data}"
+        activity_start = datetime.fromisoformat(starttime_in_iso_format)\
+            .astimezone(tz=ZoneInfo('Europe/Stockholm')).time()
+        activity_end = datetime.fromisoformat(endtime_in_iso_format)\
+            .astimezone(tz=ZoneInfo('Europe/Stockholm')).time()
+
         activity = Activity()
         form.populate_obj(activity)
         activity.type = 'normal_activity'
+        activity.start_time = activity_start
+        activity.end_time = activity_end
         day.activities.append(activity)
         day.update()
     elif act_type == 'talk':
@@ -90,7 +104,7 @@ def add_activity(year, day_id, act_type):
             alert_danger('Invalid day.')
             return mhelp.redirect_url('y.schedule', year=year)
         form = TalkActivityForm()
-
+        
         if not form.validate():
             alert_danger("Activity not added!") 
             return mhelp.redirect_url('y.schedule', year=year)

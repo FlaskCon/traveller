@@ -1,0 +1,263 @@
+{% extends 'conftheme/2021/parts/base.html'%}
+{% block head %}
+<title>Schedule | FlaskCon</title>
+<style type="text/css">
+a {
+    word-wrap: break-word;
+}
+
+.modal-body {
+    height: 500px;
+    overflow-y: scroll;
+}
+#day-tab-selector{
+    flex-direction: row;
+  }
+
+@media (max-width: 640px) {
+  .day_tools {
+    display: block;
+    margin-top: 5px;
+  }
+  #day-tab-selector{
+    flex-direction: column;
+  }
+  
+}
+@media (max-width: 1280px) {
+    .activity a{
+        max-width: 100%;
+    }
+}
+.activity a.beginner:hover{
+    border: 1px solid #8b0000b0;
+    border-radius: 0.25rem;
+}
+.activity a.intermediate:hover{
+    border: 1px solid #008b17b0;
+    border-radius: 0.25rem;
+}
+.activity a.advance:hover{
+    border: 1px solid #00098bb0;
+    border-radius: 0.25rem;
+}
+.activity a.normal:hover{
+    border: 1px solid #020202b0;
+    border-radius: 0.25rem;
+}
+
+
+@media (max-width: 380px) {
+  .activity_tools {
+    display: block;
+    margin-top: 3px;
+  }
+}
+</style>
+{% endblock %}
+{% block body %}
+<p class="pb-16 bg-red-500"></p>
+<section class="pb-20 bg-blueGray-200">
+    <p class="p-5 bg-transparent"></p>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+            <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
+                <div class="flex flex-wrap" id="wrapper-for-text-red">
+                    <div class="w-full">
+                        <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4" id="day-tab-selector">
+                            <li class="-mb-px mr-2 mb-2 last:mr-0 flex-auto text-center">
+                                <a class="text-sm uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white border-b-4 border-red-600" data-tab-toggle="text-tab-day_1-red" onclick="changeActiveTab(event,'wrapper-for-text-red','red','text-tab-day_1-red')">
+                                    Wednesday, 01 December
+                                </a>
+                            </li>
+                            <li class="-mb-px mr-2 mb-2 last:mr-0 flex-auto text-center">
+                                <a class="text-sm uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white" data-tab-toggle="text-tab-day_2-red" onclick="changeActiveTab(event,'wrapper-for-text-red','red','text-tab-day_2-red')">
+                                    Thursday, 02 December
+                                </a>
+                            </li>
+                            <li class="-mb-px mr-2 mb-2 last:mr-0 flex-auto text-center">
+                                <a class="text-sm uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white" data-tab-toggle="text-tab-day_3-red" onclick="changeActiveTab(event,'wrapper-for-text-red','red','text-tab-day_3-red')">
+                                    Friday, 03 December
+                                </a>
+                            </li>
+                             <li class="-mb-px mr-2 mb-2 last:mr-0 flex-auto text-center">
+                                <a class="text-sm uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white" data-tab-toggle="text-tab-day_4-red" onclick="changeActiveTab(event,'wrapper-for-text-red','red','text-tab-day_4-red')">
+                                    Saturday, 04 December
+                                </a>
+                            </li>
+                        </ul>
+                        <hr class="border-2 m-auto w-2/5 mb-2">
+                        <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+                            <div class="px-4 py-5 flex-auto">
+                                <div class="tab-content tab-space">
+                                    <div class="block" data-tab-content="true" id="text-tab-day_1-red">
+                                        <p class="uppercase text-sm">7:00 am</p> <hr>
+                                        <div class="flex mb-0 flex-wrap pt-3 pb-4 flex-col md:flex-row activity">
+                                            <a href="/" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto beginner">
+                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #8b0000b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                    <div class="activity_time font-bold">
+                                                        9:00
+                                                        <div class="prompt font-normal text-sm">AM</div>
+                                                    </div> <br>
+                                                    <div class="activity_duration text-gray-50">30min</div>
+                                                </div>
+                                                <div class="border rounded col-span-3 p-2" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                                    <div class="title">Exactly move trial occur stop else reduce continue</div>
+                                                    <div class="author text-gray-500 text-sm">Randy Duodu</div> <br>
+                                                    <div class="level text-sm" style="color: #8b0000b0;">Beginner</div>
+                                                </div>
+                                            </a>  
+                                            <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto intermediate">
+                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #008b17b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                    <div class="activity_time font-bold">
+                                                        9:00
+                                                        <div class="prompt font-normal text-sm">AM</div>
+                                                    </div> <br>
+                                                    <div class="activity_duration text-gray-50">30min</div>
+                                                </div>
+                                                <div class="border rounded col-span-3 p-2" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                                <div class="title">Exactly move trial occur stop else reduce continue</div>
+                                                <div class="author text-gray-500 text-sm">Randy Duodu</div> <br>
+                                                <div class="level text-sm" style="color: #008b17b0;">Intermediate</div>
+                                                </div>
+                                            </a> 
+                                            <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto advance">
+                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #00098bb0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                    <div class="activity_time font-bold">
+                                                        9:00
+                                                        <div class="prompt font-normal text-sm">AM</div>
+                                                    </div> <br>
+                                                    <div class="activity_duration text-gray-50">30min</div>
+                                                </div>
+                                                <div class="border rounded col-span-3 p-2" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                                <div class="title">Exactly move trial occur stop else reduce continue</div>
+                                                <div class="author text-gray-500 text-sm">Randy Duodu</div> <br>
+                                                <div class="level text-sm" style="color: #00098bb0;">Advance</div>
+                                                </div>
+                                            </a> 
+                                            <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto normal">
+                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #020202b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                    <div class="activity_time font-bold">
+                                                        24:59
+                                                        <div class="prompt font-normal text-sm">AM</div>
+                                                    </div> <br>
+                                                    <div class="activity_duration text-gray-50">30min</div>
+                                                </div>
+                                                <div class="border rounded col-span-3 p-2" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                                <div class="title">Exactly move trial occur stop else reduce continue</div>
+                                                <div class="author text-gray-500 text-sm">Randy Duodu</div> <br>
+                                                <div class="level text-sm" style="color: #020202b0;">Normal</div>
+                                                </div>
+
+                                            </a>
+                                        </div>
+                                        <p class="uppercase text-sm">7:30 am</p> <hr>
+                                        <div class="flex mb-0 flex-wrap pt-3 pb-4 flex-col md:flex-row activity">
+                                            <a href="/" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto beginner">
+                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #8b0000b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                    <div class="activity_time font-bold">
+                                                        9:00
+                                                        <div class="prompt font-normal text-sm">AM</div>
+                                                    </div> <br>
+                                                    <div class="activity_duration text-gray-50">30min</div>
+                                                </div>
+                                                <div class="border rounded col-span-3 p-2" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                                    <div class="title">Exactly move trial occur stop else reduce continue</div>
+                                                    <div class="author text-gray-500 text-sm">Randy Duodu</div> <br>
+                                                    <div class="level text-sm" style="color: #8b0000b0;">Beginner</div>
+                                                </div>
+                                            </a>  
+                                            <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto intermediate">
+                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #008b17b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                    <div class="activity_time font-bold">
+                                                        9:00
+                                                        <div class="prompt font-normal text-sm">AM</div>
+                                                    </div> <br>
+                                                    <div class="activity_duration text-gray-50">30min</div>
+                                                </div>
+                                                <div class="border rounded col-span-3 p-2" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                                <div class="title">Exactly move trial occur stop else reduce continue</div>
+                                                <div class="author text-gray-500 text-sm">Randy Duodu</div> <br>
+                                                <div class="level text-sm" style="color: #008b17b0;">Intermediate</div>
+                                                </div>
+                                            </a> 
+                                            <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto advance">
+                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #00098bb0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                    <div class="activity_time font-bold">
+                                                        9:00
+                                                        <div class="prompt font-normal text-sm">AM</div>
+                                                    </div> <br>
+                                                    <div class="activity_duration text-gray-50">30min</div>
+                                                </div>
+                                                <div class="border rounded col-span-3 p-2" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                                <div class="title">Exactly move trial occur stop else reduce continue</div>
+                                                <div class="author text-gray-500 text-sm">Randy Duodu</div> <br>
+                                                <div class="level text-sm" style="color: #00098bb0;">Advance</div>
+                                                </div>
+                                            </a> 
+                                            <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto normal">
+                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #020202b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                    <div class="activity_time font-bold">
+                                                        24:59
+                                                        <div class="prompt font-normal text-sm">AM</div>
+                                                    </div> <br>
+                                                    <div class="activity_duration text-gray-50">30min</div>
+                                                </div>
+                                                <div class="border rounded col-span-3 p-2" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                                <div class="title">Exactly move trial occur stop else reduce continue</div>
+                                                <div class="author text-gray-500 text-sm">Randy Duodu</div> <br>
+                                                <div class="level text-sm" style="color: #020202b0;">Normal</div>
+                                                </div>
+
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <div class="hidden" data-tab-content="true" id="text-tab-day_2-red">
+                                        <p>
+                                            Day 2 Schedule
+                                        </p>
+                                    </div>
+                                    <div class="hidden" data-tab-content="true" id="text-tab-day_3-red">
+                                        <p>
+                                            Day 3 Schedule
+                                        </p>
+                                    </div>
+                                    <div class="hidden" data-tab-content="true" id="text-tab-day_3-red">
+                                        <p>
+                                            Day 4 Schedule
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+function changeActiveTab(event, wrapperID, color, tabID) {
+    let tabsWrapper = document.getElementById(wrapperID);
+    let tabsAnchors = tabsWrapper.querySelectorAll("[data-tab-toggle]");
+    let tabsContent = tabsWrapper.querySelectorAll("[data-tab-content]");
+    for (let i = 0; i < tabsAnchors.length; i++) {
+        if (tabsAnchors[i].getAttribute("data-tab-toggle") === tabID) {
+            tabsAnchors[i].classList.add("border-" + color + "-600");
+            tabsAnchors[i].classList.add("border-b-4");
+            tabsContent[i].classList.remove("hidden");
+            tabsContent[i].classList.add("block");
+        } else {
+            tabsAnchors[i].classList.remove("border-" + color + "-600");
+            tabsAnchors[i].classList.remove("border-b-4");
+            tabsContent[i].classList.add("hidden");
+            tabsContent[i].classList.remove("block");
+        }
+    }
+}
+</script>
+
+
+
+{% endblock %}
