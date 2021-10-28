@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from flask import flash
 
 from shopyo.api.module import ModuleHelp
 from modules.conf.models import Conf
@@ -13,12 +14,13 @@ from shopyo.api.html import notify_danger
 from helpers.c2021.notif import alert_success
 from helpers.c2021.notif import alert_danger
 
+
 from flask_login import login_required
 from flask_login import current_user
-from sqlalchemy.exc import IntegrityError
 # from flask import render_template
 # from flask import url_for
 # from flask import redirect
+# from flask import flash
 # from flask import request
 
 # from shopyo.api.html import notify_success
@@ -50,21 +52,12 @@ def add_day(year):
             return mhelp.redirect_url('y.schedule', year=year)
 
         if form.date.data < date.today():
-            alert_danger("New schedule date should be today or later")
+            alert_danger("new schedule date should be today or later")
             return mhelp.redirect_url('y.schedule', year=year)
-        
+
         day = Day(
             date=form.date.data
             )
-
-        # Check to ensure date is between conference dates
-        cfp_start = conf.cfp_start
-        cfp_end = conf.cfp_end
-        
-        if form.date.data < cfp_start or form.date.data > cfp_end:
-            alert_danger("Date must be within conference dates.") 
-            return mhelp.redirect_url('y.schedule', year=year)
-
         conf.schedule.days.append(day)
         conf.update()
     return mhelp.redirect_url('y.schedule', year=year)
@@ -162,33 +155,19 @@ def edit_day(year, day_id):
         if day is None:
             alert_danger('Invalid day.')
             return mhelp.redirect_url('y.schedule', year=year)
-        try:    
-            form = DayForm(obj=day)
-            form.populate_obj(day)
-            if not form.validate():
-                alert_danger('Day not edited!')
-                return mhelp.redirect_url('y.schedule', year=year)
-
-            if form.date.data < date.today():
-                alert_danger("New schedule date should be today or later")
-                return mhelp.redirect_url('y.schedule', year=year)
-
-            # Check to ensure date is between conference dates
-            schedule = Schedule.query.get(day.schedule_id)
-            conf = Conf.query.get(schedule.conf_id)
-            cfp_start = conf.cfp_start
-            cfp_end = conf.cfp_end
-            
-            if form.date.data < cfp_start or form.date.data > cfp_end:
-                alert_danger("Date must be within conference dates.") 
-                return mhelp.redirect_url('y.schedule', year=year)
-
-            day.update()
-            alert_success('Day edited!')
-        except IntegrityError:
+        form = DayForm(obj=day)
+        form.populate_obj(day)
+        if not form.validate():
             alert_danger('Day not edited!')
-    return mhelp.redirect_url('y.schedule', year=year)
+            return mhelp.redirect_url('y.schedule', year=year)
 
+        if form.date.data < date.today():
+            flash(notify_danger("new schedule date should be today or later"))
+            return mhelp.redirect_url('y.schedule', year=year)
+
+        day.update()
+        alert_success('Day edited!')
+    return mhelp.redirect_url('y.schedule', year=year)
 
 @module_blueprint.route("/<int:year>/act/<act_id>/delete", methods=["GET"])
 def delete_activity(year, act_id):
