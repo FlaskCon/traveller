@@ -14,7 +14,7 @@ class Schedule(PkModel):
 class Day(PkModel):
     __tablename__ = 'days'
     
-    date = db.Column(db.Date, nullable=False, unique=True, info={"label": "Date:"})
+    date = db.Column(db.Date, nullable=False})
     activities = db.relationship('Activity',
         backref=db.backref('activity_day', lazy=True), cascade='save-update, delete')
 
