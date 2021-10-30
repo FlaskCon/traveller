@@ -149,18 +149,21 @@ def edit_day(year, day_id):
         if day is None:
             alert_danger('Invalid day.')
             return mhelp.redirect_url('y.schedule', year=year)
-        form = DayForm(obj=day)
-        form.populate_obj(day)
-        if not form.validate():
+        try:
+            form = DayForm(obj=day)
+            form.populate_obj(day)
+            if not form.validate():
+                alert_danger("Day not edited!")
+                return mhelp.redirect_url("y.schedule", year=year)
+
+            if form.date.data < date.today():
+                alert_danger("New schedule date should be today or later")
+                return mhelp.redirect_url("y.schedule", year=year)
+
+            day.update()
+            alert_success("Day edited!")
+        except IntegrityError:
             alert_danger("Day not edited!")
-            return mhelp.redirect_url("y.schedule", year=year)
-
-        if form.date.data < date.today():
-            alert_danger("New schedule date should be today or later")
-            return mhelp.redirect_url("y.schedule", year=year)
-
-        day.update()
-        alert_success("Day edited!")
     return mhelp.redirect_url('y.schedule', year=year)
 
 @module_blueprint.route("/<int:year>/act/<act_id>/delete", methods=["GET"])
