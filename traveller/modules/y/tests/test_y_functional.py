@@ -4,6 +4,7 @@ from modules.conf.models import Conf, ReviewerList, AuthorList
 from modules.conf.models import Talk
 from modules.schedule.models import Schedule, Day, Activity
 
+from app import app
 
 
 def create_conf(now, current_year):
@@ -66,6 +67,7 @@ def test_view_profile_page(test_client, login_non_admin_user, current_year, non_
         year=conf.year,
         conf_id=conf.id,
         submitter_id=non_admin_user.id,
+        duration=1800
     )
     talk.create_slug()
     talk.author_list = AuthorList()
@@ -80,6 +82,7 @@ def test_view_profile_page(test_client, login_non_admin_user, current_year, non_
         year=last_year.year,
         conf_id=last_conf.id,
         submitter_id=non_admin_user.id,
+        duration=1800
     )
     old_talk.create_slug()
     old_talk.author_list = AuthorList()
@@ -108,6 +111,7 @@ def test_view_review_page(test_client, login_non_admin_user, current_year, non_a
         year=conf.year,
         conf_id=conf.id,
         submitter_id=non_admin_user.id,
+        duration=1800
     )
     talk.create_slug()
     talk.author_list = AuthorList()
@@ -134,6 +138,7 @@ def test_view_leaderboard_page(test_client, login_non_admin_user, current_year, 
         year=conf.year,
         conf_id=conf.id,
         submitter_id=non_admin_user.id,
+        duration=1800
     )
     talk.create_slug()
     talk.author_list = AuthorList()
@@ -145,6 +150,7 @@ def test_view_leaderboard_page(test_client, login_non_admin_user, current_year, 
 
 
 def test_view_schedule_page(test_client, login_non_admin_user, current_year):
+    
     now = datetime.datetime.now()
     conf = create_conf(now, current_year)
     Schedule.create(

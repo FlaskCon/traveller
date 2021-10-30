@@ -36,4 +36,4 @@ WTForms==2.3.3
 WTForms-Alchemy==0.17.0
 WTForms-Components==0.10.5
 tzdata
-ics
+backports.zoneinfo

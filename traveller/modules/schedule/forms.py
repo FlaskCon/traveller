@@ -6,8 +6,8 @@ from modules.conf.models import Talk
 
 from init import ModelForm
 
-import wtforms_alchemy
-from wtforms_components.fields import TimeField
+from wtforms_alchemy.fields import QuerySelectField
+from wtforms_alchemy import InputRequired
 
 
 class DayForm(ModelForm):
@@ -73,11 +73,15 @@ class TalkActivityForm(ModelForm):
         }
 
 
-    talks = wtforms_alchemy.fields.QuerySelectField(
+    talks = QuerySelectField(
         'Talk:',
-        validators = [wtforms_alchemy.InputRequired()],
+        validators = [InputRequired()],
         query_factory=lambda: Talk.query.filter(
             Talk.year == dt.utcnow().year,
             Talk.accepted == 'accepted'
-            ).all()
+            ).all(),
+        render_kw={
+            'class': "max-w-md"
+        }
     )
+    

@@ -152,11 +152,12 @@ a {
                                         <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
                                             <form method="POST" action="{{ url_for('schedule.add_activity', year=year, day_id=day.id, act_type='talk') }}">
                                                 {%for field in TalkActivityForm_()%}
-                                                {%if field.id not in ['csrf_token']%}
-                                                {{field.label}}<br>
-                                                {%endif%}
-                                                {{field}}<br><br>
+                                                    {%if field.id not in ['csrf_token']%}
+                                                        {{field.label}}<br>
+                                                    {%endif%}
+                                                    {{field}}<br><br>
                                                 {%endfor%}
+
                                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                 <button class="bg-emerald-500 text-white font-bold text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
                                                     Save
@@ -218,12 +219,11 @@ a {
                         <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="edit-day-modal-id-{{ day.id }}-backdrop"></div>
                     {% endif %}
                     <div>
-
-                        {% set activities = day.get_sorted_activities_based_on_timezone("Africa/Accra") %}
+                        {% set activities = day.get_sorted_activities_based_on_timezone(timezone) %}
                         {% for activity_ in activities %}
                         {% set activity = activity_[0] %}
                         {% if activity.type == 'normal_activity' %}
-                            &nbsp;{{ activity_[1].strftime("%I:%M") }} {{ activity_[1].strftime("%p") }} {{ activity_[2] }} ---> {{ activity.text }}
+                            &nbsp;<span class="lowercase">{{ activity_[1].strftime("%I:%M %p") }}</span> {{ activity_[2] }} ---> {{ activity.text }}
                             {% if current_user %}
                             {% if current_user.is_authenticated %}
                             {% if current_user.is_admin %}
@@ -285,7 +285,7 @@ a {
                         <!-- edit talk activity modal -->
                         {% if activity.type == 'talk' %}
                         {% set talk = activity.get_talk() %}
-                            &nbsp;{{ activity.start_time }} to {{ activity.end_time }} ---> {{ talk.title }} by
+                            &nbsp;<span class="lowercase">{{ activity_[1].strftime("%I:%M %p") }}</span> {{ activity_[2] }} ---> {{ talk.title|truncate(50, true) }} by
                         {% if talk is not none %}
                             {% for author in talk.author_list.authors %}
                                 {{author.first_name}} {{author.last_name}}
