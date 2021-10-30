@@ -1,5 +1,4 @@
 from datetime import date, datetime
-from flask import flash
 
 from shopyo.api.module import ModuleHelp
 from modules.conf.models import Conf
@@ -10,21 +9,16 @@ from modules.schedule.forms import DayForm
 from modules.schedule.forms import NormalActivityForm
 from modules.schedule.forms import TalkActivityForm
 
-from shopyo.api.html import notify_danger
 from helpers.c2021.notif import alert_success
 from helpers.c2021.notif import alert_danger
 
-
 from flask_login import login_required
 from flask_login import current_user
+from sqlalchemy.exc import IntegrityError
 # from flask import render_template
 # from flask import url_for
 # from flask import redirect
-# from flask import flash
 # from flask import request
-
-# from shopyo.api.html import notify_success
-# from shopyo.api.forms import flash_errors
 
 mhelp = ModuleHelp(__file__, __name__)
 globals()[mhelp.blueprint_str] = mhelp.blueprint
@@ -52,7 +46,7 @@ def add_day(year):
             return mhelp.redirect_url('y.schedule', year=year)
 
         if form.date.data < date.today():
-            alert_danger("new schedule date should be today or later")
+            alert_danger("New schedule date should be today or later")
             return mhelp.redirect_url('y.schedule', year=year)
 
         day = Day(
@@ -155,18 +149,21 @@ def edit_day(year, day_id):
         if day is None:
             alert_danger('Invalid day.')
             return mhelp.redirect_url('y.schedule', year=year)
-        form = DayForm(obj=day)
-        form.populate_obj(day)
-        if not form.validate():
-            alert_danger('Day not edited!')
-            return mhelp.redirect_url('y.schedule', year=year)
+        try:
+            form = DayForm(obj=day)
+            form.populate_obj(day)
+            if not form.validate():
+                alert_danger("Day not edited!")
+                return mhelp.redirect_url("y.schedule", year=year)
 
-        if form.date.data < date.today():
-            flash(notify_danger("new schedule date should be today or later"))
-            return mhelp.redirect_url('y.schedule', year=year)
+            if form.date.data < date.today():
+                alert_danger("New schedule date should be today or later")
+                return mhelp.redirect_url("y.schedule", year=year)
 
-        day.update()
-        alert_success('Day edited!')
+            day.update()
+            alert_success("Day edited!")
+        except IntegrityError:
+            alert_danger("Day not edited!")
     return mhelp.redirect_url('y.schedule', year=year)
 
 @module_blueprint.route("/<int:year>/act/<act_id>/delete", methods=["GET"])
