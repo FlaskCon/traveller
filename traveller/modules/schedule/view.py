@@ -12,7 +12,6 @@ from modules.schedule.forms import TalkActivityForm
 from helpers.c2021.notif import alert_success
 from helpers.c2021.notif import alert_danger
 
-
 from flask_login import login_required
 from flask_login import current_user
 from sqlalchemy.exc import IntegrityError
@@ -20,8 +19,6 @@ from sqlalchemy.exc import IntegrityError
 # from flask import url_for
 # from flask import redirect
 # from flask import request
-
-# from shopyo.api.forms import flash_errors
 
 mhelp = ModuleHelp(__file__, __name__)
 globals()[mhelp.blueprint_str] = mhelp.blueprint
