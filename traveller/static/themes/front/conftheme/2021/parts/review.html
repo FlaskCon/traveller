@@ -1,76 +1,67 @@
-
 {% set nav_bg_color = 'bg-red-400' %}
-
 {% extends 'conftheme/2021/parts/base.html'%}
-
 {%set nav_text_color = 'text-white'%}
-
 {% block head %}
-<title>Review | FlaskCon</title>
-<style type="text/css">
+  <title>Review | FlaskCon</title>
+  <style type="text/css">
   a {
-    word-wrap: break-word;
+  word-wrap: break-word;
   }
   .btn_rating{
-    border-radius: 50%;
+  border-radius: 50%;
   }
-</style>
+  </style>
 {% endblock %}
-
-
 {% block body %}
-<p class="pb-16 bg-red-500"></p>
-
-
-
-
-
-
-
-<!-- Create By Joker Banny -->
-<section class="pb-20 bg-blueGray-200">
-  <p class="p-5 bg-transparent"></p>
-        <div class="container mx-auto px-4">
-          <div class="flex flex-wrap">
-    <div class="container bg-white rounded-xl shadow-lg transform transition duration-500">
-    <div>
-      {% if talks %}
-      {% set talk = talks[talk_num] %}
-        <p class="ml-4 mt-1 mb-2 text-gray-700">{% if not prev_talk == None %}
-        <a href="{{ url_for('y.review', year=year, talk_num_=prev_talk+1) }}" class="paper-btn btn-primary-outline btn-small"><span class="text-white text-xs font-bold rounded-lg bg-orange-500 inline-block mt-4 ml-4 py-1.5 px-4 cursor-pointer"><-</span></a>
+  <p class="pb-16 bg-red-500"></p>
+  <!-- Create By Joker Banny -->
+  <section class="pb-20 bg-blueGray-200">
+    <p class="p-5 bg-transparent"></p>
+    <div class="container mx-auto px-4">
+      <div class="flex flex-wrap">
+        <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-4">
+          <div>
+            {% if talks %}
+              {% set talk = talks[talk_num] %}
+              <p class="ml-4 mt-1 mb-2 text-gray-700">{% if not prev_talk == None %}
+                <a href="{{ url_for('y.review', year=year, talk_num_=prev_talk+1) }}" class="paper-btn btn-primary-outline btn-small"><span class="text-white text-xs font-bold rounded-lg bg-orange-500 inline-block mt-4 ml-4 py-1.5 px-4 cursor-pointer"><-</span></a>
+              {% endif %}
+              Talk <input min="1" max="{{ len_(talks) }}" style="display: inline-block; height: 25px; width: 65px; font-size: 15px; " type="number" name="" value="{{ talk_num_ }}"> / {{ len_(talks) }}&nbsp;</h5>
+              {% if not next_talk == None %}
+                <a href="{{ url_for('y.review', year=year, talk_num_=next_talk+1) }}" class="paper-btn btn-primary-outline btn-small"><span class="text-white text-xs font-bold rounded-lg bg-orange-500 inline-block mt-4 ml-4 py-1.5 px-4 cursor-pointer">-></span></a>
+              {% endif %}
+            </p>
+            <p class="ml-4 mt-1 mb-2 text-gray-700"><span>score:</span>
+            <a href="{{ url_for('cfp.rate_talk', year=year, talk_id=talk.id, score=0, talk_num_=talk_num_) }}"
+              class="ext-amber-500 background-transparent font-bold uppercase px-3 py-1 text-xs outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150  border-emerald-600 border-b-4 {{ 'bg-emerald-500 text-white' if current_score == 0 }}">
+              <b class="">0</b>
+            </a>
+            <a href="{{ url_for('cfp.rate_talk', year=year, talk_id=talk.id, score=1, talk_num_=talk_num_) }}"
+              class="text-amber-500 background-transparent font-bold uppercase px-3 py-1 text-xs outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150  border-emerald-600 border-b-4 {{ 'bg-emerald-500 text-white' if current_score == 1 }}">
+              <b class="">1</b>
+            </a>
+            <a href="{{ url_for('cfp.rate_talk', year=year, talk_id=talk.id, score=2, talk_num_=talk_num_) }}"
+              class="text-amber-500 background-transparent font-bold uppercase px-3 py-1 text-xs outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150  border-emerald-600 border-b-4 {{ 'bg-emerald-500 text-white' if current_score == 2 }}">
+              <b class="">2</b>
+            </a>
+          </p>
+          <br>
+          <h1 class="text-2xl mt-2 ml-4 font-bold text-gray-800 cursor-pointer hover:text-gray-900 transition duration-100"> {{ talk.title }} </h1>
+          <p class="ml-4 mt-1 mb-2 text-gray-700">
+            {{ talk.summary }} <br><br>
+            <b>Description</b><br>
+            {{ talk.description }}<br>
+            <b>Notes</b><br>
+            {{ talk.notes }}
+          </p>
+        {% else %}
+          No talks have been submitted so far.
         {% endif %}
-        Talk <input min="1" max="{{ len_(talks) }}" style="display: inline-block; height: 25px; width: 65px; font-size: 15px; " type="number" name="" value="{{ talk_num_ }}"> / {{ len_(talks) }}&nbsp;</h5>
-        {% if not next_talk == None %}
-        <a href="{{ url_for('y.review', year=year, talk_num_=next_talk+1) }}" class="paper-btn btn-primary-outline btn-small"><span class="text-white text-xs font-bold rounded-lg bg-orange-500 inline-block mt-4 ml-4 py-1.5 px-4 cursor-pointer">-></span></a>
-        {% endif %}
-      </p>
-
-        <p class="ml-4 mt-1 mb-2 text-gray-700"><span>score:</span>
-        <a href="{{ url_for('cfp.rate_talk', year=year, talk_id=talk.id, score=0, talk_num_=talk_num_) }}" 
-          class="ext-amber-500 background-transparent font-bold uppercase px-3 py-1 text-xs outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150  border-emerald-600 border-b-4 {{ 'bg-emerald-500 text-white' if current_score == 0 }}">
-          <b class="">0</b>
-        </a>
-        <a href="{{ url_for('cfp.rate_talk', year=year, talk_id=talk.id, score=1, talk_num_=talk_num_) }}" 
-          class="text-amber-500 background-transparent font-bold uppercase px-3 py-1 text-xs outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150  border-emerald-600 border-b-4 {{ 'bg-emerald-500 text-white' if current_score == 1 }}">
-            <b class="">1</b>
-        </a>
-        <a href="{{ url_for('cfp.rate_talk', year=year, talk_id=talk.id, score=2, talk_num_=talk_num_) }}" 
-          class="text-amber-500 background-transparent font-bold uppercase px-3 py-1 text-xs outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150  border-emerald-600 border-b-4 {{ 'bg-emerald-500 text-white' if current_score == 2 }}">
-            <b class="">2</b>
-        </a>
-      </p>
-      <br>
-        <h1 class="text-2xl mt-2 ml-4 font-bold text-gray-800 cursor-pointer hover:text-gray-900 transition duration-100"> {{ talk.title }} </h1>
-        <p class="ml-4 mt-1 mb-2 text-gray-700">{{ talk.summary }} <br><br><b>Description</b><br> {{ talk.description }}</p>
-      {% else %}
-        No talks have been submitted so far.
-      {% endif %}
+      </div>
+      
     </div>
-    
   </div>
 </div>
-</div>
 </section>
-  
 
 {% endblock %}
