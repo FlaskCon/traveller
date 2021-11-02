@@ -45,8 +45,10 @@ class Day(PkModel):
         """
         acts = []
         for act in self.activities:
-            end_datetime = datetime.fromisoformat(f"{self.date} {act.end_time}")
-            start_datetime = datetime.fromisoformat(f"{self.date} {act.start_time}")
+            fmt_str =  r"%Y-%m-%dT%H:%M:%S.%f" # replaces the fromisoformat method, not available in Python 3.6
+            end_datetime = datetime.strptime(f"{self.date} {act.end_time}", fmt_str)
+            start_datetime = datetime.strptime(f"{self.date} {act.start_time}", fmt_str)
+         
 
             start_civil_time = datetime(
                 start_datetime.year,
