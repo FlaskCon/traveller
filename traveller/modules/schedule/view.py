@@ -1,6 +1,7 @@
 from datetime import date, datetime
 import re
 
+
 from init import conf_time_zone
 from shopyo.api.module import ModuleHelp
 from modules.conf.models import Conf
@@ -22,9 +23,6 @@ from sqlalchemy.exc import IntegrityError
 # from flask import url_for
 # from flask import redirect
 # from flask import request
-
-# from shopyo.api.html import notify_success
-# from shopyo.api.forms import flash_errors
 
 mhelp = ModuleHelp(__file__, __name__)
 globals()[mhelp.blueprint_str] = mhelp.blueprint
@@ -291,6 +289,7 @@ def edit_day(year, day_id):
         if day is None:
             alert_danger("Invalid day.")
             return mhelp.redirect_url("y.schedule", year=year)
+
         try:
             form = DayForm(obj=day)
             form.populate_obj(day)
@@ -336,3 +335,4 @@ def delete_day(year, day_id):
     day.delete()
     alert_success("Day deleted!")
     return mhelp.redirect_url("y.schedule", year=year)
+
