@@ -74,7 +74,7 @@
                                 <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
                                 {% if conf.cfp_start < today < conf.cfp_end %}
                                     Submit talk!
-                                    {% elif conf.cfp_start < today %}
+                                    {% elif today < conf.cfp_start %}
                                     The call for proposals has not yet started.
                                 {% else %}
                                     The call for proposals has ended.
