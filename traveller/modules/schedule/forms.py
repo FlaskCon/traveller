@@ -30,7 +30,6 @@ class NormalActivityForm(ModelForm):
                 'render_kw': {
                     'min': "09:00",
                     'max': "18:00",
-                    'step': "1800",
                     'autocomplete': 'off',
                     'required':''
                 }
@@ -39,7 +38,6 @@ class NormalActivityForm(ModelForm):
                 'render_kw': {
                     'min': "09:00",
                     'max': "18:00",
-                    'step': "1800",
                     'autocomplete': 'off',
                     'required':''
                 }
@@ -57,7 +55,6 @@ class TalkActivityForm(ModelForm):
                 'render_kw': {
                     'min': "09:00",
                     'max': "18:00",
-                    'step': "1800",
                     'autocomplete': 'off',
                     'required':''
                 }
@@ -65,7 +62,6 @@ class TalkActivityForm(ModelForm):
             'end_time': {
                 'render_kw': {'min': "09:00",
                     'max': "18:00",
-                    'step': "1800",
                     'autocomplete': 'off',
                     'required':''
                 }

@@ -96,9 +96,10 @@
                                 </select>
                             </div>
                             <div class="mb-2">
-                                <a href="#" id="btn-timezone" 
+                                <a href="{{ url_for('schedule.calendar', year=year, tz=timezone.replace('/', '_'), all=True) }}" 
+                                download="flaskcon{{year}}_events_{{timezone.replace('/', '_')}}.ics" id="btn-timezone" 
                                 class="bg-yellow-600 text-white px-3 py-3 rounded font-bold text-sm shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
-                                    Add schedule to 📅 Calendar
+                                    Add schedule to your 📅 Calendar
                                 </a>
                             </div>
                             

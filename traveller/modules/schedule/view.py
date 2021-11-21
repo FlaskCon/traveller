@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, tzinfo
 import re
 
 from init import conf_time_zone
@@ -10,6 +10,7 @@ from modules.schedule.models import Activity
 from modules.schedule.forms import DayForm
 from modules.schedule.forms import NormalActivityForm
 from modules.schedule.forms import TalkActivityForm
+from modules.schedule.helper import get_calendar
 
 from helpers.c2021.notif import alert_success
 from helpers.c2021.notif import alert_danger
@@ -21,7 +22,7 @@ from sqlalchemy.exc import IntegrityError
 # from flask import render_template
 # from flask import url_for
 # from flask import redirect
-# from flask import request
+from flask import request, abort
 
 # from shopyo.api.html import notify_success
 # from shopyo.api.forms import flash_errors
@@ -79,14 +80,10 @@ def add_activity(year, day_id, act_type):
             return mhelp.redirect_url("y.schedule", year=year)
 
         # Check to ensure both start and end time are between 09:00 to 18:00
-        # and ensure the minute hand for a start or end time is either o'clock or 30 minute.
-        # Eg: A valid value for start will be 11:00 or 11:30
-
         activity_time_check = [
             True
             for i in (form.start_time.data, form.end_time.data)
             if "09:00:00" <= str(i) <= "18:00:00"
-            and re.search(r"[0-9]{2}:(00|30):[0-9]{2}", str(i)) is not None
         ]
         if len(activity_time_check) != 2:
             alert_danger("Provide valid values for both start and end time.")
@@ -132,14 +129,10 @@ def add_activity(year, day_id, act_type):
             return mhelp.redirect_url("y.schedule", year=year)
 
         # Check to ensure both start and end time are between 09:00 to 18:00
-        # and ensure the minute hand for a start or end time is either o'clock or 30 minute.
-        # Eg: A valid value for start will be 11:00 or 11:30
-
         activity_time_check = [
             True
             for i in (form.start_time.data, form.end_time.data)
             if "09:00:00" <= str(i) <= "18:00:00"
-            and re.search(r"[0-9]{2}:(00|30):[0-9]{2}", str(i)) is not None
         ]
         if len(activity_time_check) != 2:
             alert_danger("Provide valid values for both start and end time.")
@@ -187,14 +180,10 @@ def edit_activity(year, act_id, act_type):
             return mhelp.redirect_url("y.schedule", year=year)
 
         # Check to ensure both start and end time are between 09:00 to 18:00
-        # and ensure the minute hand for a start or end time is either o'clock or 30 minute.
-        # Eg: A valid value for start will be 11:00 or 11:30
-
         activity_time_check = [
             True
             for i in (form.start_time.data, form.end_time.data)
             if "09:00:00" <= str(i) <= "18:00:00"
-            and re.search(r"[0-9]{2}:(00|30):[0-9]{2}", str(i)) is not None
         ]
         if len(activity_time_check) != 2:
             alert_danger("Provide valid values for both start and end time.")
@@ -238,14 +227,10 @@ def edit_activity(year, act_id, act_type):
             return mhelp.redirect_url("y.schedule", year=year)
 
         # Check to ensure both start and end time are between 09:00 to 18:00
-        # and ensure the minute hand for a start or end time is either o'clock or 30 minute.
-        # Eg: A valid value for start will be 11:00 or 11:30
-
         activity_time_check = [
             True
             for i in (form.start_time.data, form.end_time.data)
             if "09:00:00" <= str(i) <= "18:00:00"
-            and re.search(r"[0-9]{2}:(00|30):[0-9]{2}", str(i)) is not None
         ]
         if len(activity_time_check) != 2:
             alert_danger("Provide valid values for both start and end time.")
@@ -309,7 +294,7 @@ def edit_day(year, day_id):
     return mhelp.redirect_url("y.schedule", year=year)
 
 
-@module_blueprint.route("/<int:year>/act/<act_id>/delete", methods=["GET"])
+@module_blueprint.route("/<int:year>/act/<act_id>/delete")
 def delete_activity(year, act_id):
     if not current_user.is_admin:
         alert_danger("You don't have access to delete activity.")
@@ -336,3 +321,35 @@ def delete_day(year, day_id):
     day.delete()
     alert_success("Day deleted!")
     return mhelp.redirect_url("y.schedule", year=year)
+
+
+@module_blueprint.route("/<int:year>/calendar/<tz>")
+def calendar(year, tz):
+    get_all_activities = request.args.get('all', False, type=bool)
+    activity_id = request.args.get('act_id', None, type=int)
+    if tz is None or tz.strip() == '':
+        tzname = 'UTC'
+    else:
+        tzname = tz #.replace('/', '_')
+    
+    if get_all_activities is True:
+        return mhelp.redirect_url("schedule.all_activities_cal", _year=year, tz=tzname)
+    act_id = Activity.query.get(activity_id)
+    if get_all_activities is False and act_id is not None:
+        return mhelp.redirect_url("schedule.single_activity_cal", _year=year, act_id= activity_id, tz=tzname)
+    
+    return mhelp.redirect_url("y.schedule", year=year)
+    
+
+@module_blueprint.route("/download_ical/flaskcon<string:_year>_events.ics")
+def all_activities_cal(_year):
+    tzname = request.args.get('tz')
+    output = get_calendar(timezone=tzname, conf_year=_year, all=True)
+    return output
+
+
+@module_blueprint.route("/download_ical/flaskcon<string:_year>_event<int:act_id>.ics")
+def single_activity_cal(_year, act_id):
+    tzname = request.args.get('tz')
+    output = get_calendar(timezone=tzname, conf_year=_year, activity_id=act_id)
+    return output
