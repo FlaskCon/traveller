@@ -33,6 +33,7 @@ class Activity(PkModel):
     text = db.Column(db.String(300), info={'label': 'Text:'})
     start_time = db.Column(db.Time, info={'label': 'Start time:'}, nullable=False)
     end_time = db.Column(db.Time, info={'label': 'End time:'}, nullable=False)
+    note = db.Column(db.Text(1000), info={'label': 'Note:'})
     talk_id = db.Column(db.Integer)
     day_id = db.Column(db.Integer, db.ForeignKey("days.id"), nullable=False)
 
