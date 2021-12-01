@@ -8,7 +8,7 @@ from modules.conf.models import talk_list_author_bridge
 from init import db
 from modules.schedule.forms import DayForm
 from modules.cfp.forms import SubmitTalkForm
-from modules.schedule.models import Schedule
+from modules.schedule.models import Day, Schedule, Activity
 from modules.schedule.forms import NormalActivityForm
 from modules.schedule.forms import TalkActivityForm
 from modules.profile.forms import UserProfileForm
@@ -177,6 +177,16 @@ def schedule(year):
     context.update(locals())
     return render_template('conftheme/{}/parts/schedule.html'.format(year), **context)
 
+
+@module_blueprint.route("/<int:year>/schedule/activity_<int:act_id>")
+def schedule_activity(year, act_id):
+    context = mhelp.context()
+    timezone = request.args.get("tz", "UTC")
+    act_id = act_id
+    activity = Activity.query.get(act_id)
+    day = Day.query.get(activity.day_id)
+    context.update(locals())
+    return render_template('conftheme/{}/parts/activity.html'.format(year), **context)
 
 @module_blueprint.route("/<int:year>/reviewers/")
 def reviewers(year):

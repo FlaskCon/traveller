@@ -56,11 +56,10 @@
     </style>
 {% endblock %}
 {% block body %}
-    <button id="up_button" style="position: fixed; bottom: 0; right: 0; z-index: 1000;"
-        class="hidden bg-red-400 text-white shadow-lg font-normal h-10 w-10 mb-8 rounded-full outline-none focus:outline-none mr-2">
+    <button id="up_button" style="position: fixed; bottom: 0; right: 0; z-index: 1000;" class="hidden bg-red-400 text-white shadow-lg font-normal h-10 w-10 mb-8 rounded-full outline-none focus:outline-none mr-2">
         <i class="fa fa-arrow-up"></i>
-    </button>    
-        
+    </button>
+
     <p class="pb-16 bg-red-500"></p>
     <section class="pb-20 bg-blueGray-200">
         <p class="p-5 bg-transparent"></p>
@@ -79,119 +78,277 @@
                             so that every Python enthusiast can find content matching their interest. 
                             Register now to participate in our conference, our Discord channel, and join our workshops.
                         </p>
+                    </div>
+
+                    <div class="timezone-selector mx-7 flex flex-col md:flex-row justify-between">
+                        <div class="mb-2">
+                            <label for="select-timezone" class="font-semibold">View schedule in your timezone:</label>
+                            <select class="rounded pr-8 mb-2" id="select-timezone">
+                                {% if timezone == "UTC" %}
+                                    <option value="UTC" selected>UTC</option>
+                                    <option id="user-timezone"></option>
+                                {% else %}
+                                    <option value="UTC">UTC</option>
+                                    <option id="user-timezone" selected></option>
+                                {% endif %}
+
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <a href="{{ url_for('schedule.calendar', year=year, tz=timezone.replace('/', '_'), all=True) }}" download="flaskcon{{ year }}_events_{{ timezone.replace('/', '_') }}.ics" id="btn-timezone" class="bg-yellow-600 text-white px-3 py-3 rounded font-bold text-sm shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+                                Add to 📅 Calendar
+                            </a>
                         </div>
 
-                        <div class="timezone-selector mx-7 flex flex-col md:flex-row justify-between">
-                            <div class="mb-2">
-                                <label for="select-timezone" class="font-semibold">View schedule in your timezone:</label>
-                                <select class="rounded pr-8 mb-1" id="select-timezone">
-                                    {% if timezone == "UTC" %}
-                                        <option value="UTC" selected>UTC</option>
-                                        <option id="user-timezone"></option>
+                    </div>
+                    <hr class="border-2 m-auto w-2/5 mb-3 mt-6">
+                    <div class="flex flex-wrap" id="wrapper-for-text-red">
+                        <div class="w-full">
+                            <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4" id="day-tab-selector">
+                                {% set days = schedule.days | get_enum %}
+                                {% for day_index, day in days %}
+                                    {% if day_index == 0 %}
+                                        <li class="-mb-px mr-2 mb-2 last:mr-0 flex-auto text-center">
+                                            <a class="text-sm uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white border-b-4 border-red-600" data-tab-toggle="text-tab-day_{{ day_index + 1 }}-red" onclick="changeActiveTab(event,'wrapper-for-text-red','red','text-tab-day_{{ day_index + 1 }}-red')">
+                                                {{ day.date.strftime("%A, %d %B") }}
+                                            </a>
+                                        </li>
                                     {% else %}
-                                        <option value="UTC">UTC</option>
-                                        <option id="user-timezone" selected></option>
+                                        <li class="-mb-px mr-2 mb-2 last:mr-0 flex-auto text-center">
+                                            <a class="text-sm uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white" data-tab-toggle="text-tab-day_{{ day_index + 1 }}-red" onclick="changeActiveTab(event,'wrapper-for-text-red','red','text-tab-day_{{ day_index + 1 }}-red')">
+                                                {{ day.date.strftime("%A, %d %B") }}
+                                            </a>
+                                        </li>
                                     {% endif %}
-                                    
-                                </select>
-                            </div>
-                            <div class="mb-2">
-                                <a href="{{ url_for('schedule.calendar', year=year, tz=timezone.replace('/', '_'), all=True) }}" 
-                                download="flaskcon{{year}}_events_{{timezone.replace('/', '_')}}.ics" id="btn-timezone" 
-                                class="bg-yellow-600 text-white px-3 py-3 rounded font-bold text-sm shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
-                                    Add schedule to your 📅 Calendar
-                                </a>
-                            </div>
-                            
-                        </div>
-                        <hr class="border-2 m-auto w-2/5 mb-3 mt-6">
-                            <div class="flex flex-wrap" id="wrapper-for-text-red">
-                                <div class="w-full">
-                                    <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4" id="day-tab-selector">
+                                {% endfor %}
+
+                            </ul>
+
+
+                            <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+                                <div class="px-4 py-5 flex-auto">
+                                    <div class="tab-content tab-space">
                                         {% set days = schedule.days | get_enum %}
                                         {% for day_index, day in days %}
                                             {% if day_index == 0 %}
-                                                <li class="-mb-px mr-2 mb-2 last:mr-0 flex-auto text-center">
-                                                    <a class="text-sm uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white border-b-4 border-red-600" data-tab-toggle="text-tab-day_{{ day_index + 1 }}-red" onclick="changeActiveTab(event,'wrapper-for-text-red','red','text-tab-day_{{ day_index + 1 }}-red')">
-                                                        {{ day.date.strftime("%A, %d %B") }}
-                                                    </a>
-                                                </li>
-                                            {% else %}
-                                                <li class="-mb-px mr-2 mb-2 last:mr-0 flex-auto text-center">
-                                                    <a class="text-sm uppercase px-5 py-3 shadow-lg rounded block leading-normal text-red-600 bg-white" data-tab-toggle="text-tab-day_{{ day_index + 1 }}-red" onclick="changeActiveTab(event,'wrapper-for-text-red','red','text-tab-day_{{ day_index + 1 }}-red')">
-                                                        {{ day.date.strftime("%A, %d %B") }}
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                        {% endfor %}
-
-                                    </ul>
-
-
-                                    <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-                                        <div class="px-4 py-5 flex-auto">
-                                            <div class="tab-content tab-space">
-                                                {% set days = schedule.days | get_enum %}
-                                                {% for day_index, day in days %}
-                                                    {% if day_index == 0 %}
-                                                        <div
-                                                            class="block" data-tab-content="true" id="text-tab-day_{{ day_index + 1 }}-red">
-                                                            <!-- Call the get_time_indicators method which returns a Tuple with 2 elements and set it as a variable -->
-                                                            {% set time_indicators = day.get_time_indicators(timezone, 2021) %}
-                                                            <!-- The first element in the time_indicators Tuple is a list and the second element is a dictionary -->
-                                                            {% set indicators = time_indicators[0] %}
-                                                            {% set pair_indicators = time_indicators[1] %}
-                                                            {% for i in indicators %}
-                                                                {# 
-                                                                                                                        We loop through the indicators list and for each element in the list,
-                                                                                                                        we use the element to query our pair_indicators dictionary to retrieve the appropriate time intervals.
-                                                                                                                        
-                                                                                                                        We then call the get_sorted_activities_based_on_timezone method which returns a sorted list in ascending order.
-                                                                                                                        We set the returned list as a variable called activities and loop through it.
-                                                                                                                        For each element in the activities list, we check if the start_time is between a particular time interval.
-                                                                                                                        #}
-                                                                <p class="uppercase text-sm">{{ i.strftime("%I:%M %p") }}</p>
-                                                                <hr>
-                                                                    {% if i.time().strftime("%I:%M %p") == indicators[7].time().strftime("%I:%M %p") or i.time().strftime("%I:%M %p") == indicators[-1].time().strftime("%I:%M %p") %}
-                                                                        <div style="background-color: #5e5d5d; width: 5px; height: 5px; border-radius: 50%; margin: 10px 0 0 10px;"></div>
-                                                                        <div style="background-color: #5e5d5d; width: 5px; height: 5px; border-radius: 50%; margin: 10px 0 0 10px;"></div>
-                                                                        <div style="background-color: #5e5d5d; width: 5px; height: 5px; border-radius: 50%; margin: 10px 0 0 10px;"></div>
-                                                                        <div style="background-color: #5e5d5d; width: 5px; height: 5px; border-radius: 50%; margin: 10px 0 0 10px;"></div>
+                                                <div
+                                                    class="block" data-tab-content="true" id="text-tab-day_{{ day_index + 1 }}-red">
+                                                    <!-- Call the get_time_indicators method which returns a Tuple with 2 elements and set it as a variable -->
+                                                    {% set time_indicators = day.get_time_indicators(timezone, 2021) %}
+                                                    <!-- The first element in the time_indicators Tuple is a list and the second element is a dictionary -->
+                                                    {% set indicators = time_indicators[0] %}
+                                                    {% set pair_indicators = time_indicators[1] %}
+                                                    {% for i in indicators %}
+                                                        {# 
+                                                            We loop through the indicators list and for each element in the list,
+                                                            we use the element to query our pair_indicators dictionary to retrieve the appropriate time intervals.
+                                                            
+                                                            We then call the get_sorted_activities_based_on_timezone method which returns a sorted list in ascending order.
+                                                            We set the returned list as a variable called activities and loop through it.
+                                                            For each element in the activities list, we check if the start_time is between a particular time interval.
+                                                        #}
+                                                        <p class="uppercase text-sm">{{ i.strftime("%I:%M %p") }}</p>
+                                                        <hr>
+                                    
+                                                        <div class="flex mb-0 flex-wrap pt-3 pb-4 flex-col md:flex-row activity">
+                                                            {% set time_interval = pair_indicators[i|string] %}
+                                                            {% set activities = day.get_sorted_activities_based_on_timezone(timezone) %}
+                                                            {% for activity_ in activities %}
+                                                                {% if time_interval[0].time() <= activity_[1].time() < time_interval[1].time() %}
+                                                                    {% set activity = activity_[0] %}
+                                                                    {% if activity.type == 'talk' %}
+                                                                        {% set talk = activity.get_talk() %}
+                                                                        {% if talk.level == "beginner" %}
+                                                                            <a href="{{ url_for('y.schedule_activity', year=year, act_id=activity.id, tz=timezone) }}" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto beginner">
+                                                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #8b0000b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                                                    <div class="activity_time font-bold">
+                                                                                        {{ activity_[1].strftime("%I:%M") }}
+                                                                                        <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
+                                                                                    </div>
+                                                                                    <br>
+                                                                                        <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
+                                                                                </div>
+                                                                                <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
+                                                                                    <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
+                                                                                    <div class="author text-gray-500 text-sm capitalize">
+                                                                                        {% for author in talk.author_list.authors %}
+                                                                                            {{ author.first_name }}
+                                                                                            {{ author.last_name }}
+                                                                                        {% endfor %}
+                                                                                    </div>
+                                                                                    <br>
+                                                                                    <div class="level text-sm capitalize self-end" style="color: #8b0000b0;">{{ talk.level }}</div>
+                                                                                </div>
+                                                                            </a>
+                                                                        {% endif %}
+                                                                        {% if talk.level == "intermediate" %}
+                                                                            <a href="{{ url_for('y.schedule_activity', year=year, act_id=activity.id, tz=timezone) }}" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto intermediate">
+                                                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #008b17b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                                                    <div class="activity_time font-bold">
+                                                                                        {{ activity_[1].strftime("%I:%M") }}
+                                                                                        <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
+                                                                                    </div>
+                                                                                    <br>
+                                                                                        <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
+                                                                                    </div>
+                                                                                    <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
+                                                                                        <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
+                                                                                        <div class="author text-gray-500 text-sm capitalize">
+                                                                                            {% for author in talk.author_list.authors %}
+                                                                                                {{ author.first_name }}
+                                                                                                {{ author.last_name }}
+                                                                                            {% endfor %}
+                                                                                        </div>
+                                                                                        <br>
+                                                                                            <div class="level text-sm capitalize self-end" style="color: #008b17b0;">{{ talk.level }}</div>
+                                                                                        </div>
+                                                                            </a>
+                                                                        {% endif %}
+                                                                        {% if talk.level == "advanced" %}
+                                                                        <a href="{{ url_for('y.schedule_activity', year=year, act_id=activity.id, tz=timezone) }}" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto advance">
+                                                                            <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #00098bb0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                                                <div class="activity_time font-bold">
+                                                                                    {{ activity_[1].strftime("%I:%M") }}
+                                                                                    <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
+                                                                                </div>
+                                                                                <br>
+                                                                                    <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
+                                                                                </div>
+                                                                                <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
+                                                                                    <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
+                                                                                    <div class="author text-gray-500 text-sm capitalize">
+                                                                                        {% for author in talk.author_list.authors %}
+                                                                                            {{ author.first_name }}
+                                                                                            {{ author.last_name }}
+                                                                                        {% endfor %}
+                                                                                    </div>
+                                                                                    <br>
+                                                                                        <div class="level text-sm capitalize self-end" style="color: #00098bb0;">{{ talk.level }}</div>
+                                                                                    </div>
+                                                                                </a>
+                                                                        {% endif %}
+                                                                    {% else %}
+                                                                        <a href="{{ url_for('y.schedule_activity', year=year, act_id=activity.id, tz=timezone) }}" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto normal">
+                                                                        <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #020202b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                                            <div class="activity_time font-bold">
+                                                                                {{ activity_[1].strftime("%I:%M") }}
+                                                                                <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
+                                                                            </div>
+                                                                            <br>
+                                                                                <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
+                                                                            </div>
+                                                                            <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
+                                                                                <div class="title">{{ activity.text | truncate(60, true) }}</div>
+                                                                                <br>
+                                                                                    <div class="level text-sm self-end" style="color: #020202b0;">Normal</div>
+                                                                                </div>
+                                                                        </a>
                                                                     {% endif %}
-                                                                    <div class="flex mb-0 flex-wrap pt-3 pb-4 flex-col md:flex-row activity">
-                                                                        {% set time_interval = pair_indicators[i|string] %}
-                                                                        {% set activities = day.get_sorted_activities_based_on_timezone(timezone) %}
-                                                                        {% for activity_ in activities %}
-                                                                            {% if time_interval[0].time() <= activity_[1].time() < time_interval[1].time() %}
-                                                                                {% set activity = activity_[0] %}
-                                                                                {% if activity.type == 'talk' %}
-                                                                                    {% set talk = activity.get_talk() %}
-                                                                                    {% if talk.level == "beginner" %}
-                                                                                        <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto beginner">
-                                                                                            <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #8b0000b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                                                                                <div class="activity_time font-bold">
-                                                                                                    {{ activity_[1].strftime("%I:%M") }}
-                                                                                                    <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                <div
+                                                    class="hidden" data-tab-content="true" id="text-tab-day_{{ day_index + 1 }}-red">
+                                                    <!-- Call the get_time_indicators method which returns a Tuple with 2 elements and set it as a variable -->
+                                                    {% set time_indicators = day.get_time_indicators(timezone, 2021) %}
+                                                    <!-- The first element in the time_indicators Tuple is a list and the second element is a dictionary -->
+                                                    {% set indicators = time_indicators[0] %}
+                                                    {% set pair_indicators = time_indicators[1] %}
+                                                    {% for i in indicators %}
+                                                        {# 
+                                                            We loop through the indicators list and for each element in the list,
+                                                            we use the element to query our pair_indicators dictionary to retrieve the appropriate time intervals.
+                                                            
+                                                            We then call the get_sorted_activities_based_on_timezone method which returns a sorted list in ascending order.
+                                                            We set the returned list as a variable called activities and loop through it.
+                                                            For each element in the activities list, we check if the start_time is between a particular time interval.
+                                                        #}
+                                                        <p class="uppercase text-sm">{{ i.strftime("%I:%M %p") }}</p>
+                                                        <hr>
+                                                        
+                                                        <div class="flex mb-0 flex-wrap pt-3 pb-4 flex-col md:flex-row activity">
+                                                            {% set time_interval = pair_indicators[i|string] %}
+                                                            {% set activities = day.get_sorted_activities_based_on_timezone(timezone) %}
+                                                            {% for activity_ in activities %}
+                                                                {% if time_interval[0].time() <= activity_[1].time() < time_interval[1].time() %}
+                                                                    {% set activity = activity_[0] %}
+                                                                    {% if activity.type == 'talk' %}
+                                                                        {% set talk = activity.get_talk() %}
+                                                                        {% if talk.level == "beginner" %}
+                                                                            <a href="{{ url_for('y.schedule_activity', year=year, act_id=activity.id, tz=timezone) }}" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto beginner">
+                                                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #8b0000b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                                                    <div class="activity_time font-bold">
+                                                                                        {{ activity_[1].strftime("%I:%M") }}
+                                                                                        <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
+                                                                                    </div>
+                                                                                    <br>
+                                                                                        <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
+                                                                                    </div>
+                                                                                    <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
+                                                                                        <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
+                                                                                        <div class="author text-gray-500 text-sm capitalize">
+                                                                                            {% for author in talk.author_list.authors %}
+                                                                                                {{ author.first_name }}
+                                                                                                {{ author.last_name }}
+                                                                                            {% endfor %}
+                                                                                        </div>
+                                                                                        <br>
+                                                                                            <div class="level text-sm capitalize self-end" style="color: #8b0000b0;">{{ talk.level }}</div>
+                                                                                        </div>
+                                                                                    </a>
+                                                                                {% endif %}
+                                                                                {% if talk.level == "intermediate" %}
+                                                                                    <a href="{{ url_for('y.schedule_activity', year=year, act_id=activity.id, tz=timezone) }}" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto intermediate">
+                                                                                        <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #008b17b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                                                            <div class="activity_time font-bold">
+                                                                                                {{ activity_[1].strftime("%I:%M") }}
+                                                                                                <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
+                                                                                            </div>
+                                                                                            <br>
+                                                                                                <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
+                                                                                            </div>
+                                                                                            <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
+                                                                                                <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
+                                                                                                <div class="author text-gray-500 text-sm capitalize">
+                                                                                                    {% for author in talk.author_list.authors %}
+                                                                                                        {{ author.first_name }}
+                                                                                                        {{ author.last_name }}
+                                                                                                    {% endfor %}
                                                                                                 </div>
                                                                                                 <br>
-                                                                                                    <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
+                                                                                                    <div class="level text-sm capitalize self-end" style="color: #008b17b0;">{{ talk.level }}</div>
                                                                                                 </div>
-                                                                                                <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
-                                                                                                    <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
-                                                                                                    <div class="author text-gray-500 text-sm capitalize">
-                                                                                                        {% for author in talk.author_list.authors %}
-                                                                                                            {{ author.first_name }}
-                                                                                                            {{ author.last_name }}
-                                                                                                        {% endfor %}
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                        {% if talk.level == "advanced" %}
+                                                                                            <a href="{{ url_for('y.schedule_activity', year=year, act_id=activity.id, tz=timezone) }}" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto advance">
+                                                                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #00098bb0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                                                                    <div class="activity_time font-bold">
+                                                                                                        {{ activity_[1].strftime("%I:%M") }}
+                                                                                                        <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
                                                                                                     </div>
                                                                                                     <br>
-                                                                                                        <div class="level text-sm capitalize self-end" style="color: #8b0000b0;">{{ talk.level }}</div>
+                                                                                                        <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
                                                                                                     </div>
-                                                                                                </a>
-                                                                                            {% endif %}
-                                                                                            {% if talk.level == "intermediate" %}
-                                                                                                <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto intermediate">
-                                                                                                    <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #008b17b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                                                                                    <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
+                                                                                                        <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
+                                                                                                        <div class="author text-gray-500 text-sm capitalize">
+                                                                                                            {% for author in talk.author_list.authors %}
+                                                                                                                {{ author.first_name }}
+                                                                                                                {{ author.last_name }}
+                                                                                                            {% endfor %}
+                                                                                                        </div>
+                                                                                                        <br>
+                                                                                                            <div class="level text-sm capitalize self-end" style="color: #00098bb0;">{{ talk.level }}</div>
+                                                                                                        </div>
+                                                                                                    </a>
+                                                                                                {% endif %}
+                                                                                            {% else %}
+                                                                                                <a href="{{ url_for('y.schedule_activity', year=year, act_id=activity.id, tz=timezone) }}" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto normal">
+                                                                                                    <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #020202b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
                                                                                                         <div class="activity_time font-bold">
                                                                                                             {{ activity_[1].strftime("%I:%M") }}
                                                                                                             <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
@@ -200,202 +357,31 @@
                                                                                                             <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
                                                                                                         </div>
                                                                                                         <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
-                                                                                                            <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
-                                                                                                            <div class="author text-gray-500 text-sm capitalize">
-                                                                                                                {% for author in talk.author_list.authors %}
-                                                                                                                    {{ author.first_name }}
-                                                                                                                    {{ author.last_name }}
-                                                                                                                {% endfor %}
-                                                                                                            </div>
+                                                                                                            <div class="title">{{ activity.text | truncate(60, true) }}</div>
                                                                                                             <br>
-                                                                                                                <div class="level text-sm capitalize self-end" style="color: #008b17b0;">{{ talk.level }}</div>
+                                                                                                                <div class="level text-sm self-end" style="color: #020202b0;">Normal</div>
                                                                                                             </div>
                                                                                                         </a>
                                                                                                     {% endif %}
-                                                                                                    {% if talk.level == "advanced" %}
-                                                                                                        <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto advance">
-                                                                                                            <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #00098bb0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                                                                                                <div class="activity_time font-bold">
-                                                                                                                    {{ activity_[1].strftime("%I:%M") }}
-                                                                                                                    <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
-                                                                                                                </div>
-                                                                                                                <br>
-                                                                                                                    <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
-                                                                                                                </div>
-                                                                                                                <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
-                                                                                                                    <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
-                                                                                                                    <div class="author text-gray-500 text-sm capitalize">
-                                                                                                                        {% for author in talk.author_list.authors %}
-                                                                                                                            {{ author.first_name }}
-                                                                                                                            {{ author.last_name }}
-                                                                                                                        {% endfor %}
-                                                                                                                    </div>
-                                                                                                                    <br>
-                                                                                                                        <div class="level text-sm capitalize self-end" style="color: #00098bb0;">{{ talk.level }}</div>
-                                                                                                                    </div>
-                                                                                                                </a>
-                                                                                                            {% endif %}
-                                                                                                        {% else %}
-                                                                                                            <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto normal">
-                                                                                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #020202b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                                                                                                    <div class="activity_time font-bold">
-                                                                                                                        {{ activity_[1].strftime("%I:%M") }}
-                                                                                                                        <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
-                                                                                                                    </div>
-                                                                                                                    <br>
-                                                                                                                        <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
-                                                                                                                    </div>
-                                                                                                                    <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
-                                                                                                                        <div class="title">{{ activity.text | truncate(60, true) }}</div>
-                                                                                                                        <br>
-                                                                                                                            <div class="level text-sm self-end" style="color: #020202b0;">Normal</div>
-                                                                                                                        </div>
-                                                                                                                    </a>
-                                                                                                                {% endif %}
-                                                                                                            {% endif %}
-                                                                                                        {% endfor %}
-                                                                                                    </div>
-                                                                                                {% endfor %}
-                                                                                            </div>
-                                                                                        {% else %}
-                                                                                            <div
-                                                                                                class="hidden" data-tab-content="true" id="text-tab-day_{{ day_index + 1 }}-red">
-                                                                                                <!-- Call the get_time_indicators method which returns a Tuple with 2 elements and set it as a variable -->
-                                                                                                {% set time_indicators = day.get_time_indicators(timezone, 2021) %}
-                                                                                                <!-- The first element in the time_indicators Tuple is a list and the second element is a dictionary -->
-                                                                                                {% set indicators = time_indicators[0] %}
-                                                                                                {% set pair_indicators = time_indicators[1] %}
-                                                                                                {% for i in indicators %}
-                                                                                                    {# 
-                                                                                                                                                            We loop through the indicators list and for each element in the list,
-                                                                                                                                                            we use the element to query our pair_indicators dictionary to retrieve the appropriate time intervals.
-                                                                                                                                                            
-                                                                                                                                                            We then call the get_sorted_activities_based_on_timezone method which returns a sorted list in ascending order.
-                                                                                                                                                            We set the returned list as a variable called activities and loop through it.
-                                                                                                                                                            For each element in the activities list, we check if the start_time is between a particular time interval.
-                                                                                                                                                            #}
-                                                                                                    <p class="uppercase text-sm">{{ i.strftime("%I:%M %p") }}</p>
-                                                                                                    <hr>
-                                                                                                        {% if i.time().strftime("%I:%M %p") == indicators[7].time().strftime("%I:%M %p") or i.time().strftime("%I:%M %p") == indicators[-1].time().strftime("%I:%M %p") %}
-                                                                                                            <div style="background-color: #5e5d5d; width: 5px; height: 5px; border-radius: 50%; margin: 10px 0 0 10px;"></div>
-                                                                                                            <div style="background-color: #5e5d5d; width: 5px; height: 5px; border-radius: 50%; margin: 10px 0 0 10px;"></div>
-                                                                                                            <div style="background-color: #5e5d5d; width: 5px; height: 5px; border-radius: 50%; margin: 10px 0 0 10px;"></div>
-                                                                                                            <div style="background-color: #5e5d5d; width: 5px; height: 5px; border-radius: 50%; margin: 10px 0 0 10px;"></div>
-                                                                                                        {% endif %}
-                                                                                                        <div class="flex mb-0 flex-wrap pt-3 pb-4 flex-col md:flex-row activity">
-                                                                                                            {% set time_interval = pair_indicators[i|string] %}
-                                                                                                            {% set activities = day.get_sorted_activities_based_on_timezone(timezone) %}
-                                                                                                            {% for activity_ in activities %}
-                                                                                                                {% if time_interval[0].time() <= activity_[1].time() < time_interval[1].time() %}
-                                                                                                                    {% set activity = activity_[0] %}
-                                                                                                                    {% if activity.type == 'talk' %}
-                                                                                                                        {% set talk = activity.get_talk() %}
-                                                                                                                        {% if talk.level == "beginner" %}
-                                                                                                                            <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto beginner">
-                                                                                                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #8b0000b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                                                                                                                    <div class="activity_time font-bold">
-                                                                                                                                        {{ activity_[1].strftime("%I:%M") }}
-                                                                                                                                        <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
-                                                                                                                                    </div>
-                                                                                                                                    <br>
-                                                                                                                                        <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
-                                                                                                                                    </div>
-                                                                                                                                    <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
-                                                                                                                                        <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
-                                                                                                                                        <div class="author text-gray-500 text-sm capitalize">
-                                                                                                                                            {% for author in talk.author_list.authors %}
-                                                                                                                                                {{ author.first_name }}
-                                                                                                                                                {{ author.last_name }}
-                                                                                                                                            {% endfor %}
-                                                                                                                                        </div>
-                                                                                                                                        <br>
-                                                                                                                                            <div class="level text-sm capitalize self-end" style="color: #8b0000b0;">{{ talk.level }}</div>
-                                                                                                                                        </div>
-                                                                                                                                    </a>
-                                                                                                                                {% endif %}
-                                                                                                                                {% if talk.level == "intermediate" %}
-                                                                                                                                    <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto intermediate">
-                                                                                                                                        <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #008b17b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                                                                                                                            <div class="activity_time font-bold">
-                                                                                                                                                {{ activity_[1].strftime("%I:%M") }}
-                                                                                                                                                <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
-                                                                                                                                            </div>
-                                                                                                                                            <br>
-                                                                                                                                                <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
-                                                                                                                                            </div>
-                                                                                                                                            <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
-                                                                                                                                                <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
-                                                                                                                                                <div class="author text-gray-500 text-sm capitalize">
-                                                                                                                                                    {% for author in talk.author_list.authors %}
-                                                                                                                                                        {{ author.first_name }}
-                                                                                                                                                        {{ author.last_name }}
-                                                                                                                                                    {% endfor %}
-                                                                                                                                                </div>
-                                                                                                                                                <br>
-                                                                                                                                                    <div class="level text-sm capitalize self-end" style="color: #008b17b0;">{{ talk.level }}</div>
-                                                                                                                                                </div>
-                                                                                                                                            </a>
-                                                                                                                                        {% endif %}
-                                                                                                                                        {% if talk.level == "advanced" %}
-                                                                                                                                            <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto advance">
-                                                                                                                                                <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #00098bb0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                                                                                                                                    <div class="activity_time font-bold">
-                                                                                                                                                        {{ activity_[1].strftime("%I:%M") }}
-                                                                                                                                                        <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
-                                                                                                                                                    </div>
-                                                                                                                                                    <br>
-                                                                                                                                                        <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
-                                                                                                                                                        <div class="title mb-3">{{ talk.title | truncate(60, true) }}</div>
-                                                                                                                                                        <div class="author text-gray-500 text-sm capitalize">
-                                                                                                                                                            {% for author in talk.author_list.authors %}
-                                                                                                                                                                {{ author.first_name }}
-                                                                                                                                                                {{ author.last_name }}
-                                                                                                                                                            {% endfor %}
-                                                                                                                                                        </div>
-                                                                                                                                                        <br>
-                                                                                                                                                            <div class="level text-sm capitalize self-end" style="color: #00098bb0;">{{ talk.level }}</div>
-                                                                                                                                                        </div>
-                                                                                                                                                    </a>
-                                                                                                                                                {% endif %}
-                                                                                                                                            {% else %}
-                                                                                                                                                <a href="#" class="max-w-xs grid grid-cols-3 mr-2 mb-2 flex-auto normal">
-                                                                                                                                                    <div class="col-end-1 text-white text-right rounded p-2" style="background-color: #020202b0; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                                                                                                                                        <div class="activity_time font-bold">
-                                                                                                                                                            {{ activity_[1].strftime("%I:%M") }}
-                                                                                                                                                            <div class="prompt font-normal text-sm">{{ activity_[1].strftime("%p") }}</div>
-                                                                                                                                                        </div>
-                                                                                                                                                        <br>
-                                                                                                                                                            <div class="activity_duration text-gray-50">{{ activity_[2] }}</div>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="border rounded col-span-3 p-2 flex flex-col justify-between" style="border-top-left-radius: 0; border-bottom-left-radius: 0; border-color: #cccccc;">
-                                                                                                                                                            <div class="title">{{ activity.text | truncate(60, true) }}</div>
-                                                                                                                                                            <br>
-                                                                                                                                                                <div class="level text-sm self-end" style="color: #020202b0;">Normal</div>
-                                                                                                                                                            </div>
-                                                                                                                                                        </a>
-                                                                                                                                                    {% endif %}
-                                                                                                                                                {% endif %}
-                                                                                                                                            {% endfor %}
-                                                                                                                                        </div>
-                                                                                                                                    {% endfor %}
-                                                                                                                                </div>
-                                                                                                                            {% endif %}
-                                                                                                                        {% endfor %}
+                                                                                                {% endif %}
+                                                                                            {% endfor %}
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
 
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                                                                                        </div>
-                                                                                                    </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-        
 
     <script type="text/javascript">
         function changeActiveTab(event, wrapperID, color, tabID) {
@@ -416,7 +402,6 @@
                 }
             }
         }
-
     </script>
     <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
 

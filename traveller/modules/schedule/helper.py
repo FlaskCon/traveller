@@ -26,7 +26,7 @@ def get_calendar(timezone, conf_year, all=False, activity_id=None) -> bytes:
     if all is True:
         event_list = all_activities(timezone)
         return schedule_activities(event_list, timezone, conf_year)
-    event_list = activity(activity_id, timezone)
+    event_list = [activity(activity_id, timezone)]
     return schedule_activities(event_list, timezone, conf_year)
 
 
@@ -56,9 +56,9 @@ def schedule_activities(event_list, timezone, conf_year) -> bytes:
         cal.add_component(event)
 
     # Adding custom properties
-    organizer = vCalAddress('MAILTO:randyduodu@gmail.com')
-    organizer.params['cn'] = vText('Randy Duodu')
-    organizer.params['role'] = vText('CHAIR')
+    organizer = vCalAddress('MAILTO:flaskcon@gmail.com')
+    organizer.params['cn'] = vText('Abdur-Rahmaan Janhangeer')
+    organizer.params['role'] = vText('Adminstrator')
     cal['organizer'] = organizer
     
     output = cal.to_ical(sorted=False)
@@ -83,7 +83,6 @@ def all_activities(timezone) -> List[Event]:
             
         ed_ = end_datetime.astimezone(tz=tzinfo(timezone))
         st_ = start_datetime.astimezone(tz=tzinfo(timezone))
-        print(ed_, st_)
         
         event = Event()
         
@@ -92,9 +91,7 @@ def all_activities(timezone) -> List[Event]:
             event.add('dtstart', st_)
             event.add('dtend', ed_)
             event.add('duration', ed_ - st_)
-            # event.add('dtstamp', dt(2021, 4, 8, 0, 10, 0, tzinfo=tzinfo("GMT")))
-            event.add('track', 'Workshop')
-            talk_uri = vUri(f"https://flaskcon.com/activity/{act.id}")
+            talk_uri = vUri(f"https://flaskcon.com/y/2021/schedule/activity_{act.id}?tz={timezone}")
             event.add('url', talk_uri)
         elif act.type == "talk":
             talk = act.get_talk()
@@ -105,9 +102,7 @@ def all_activities(timezone) -> List[Event]:
             event.add('dtstart', st_)
             event.add('dtend', ed_)
             event.add('duration', ed_ - st_)
-            # event.add('dtstamp', dt(2021, 4, 8, 0, 10, 0, tzinfo=tzinfo("GMT")))
-            event.add('track', 'Workshop')
-            talk_uri = vUri(f"https://flaskcon.com/activity/{act.id}")
+            talk_uri = vUri(f"https://flaskcon.com/y/2021/schedule/activity_{act.id}?tz={timezone}")
             event.add('url', talk_uri)
         
         event_list.append(event)
@@ -139,21 +134,18 @@ def activity(activity_id, timezone) -> Event:
         event.add('dtstart', st_)
         event.add('dtend', ed_)
         event.add('duration', ed_ - st_)
-        # event.add('dtstamp', dt(2021, 4, 8, 0, 10, 0, tzinfo=tzinfo("GMT")))
-        event.add('track', 'Workshop')
-        talk_uri = vUri(f"https://flaskcon.com/activity/{activity_id}")
+        talk_uri = vUri(f"https://flaskcon.com/y/2021/schedule/activity_{activity_id}?tz={timezone}")
         event.add('url', talk_uri)
         return event
     elif act.type == "talk":
         talk = act.get_talk()
-        authors = " ".join(talk.author_list.authors)
+        authors_list = [f"{user.first_name} {user.last_name}" for user in talk.author_list.authors]
+        authors = " ".join(authors_list)
         event.add('summary', f"{talk.title} by {authors.upper()}")
         event.add('description', talk.description)
         event.add('dtstart', st_)
         event.add('dtend', ed_)
         event.add('duration', ed_ - st_)
-        # event.add('dtstamp', dt(2021, 4, 8, 0, 10, 0, tzinfo=tzinfo("GMT")))
-        event.add('track', 'Workshop')
-        talk_uri = vUri(f"https://flaskcon.com/activity/{activity_id}")
+        talk_uri = vUri(f"https://flaskcon.com/y/2021/schedule/activity_{activity_id}?tz={timezone}")
         event.add('url', talk_uri)
         return event

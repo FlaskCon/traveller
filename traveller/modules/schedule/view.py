@@ -341,14 +341,14 @@ def calendar(year, tz):
     return mhelp.redirect_url("y.schedule", year=year)
     
 
-@module_blueprint.route("/download_ical/flaskcon<string:_year>_events.ics")
+@module_blueprint.route("/download_ical/<string:_year>_events.ics")
 def all_activities_cal(_year):
     tzname = request.args.get('tz')
     output = get_calendar(timezone=tzname, conf_year=_year, all=True)
     return output
 
 
-@module_blueprint.route("/download_ical/flaskcon<string:_year>_event<int:act_id>.ics")
+@module_blueprint.route("/download_ical/<string:_year>_activity_<int:act_id>.ics")
 def single_activity_cal(_year, act_id):
     tzname = request.args.get('tz')
     output = get_calendar(timezone=tzname, conf_year=_year, activity_id=act_id)
