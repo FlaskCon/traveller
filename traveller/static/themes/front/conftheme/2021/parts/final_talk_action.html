@@ -39,7 +39,7 @@ textarea {
 
                 <b>Authors</b><br>
                 {% for author in talk.author_list.authors %}
-                    {{author.first_name}} {{author.last_name}} <br>
+                    {{author.email}} {{author.first_name}} {{author.last_name}} <br>
                 {% endfor %}
                 <br>
                 <form method="POST" action="{{ url_for('cfp.final_talk_action', year=year, talk_id=talk_id) }}">

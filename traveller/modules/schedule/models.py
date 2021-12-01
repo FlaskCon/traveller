@@ -183,7 +183,4 @@ class Activity(PkModel):
 
     def get_talk(self):
         from modules.conf.models import Talk
-
         return Talk.query.get(self.talk_id)
-
-    
