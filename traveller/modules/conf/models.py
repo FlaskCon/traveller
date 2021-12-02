@@ -105,10 +105,7 @@ class Talk(PkModel):
         db.String(20),
         default='pending',
         info={'choices': [('accepted', 'accepted'), ('pending', 'pending'), ('rejected', 'rejected')]})
-    duration = db.Column(
-        db.Integer(),
-        nullable=False,
-        info={'label': 'Duration*'})
+    
 
     submitter_id = db.Column(db.Integer)
     year = db.Column(db.Integer, nullable=False)

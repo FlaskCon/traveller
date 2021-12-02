@@ -66,8 +66,7 @@ def test_view_profile_page(test_client, login_non_admin_user, current_year, non_
         level="beginner",
         year=conf.year,
         conf_id=conf.id,
-        submitter_id=non_admin_user.id,
-        duration=1800
+        submitter_id=non_admin_user.id
     )
     talk.create_slug()
     talk.author_list = AuthorList()
@@ -81,8 +80,7 @@ def test_view_profile_page(test_client, login_non_admin_user, current_year, non_
         level="beginner",
         year=last_year.year,
         conf_id=last_conf.id,
-        submitter_id=non_admin_user.id,
-        duration=1800
+        submitter_id=non_admin_user.id
     )
     old_talk.create_slug()
     old_talk.author_list = AuthorList()
@@ -110,8 +108,7 @@ def test_view_review_page(test_client, login_non_admin_user, current_year, non_a
         level="beginner",
         year=conf.year,
         conf_id=conf.id,
-        submitter_id=non_admin_user.id,
-        duration=1800
+        submitter_id=non_admin_user.id
     )
     talk.create_slug()
     talk.author_list = AuthorList()
@@ -137,8 +134,7 @@ def test_view_leaderboard_page(test_client, login_non_admin_user, current_year, 
         level="beginner",
         year=conf.year,
         conf_id=conf.id,
-        submitter_id=non_admin_user.id,
-        duration=1800
+        submitter_id=non_admin_user.id
     )
     talk.create_slug()
     talk.author_list = AuthorList()

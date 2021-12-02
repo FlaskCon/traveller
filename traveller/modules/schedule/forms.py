@@ -28,16 +28,12 @@ class NormalActivityForm(ModelForm):
             },
             'start_time': {
                 'render_kw': {
-                    'min': "09:00",
-                    'max': "18:00",
                     'autocomplete': 'off',
                     'required':''
                 }
             },
             'end_time': {
                 'render_kw': {
-                    'min': "09:00",
-                    'max': "18:00",
                     'autocomplete': 'off',
                     'required':''
                 }
@@ -57,20 +53,17 @@ class NormalActivityForm(ModelForm):
 class TalkActivityForm(ModelForm):
     class Meta:
         model = Activity
-        exclude = ['talk_id', 'type', 'text']
+        exclude = ['talk_id', 'type', 'text', 'note']
 
         field_args = {
             'start_time': {
                 'render_kw': {
-                    'min': "09:00",
-                    'max': "18:00",
                     'autocomplete': 'off',
                     'required':''
                 }
             },
             'end_time': {
-                'render_kw': {'min': "09:00",
-                    'max': "18:00",
+                'render_kw': {
                     'autocomplete': 'off',
                     'required':''
                 }
