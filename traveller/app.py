@@ -15,6 +15,7 @@ from flask_admin import AdminIndexView
 from flask_admin import expose
 from flask_admin.menu import MenuLink
 from flask_uploads import configure_uploads
+from jinja2.filters import evalcontextfilter
 
 from modules.box__default.settings.helpers import get_setting
 from modules.box__default.settings.models import Settings
@@ -212,6 +213,7 @@ def create_app(config_name):
                 jinja2.FileSystemLoader([front_theme_dir, back_theme_dir]),
             ]
         )
+    
         app.jinja_loader = my_loader
 
     #
@@ -238,6 +240,12 @@ with open(os.path.join(base_path, "config.json")) as f:
     config_json = json.load(f)
 environment = config_json["environment"]
 app = create_app(environment)
+
+@app.template_filter()
+@evalcontextfilter
+def get_enum(eval_ctx, value):
+    # Custom filter to return enumerated iterable
+    return enumerate(value)
 
 
 if __name__ == "__main__":
