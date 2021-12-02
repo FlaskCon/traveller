@@ -96,7 +96,7 @@ class User(UserMixin, PkModel):
         return f"<User-id: {self.id}, User-email: {self.email}>"
 
     def get_profile_image_url(self):
-        return images.url(self.image)
+        return self.image
 
     @hybrid_property
     def password(self):

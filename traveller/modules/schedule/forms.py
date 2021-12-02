@@ -6,8 +6,8 @@ from modules.conf.models import Talk
 
 from init import ModelForm
 
-import wtforms_alchemy
-from wtforms_components.fields import TimeField
+from wtforms_alchemy.fields import QuerySelectField
+from wtforms_alchemy import InputRequired
 
 
 class DayForm(ModelForm):
@@ -28,12 +28,16 @@ class NormalActivityForm(ModelForm):
             },
             'start_time': {
                 'render_kw': {
+                    'min': "09:00",
+                    'max': "18:00",
                     'autocomplete': 'off',
                     'required':''
                 }
             },
             'end_time': {
                 'render_kw': {
+                    'min': "09:00",
+                    'max': "18:00",
                     'autocomplete': 'off',
                     'required':''
                 }
@@ -49,12 +53,15 @@ class TalkActivityForm(ModelForm):
         field_args = {
             'start_time': {
                 'render_kw': {
+                    'min': "09:00",
+                    'max': "18:00",
                     'autocomplete': 'off',
                     'required':''
                 }
             },
             'end_time': {
-                'render_kw': {
+                'render_kw': {'min': "09:00",
+                    'max': "18:00",
                     'autocomplete': 'off',
                     'required':''
                 }
@@ -62,11 +69,15 @@ class TalkActivityForm(ModelForm):
         }
 
 
-    talks = wtforms_alchemy.fields.QuerySelectField(
+    talks = QuerySelectField(
         'Talk:',
-        validators = [wtforms_alchemy.InputRequired()],
+        validators = [InputRequired()],
         query_factory=lambda: Talk.query.filter(
             Talk.year == dt.utcnow().year,
             Talk.accepted == 'accepted'
-            ).all()
+            ).all(),
+        render_kw={
+            'class': "max-w-md"
+        }
     )
+    

@@ -8,15 +8,15 @@ from modules.conf.models import talk_list_author_bridge
 from init import db
 from modules.schedule.forms import DayForm
 from modules.cfp.forms import SubmitTalkForm
-from modules.schedule.models import Schedule
+from modules.schedule.models import Day, Schedule, Activity
 from modules.schedule.forms import NormalActivityForm
 from modules.schedule.forms import TalkActivityForm
 from modules.profile.forms import UserProfileForm
 # from flask import url_for
 # from flask import redirect
 # from flask import flash
-# from flask import request
 
+from flask import request
 from flask_login import current_user
 from flask_login import login_required
 
@@ -149,6 +149,7 @@ def leaderboard(year):
 @module_blueprint.route("/<int:year>/schedule/")
 def schedule(year):
     context = mhelp.context()
+    timezone = request.args.get("tz", "UTC")
     DayForm_ = DayForm
     conf = Conf.query.filter(
         Conf.year == year
@@ -169,9 +170,23 @@ def schedule(year):
     schedule = conf.schedule
     NormalActivityForm_ = NormalActivityForm
     TalkActivityForm_ = TalkActivityForm
+
+    if not current_user.is_admin:
+        context.update(locals())
+        return render_template('conftheme/{}/parts/schedule_2.html'.format(year), **context)
     context.update(locals())
     return render_template('conftheme/{}/parts/schedule.html'.format(year), **context)
 
+
+@module_blueprint.route("/<int:year>/schedule/activity_<int:act_id>")
+def schedule_activity(year, act_id):
+    context = mhelp.context()
+    timezone = request.args.get("tz", "UTC")
+    act_id = act_id
+    activity = Activity.query.get(act_id)
+    day = Day.query.get(activity.day_id)
+    context.update(locals())
+    return render_template('conftheme/{}/parts/activity.html'.format(year), **context)
 
 @module_blueprint.route("/<int:year>/reviewers/")
 def reviewers(year):
