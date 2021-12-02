@@ -71,7 +71,6 @@ def add_conf():
         talk.description = t[2]
         talk.notes = t[3]
         talk.level = 'beginner'
-        talk.duration = 1800
         talk.submitter_id = 1
         talk.author_list = AuthorList()
         talk.author_list.authors.append(admin)

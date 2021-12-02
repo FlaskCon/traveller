@@ -77,9 +77,6 @@ class Day(PkModel):
 
             activity_time_diff = end_civil_time - start_civil_time
             duration = self.sec_to_time_format(total_secs=activity_time_diff.seconds)
-            if act.type == 'talk':
-                talk = act.get_talk()
-                duration = self.sec_to_time_format(total_secs=talk.duration)
             acts.append([act, start_civil_time, duration])
         return sorted(acts, key=lambda l: l[1], reverse=False)
 

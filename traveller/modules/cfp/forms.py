@@ -5,7 +5,7 @@ from init import ModelForm
 class SubmitTalkForm(ModelForm):
     class Meta:
         model = Talk
-        exclude = ['accepted', 'slug', 'submitter_id', 'year', 'duration']
+        exclude = ['accepted', 'slug', 'submitter_id', 'year']
         field_args = {
             'title': {
                 'render_kw': {
@@ -46,7 +46,7 @@ class SubmitTalkForm(ModelForm):
 class AdminTalkForm(ModelForm):
     class Meta:
         model = Talk
-        exclude = ['submitter_id', 'year', 'duration']
+        exclude = ['submitter_id', 'year']
         field_args = {
             'title': {
                 'render_kw': {
