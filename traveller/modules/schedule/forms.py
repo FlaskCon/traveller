@@ -41,6 +41,15 @@ class NormalActivityForm(ModelForm):
                     'autocomplete': 'off',
                     'required':''
                 }
+            },
+            'note': {
+                'render_kw': {
+                    'autocomplete': 'off',
+                    'required':'',
+                    'class': 'border-1 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm focus:outline-none focus:ring',
+                    'maxlength': 1000,
+                    'style':'width:90%; height:100px;'
+                }
             }
         }
 
