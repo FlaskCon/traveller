@@ -57,7 +57,7 @@ class NormalActivityForm(ModelForm):
 class TalkActivityForm(ModelForm):
     class Meta:
         model = Activity
-        exclude = ['talk_id', 'type', 'text']
+        exclude = ['talk_id', 'type', 'text', 'note']
 
         field_args = {
             'start_time': {
