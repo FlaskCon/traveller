@@ -28,16 +28,12 @@ class NormalActivityForm(ModelForm):
             },
             'start_time': {
                 'render_kw': {
-                    'min': "09:00",
-                    'max': "18:00",
                     'autocomplete': 'off',
                     'required':''
                 }
             },
             'end_time': {
                 'render_kw': {
-                    'min': "09:00",
-                    'max': "18:00",
                     'autocomplete': 'off',
                     'required':''
                 }
@@ -62,15 +58,12 @@ class TalkActivityForm(ModelForm):
         field_args = {
             'start_time': {
                 'render_kw': {
-                    'min': "09:00",
-                    'max': "18:00",
                     'autocomplete': 'off',
                     'required':''
                 }
             },
             'end_time': {
-                'render_kw': {'min': "09:00",
-                    'max': "18:00",
+                'render_kw': {
                     'autocomplete': 'off',
                     'required':''
                 }

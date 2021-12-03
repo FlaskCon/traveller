@@ -2,8 +2,8 @@ import calendar
 from init import db
 from shopyo.api.models import PkModel
 
-# from modules.schedule.models import Schedule
-# from modules.box__default.auth.models import User
+from modules.schedule.models import Schedule
+from modules.box__default.auth.models import User
 
 class Conf(PkModel):
     __tablename__ = 'conferences'
@@ -105,6 +105,7 @@ class Talk(PkModel):
         db.String(20),
         default='pending',
         info={'choices': [('accepted', 'accepted'), ('pending', 'pending'), ('rejected', 'rejected')]})
+    
 
     submitter_id = db.Column(db.Integer)
     year = db.Column(db.Integer, nullable=False)

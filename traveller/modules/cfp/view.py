@@ -57,12 +57,6 @@ def add_talk(year):
     talk.year = year
     talk.talk_conference = conf
 
-    start_time, end_time = request.form.get('start_time', "09:00"), request.form.get('end_time', "18:00")
-    start_time = timedelta(hours=int(start_time.split(':', 1)[0]), minutes=int(start_time.split(':', 1)[1]))
-    end_time = timedelta(hours=int(end_time.split(':', 1)[0]), minutes=int(end_time.split(':', 1)[1]))
-    duration = end_time - start_time
-    talk.duration = duration.seconds
-
     co_authors_email: str = request.form.get('co_authors')
     co_authors_email_list:list = co_authors_email.split('\n') if len(co_authors_email) != 0 else []
     for author_email in co_authors_email_list:
