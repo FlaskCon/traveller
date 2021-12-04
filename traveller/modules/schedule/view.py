@@ -154,7 +154,6 @@ def add_activity(year, day_id, act_type):
         )
 
         activity = Activity()
-        # form.populate_obj(activity)
         activity.start_time = activity_start
         activity.end_time = activity_end
         activity.type = "talk"
@@ -209,9 +208,9 @@ def edit_activity(year, act_id, act_type):
         if activity is None:
             alert_danger("Invalid activity.")
             return mhelp.redirect_url("y.schedule", year=year)
-        # form.populate_obj(activity)
-        activity.start_time = activity_start
-        activity.end_time = activity_end
+        form.populate_obj(activity)
+        activity.start_time = activity_start.timetz()
+        activity.end_time = activity_end.timetz()
         activity.update()
     elif act_type == "talk":
         form = TalkActivityForm()
@@ -259,8 +258,8 @@ def edit_activity(year, act_id, act_type):
             return mhelp.redirect_url("y.schedule", year=year)
 
         activity.talk_id = form.talks.data.id if form.talks.data is not None else None
-        activity.start_time = activity_start
-        activity.end_time = activity_end
+        activity.start_time = activity_start.timetz()
+        activity.end_time = activity_end.timetz()
         activity.update()
     return mhelp.redirect_url("y.schedule", year=year)
 

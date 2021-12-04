@@ -40,7 +40,8 @@ textarea {
                     
                     {%for field in talk_form%}
                         {%if field.id not in ['csrf_token']%}
-                            {{field.label}}<br>
+                            {{field.label}}&nbsp;<span class="input_{{ field.name }} hidden text-sm text-gray-400"></span>
+                            <br>
                         {%endif%}
                         {{field}}<br>
                     {%endfor%}
@@ -63,4 +64,6 @@ textarea {
         </div>
     </div>
 </section>
+
+<script src="{{ url_for('static', filename='js/forms.js') }}"></script>
 {% endblock %}

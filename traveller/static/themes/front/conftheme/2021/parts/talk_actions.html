@@ -70,7 +70,8 @@ a {
                    
                     {%for field in SubmitTalkForm_(obj=talk)%}
                     {%if field.id not in ['csrf_token']%}
-                    {{field.label}}<br>
+                    {{field.label}}&nbsp;<span class="input_{{ field.name }} hidden text-sm text-gray-400"></span>
+                    <br>
                     {%endif%}
                     {{field}}<br><br>
                     {%endfor%}
@@ -90,14 +91,7 @@ a {
         </div>
     </div>
 </section>
-<script type="text/javascript">
-function toggleModal(modalID) {
-    document.getElementById(modalID).classList.toggle("hidden");
-    document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
-    document.getElementById(modalID).classList.toggle("flex");
-    document.getElementById(modalID + "-backdrop").classList.toggle("flex");
-}
-</script>
+
 <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="small-modal-id">
     <div class="relative w-auto my-6 mx-auto max-w-sm">
         <!--content-->
@@ -127,4 +121,15 @@ function toggleModal(modalID) {
         </div>
     </div>
 </div>
+
+<script src="{{ url_for('static', filename='js/forms.js') }}"></script>
+<script type="text/javascript">
+function toggleModal(modalID) {
+    document.getElementById(modalID).classList.toggle("hidden");
+    document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+    document.getElementById(modalID).classList.toggle("flex");
+    document.getElementById(modalID + "-backdrop").classList.toggle("flex");
+}
+</script>
+
 {% endblock %}

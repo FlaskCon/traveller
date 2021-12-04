@@ -147,6 +147,19 @@ textarea {
                                                     </ul>
                                                     {% endif %}
                                                 </div>
+                                                 <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">{{ userprofile_form.bio.label }}</span>
+                                                    </div>
+                                                    {{ userprofile_form.bio() }}
+                                                    {% if userprofile_form.bio.errors %}
+                                                    <ul class="errors">
+                                                        {% for error in userprofile_form.bio.errors %}
+                                                        <li>{{ error }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                    {% endif %}
+                                                </div>
                                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                 <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
                                                     Save

@@ -29,7 +29,7 @@ function handleScroll() {
   if ((rootElement.scrollTop / scrollTotal ) > 0.15 ) {
     // Show button
     btn_upward.classList.add("block");
-    btn_upward.classList.remove("hidden")
+    btn_upward.classList.remove("hidden");
   } else {
     // Hide button
     btn_upward.classList.remove("block");

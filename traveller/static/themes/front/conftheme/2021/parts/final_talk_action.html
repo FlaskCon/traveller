@@ -45,11 +45,12 @@ textarea {
                 <form method="POST" action="{{ url_for('cfp.final_talk_action', year=year, talk_id=talk_id) }}">
                     {%for field in AdminTalkForm_(obj=talk)%}
                     {%if field.id not in ['csrf_token']%}
-                    {{field.label}}<br>
+                    {{field.label}}&nbsp;<span class="input_{{ field.name }} hidden text-sm text-gray-400"></span>
+                    <br>
                     {%endif%}
-                    {{field}}<br><br>
+                    {{field}}<br>
+                    <br>
                     {%endfor%}
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
                         Save
                     </button>
@@ -59,14 +60,6 @@ textarea {
     </div>
 </section>
 
-<script type="text/javascript">
-function toggleModal(modalID) {
-    document.getElementById(modalID).classList.toggle("hidden");
-    document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
-    document.getElementById(modalID).classList.toggle("flex");
-    document.getElementById(modalID + "-backdrop").classList.toggle("flex");
-}
-</script>
 <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="small-modal-id">
     <div class="relative w-auto my-6 mx-auto max-w-sm">
         <!--content-->
@@ -96,4 +89,14 @@ function toggleModal(modalID) {
         </div>
     </div>
 </div>
+<script src="{{ url_for('static', filename='js/forms.js') }}"></script>
+<script type="text/javascript">
+function toggleModal(modalID) {
+    document.getElementById(modalID).classList.toggle("hidden");
+    document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+    document.getElementById(modalID).classList.toggle("flex");
+    document.getElementById(modalID + "-backdrop").classList.toggle("flex");
+}
+</script>
+
 {% endblock %}

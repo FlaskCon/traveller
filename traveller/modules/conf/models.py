@@ -86,16 +86,16 @@ class Talk(PkModel):
     summary = db.Column(
         db.Text(300),
         nullable=False,
-        info={'label': 'Summary* (max. 300 chars)'}
+        info={'label': 'Summary*'}
         )
     description = db.Column(
         db.Text(3000),
         nullable=False,
-        info={'label': 'Description* (max. 3000 chars)'}
+        info={'label': 'Description*'}
         )
     notes = db.Column(
         db.Text(200),
-        info={'label': 'Notes (max. 200 chars)'}
+        info={'label': 'Notes'}
         )
     level = db.Column(
         db.String(20),

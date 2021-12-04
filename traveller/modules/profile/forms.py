@@ -24,25 +24,30 @@ class UserProfileForm(ModelForm):
         model = User
         #all relations not included by default wtforms-alchemy behaviour
         exclude = ['username', '_password', 'is_admin', #'date_registered',
-                    'is_email_confirmed', 'email_confirm_date', 'bio',]
-                    #'roles']
+                    'is_email_confirmed', 'email_confirm_date']
         field_args = {
             'first_name': {
                 'render_kw': {
                     'autocomplete': 'off',
-                    'class': 'border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                    'class': 'border-1 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                 }
             },
             'last_name': {
                 'render_kw': {
-                    'cols': 80,
-                    'class': 'border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                    'autocomplete': 'off',
+                    'class': 'border-1 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                 }
             },
             'email': {
                 'render_kw': {
-                    'cols': 80,
-                    'class': 'border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                    'autocomplete': 'off',
+                    'class': 'border-1 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                },
+            },
+            'bio': {
+                'render_kw': {
+                    'autocomplete': 'off',
+                    'class': 'border-1 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                 },
             }
            
