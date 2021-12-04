@@ -67,7 +67,7 @@ def add_talk(year):
     conf.talks.append(talk)
     conf.update()
     alert_success('Talk submitted!')
-    return mhelp.redirect_url('y.cfp', year=year)
+    return mhelp.redirect_url('y.profile', year=year)
 
 
 @module_blueprint.route("/<year>/talk/<talk_id>", methods=['POST'])
@@ -83,7 +83,7 @@ def edit_talk(year, talk_id):
         form.populate_obj(talk)
         if not form.validate():
             alert_danger('Talk not updated!')
-            return mhelp.redirect_url('y.cfp', year=year)
+            return mhelp.redirect_url('y.talk_actions', year=year, talk_id=talk_id)
 
         current_co_authors_email_list: list = request.form.getlist('current_co_authors')
         co_authors_email: str = request.form.get('co_authors')
@@ -157,9 +157,11 @@ def final_talk_action(year, talk_id):
                 return mhelp.redirect_url('y.cfp', year=year)
             form = AdminTalkForm(obj=talk)
             form.populate_obj(talk)
+            success = form.validate()
+            
             if not form.validate():
                 alert_danger('Talk status not changed!')
-                return mhelp.redirect_url('y.cfp', year=year)
+                return mhelp.redirect_url('cfp.final_talk_action', year=year, talk_id=talk_id)
 
             talk.update()
             alert_success('Talk status changed!')

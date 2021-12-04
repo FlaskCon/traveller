@@ -29,7 +29,7 @@ function handleScroll() {
   if ((rootElement.scrollTop / scrollTotal ) > 0.15 ) {
     // Show button
     btn_upward.classList.add("block");
-    btn_upward.classList.remove("hidden")
+    btn_upward.classList.remove("hidden");
   } else {
     // Hide button
     btn_upward.classList.remove("block");
@@ -39,3 +39,22 @@ function handleScroll() {
 
 document.addEventListener("scroll", handleScroll)
 // Upward scroll effect handlers
+
+// Download iCalendar for talks
+let downlod_btn = document.getElementById('btn-timezone');
+
+
+function iCalDownload(url, filename){
+  if (!url){throw new Error("Resource URL not provided!");}
+  fetch(url)
+    .then(response => response.blob())
+    .then(blob => {
+      const blobURL = URL.createObjectURL(blob);
+      console.log(blobURL)
+      downlod_btn.href = blobURL;
+      downlod_btn.download = filename;
+});
+}
+
+iCalDownload(iCalURL, iCalfilename);
+// Download iCalendar for talks

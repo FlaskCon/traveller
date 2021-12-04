@@ -88,6 +88,7 @@ def all_activities(timezone) -> List[Event]:
         
         if act.type == "normal_activity":
             event.add('summary', act.text)
+            event.add('description', act.note)
             event.add('dtstart', st_)
             event.add('dtend', ed_)
             event.add('duration', ed_ - st_)
@@ -131,6 +132,7 @@ def activity(activity_id, timezone) -> Event:
     
     if act.type == "normal_activity":
         event.add('summary', act.text)
+        event.add('description', act.note)
         event.add('dtstart', st_)
         event.add('dtend', ed_)
         event.add('duration', ed_ - st_)

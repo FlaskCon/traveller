@@ -54,6 +54,13 @@
             }
         }
     </style>
+    {% set iCalURL = url_for('schedule.calendar', year=year, tz=timezone.replace('/', '_'), all=True) %}
+    {% set iCalfilename = "flaskcon" + year|string + "_events_" + timezone.replace('/', '_') + ".ics" %}
+
+    <script type="text/javascript">
+        const iCalURL = "{{ iCalURL }}";
+        const iCalfilename = "{{ iCalfilename }}";
+    </script>
 {% endblock %}
 {% block body %}
     <button id="up_button" style="position: fixed; bottom: 0; right: 0; z-index: 1000;" class="hidden bg-red-400 text-white shadow-lg font-normal h-10 w-10 mb-8 rounded-full outline-none focus:outline-none mr-2">
@@ -74,9 +81,8 @@
                             The conference follows UTC time(+00:00). If you are in a different timezone, 
                             view the schedule in your timezone and add it to your calendar.
                             <br>
-                            With our streaming platform we will be able to run multiple tracks simultaneously 
-                            so that every Python enthusiast can find content matching their interest. 
                             Register now to participate in our conference, our Discord channel, and join our workshops.
+                            Contributions go towards Pallets and PSF orgnisations.
                         </p>
                     </div>
 
@@ -95,7 +101,9 @@
                             </select>
                         </div>
                         <div class="mb-2">
-                            <a href="{{ url_for('schedule.calendar', year=year, tz=timezone.replace('/', '_'), all=True) }}" download="flaskcon{{ year }}_events_{{ timezone.replace('/', '_') }}.ics" id="btn-timezone" class="bg-yellow-600 text-white px-3 py-3 rounded font-bold text-sm shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+                            
+                            <a href="#" id="btn-timezone"
+                             class="bg-yellow-600 text-white px-3 py-3 rounded font-bold text-sm shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
                                 Add to 📅 Calendar
                             </a>
                         </div>
