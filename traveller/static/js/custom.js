@@ -50,7 +50,6 @@ function iCalDownload(url, filename){
     .then(response => response.blob())
     .then(blob => {
       const blobURL = URL.createObjectURL(blob);
-      console.log(blobURL)
       downlod_btn.href = blobURL;
       downlod_btn.download = filename;
 });

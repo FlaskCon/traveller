@@ -145,7 +145,8 @@ def db_session(db):
 
 @pytest.fixture(scope="session")
 def current_year():
-    return datetime.datetime.now().year
+    # return datetime.datetime.now().year
+    return 2021
 
 
 @pytest.fixture
