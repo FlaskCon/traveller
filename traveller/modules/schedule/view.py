@@ -1,5 +1,4 @@
 from datetime import date, datetime, tzinfo
-import re
 
 from init import conf_time_zone
 from shopyo.api.module import ModuleHelp
@@ -20,8 +19,8 @@ from flask_login import current_user
 from sqlalchemy.exc import IntegrityError
 
 # from flask import render_template
-# from flask import url_for
-# from flask import redirect
+from flask import url_for
+from flask import redirect
 from flask import request
 
 mhelp = ModuleHelp(__file__, __name__)
@@ -330,10 +329,12 @@ def calendar(year, tz):
         tzname = tz #.replace('/', '_')
     
     if get_all_activities is True:
-        return mhelp.redirect_url("schedule.all_activities_cal", _year=year, tz=tzname)
+        return redirect(url_for("schedule.all_activities_cal", _year=year, tz=tzname, 
+        _external=True, _scheme='https'))
     act_id = Activity.query.get(activity_id)
     if get_all_activities is False and act_id is not None:
-        return mhelp.redirect_url("schedule.single_activity_cal", _year=year, act_id= activity_id, tz=tzname)
+        return redirect(url_for("schedule.single_activity_cal", _year=year, act_id= activity_id, tz=tzname,
+        _external=True, _scheme='https'))
     
     return mhelp.redirect_url("y.schedule", year=year)
     
