@@ -216,6 +216,7 @@ def admin_update():
     user = User.query.get(id)
 
     if user is None:
+        print('--- cond')
         flash(notify_warning("Unable to update. User does not exist."))
         return redirect("/admin")
 
@@ -235,7 +236,6 @@ def admin_update():
             role_id = key.split("_")[1]
             role = Role.get_by_id(role_id)
             user.roles.append(role)
-
     # handle image upload
     if 'image' in request.files:
         image_file = request.files['image']
@@ -244,16 +244,17 @@ def admin_update():
         mime_trailing = image_file.content_type.split("/")[-1]
         if mime_trailing not in allowed_mimetypes:
             flash(notify_warning("Image type is invalid"))
-            return redirect(request.url)
+            # return redirect(request.url)
 
         # replace symbols in email
-        filename = email.translate({ord(x): '_' for x in ['.', '@']})
-        image_path = images.save(image_file, 'profile', filename)
-        user.image = image_path
+        else:
+            filename = email.translate({ord(x): '_' for x in ['.', '@']})
+            image_path = images.save(image_file, 'profile', filename)
+            user.image = image_path
 
     user.update()
     flash(notify_success("User successfully updated"))
-    return redirect("/appadmin")
+    return redirect(url_for('appadmin.user_list'))
 
 
 @appadmin_blueprint.route("/roles")
