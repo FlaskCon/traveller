@@ -5,6 +5,7 @@
 #
 #
 import sys
+import json
 
 #
 ## The "/home/appinv" below specifies your home
@@ -18,7 +19,17 @@ path = ""
 if path not in sys.path:
     sys.path.insert(0, path)
 #
-from app import app as application  # noqa
+from app import create_app  # noqa
+base_path = os.path.dirname(os.path.abspath(__file__))
+
+
+
+with open(os.path.join(base_path, "config.json")) as f:
+    config_json = json.load(f)
+environment = config_json["environment"]
+
+
+application = create_app(environment)
 
 #
 # NB -- many Flask guides suggest you use a file called run.py; that's

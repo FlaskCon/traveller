@@ -10,7 +10,8 @@ from flask import url_for
 from flask_login import login_required
 
 from modules.box__default.settings.helpers import get_setting
-from shopyo.api.enhance import set_setting
+from modules.box__default.settings.helpers import set_setting
+
 from shopyo.api.file import get_folders
 
 # from flask import flash
@@ -21,6 +22,7 @@ from shopyo.api.file import get_folders
 # from modules.box__default.settings.models import Settings
 
 # from shopyo.api.forms import flash_errors
+
 
 
 dirpath = os.path.dirname(os.path.abspath(__file__))

@@ -3,8 +3,9 @@ from shopyo.api.cmd_helper import tryrmtree
 import pytest
 import os
 import shutil
-from app import app as _app
+from app import create_app
 
+_app = create_app('testing')
 
 @pytest.fixture
 def app(tmpdir, app_type):

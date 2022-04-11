@@ -4,7 +4,7 @@ from modules.conf.models import Conf, ReviewerList, AuthorList
 from modules.conf.models import Talk
 from modules.schedule.models import Schedule, Day, Activity
 
-from app import app
+from app import create_app
 
 
 def create_conf(now, current_year):

@@ -6,8 +6,15 @@ from modules.box__default.settings.models import Settings
 SEP_CHAR = "#"
 SEP_NUM = 23
 
+base_path = os.path.dirname(os.path.abspath(__file__))
+
+
+with open(os.path.join(base_path, "config.json")) as f:
+    config_json = json.load(f)
+environment = config_json["environment"]
 
 def add_setting(name, value):
+    app = create_app(environment)
     with app.app_context():
         if Settings.query.filter_by(setting=name).first():
             s = Settings.query.get(name)
