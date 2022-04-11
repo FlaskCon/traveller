@@ -58,8 +58,6 @@ filelock==3.6.0
     # via
     #   tox
     #   virtualenv
-flake8==4.0.1
-    # via -r requirements/dev.in
 flask==2.1.1
     # via
     #   -r requirements/dev.in
@@ -157,8 +155,6 @@ marshmallow-sqlalchemy==0.28.0
     # via
     #   -r requirements/dev.in
     #   shopyo
-mccabe==0.6.1
-    # via flake8
 mdit-py-plugins==0.3.0
     # via myst-parser
 mdurl==0.1.0
@@ -193,10 +189,6 @@ py==1.11.0
     # via
     #   pytest
     #   tox
-pycodestyle==2.8.0
-    # via flake8
-pyflakes==2.4.0
-    # via flake8
 pygments==2.11.2
     # via sphinx
 pymysql==1.0.2

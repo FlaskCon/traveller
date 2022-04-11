@@ -1,5 +1,4 @@
 Faker
-flake8
 black
 isort
 Sphinx
