@@ -6,6 +6,8 @@
 #
 alembic==1.7.7
     # via flask-migrate
+backports-zoneinfo==0.2.1
+    # via -r requirements/reqs.in
 click==8.1.2
     # via flask
 decorator==5.1.1
