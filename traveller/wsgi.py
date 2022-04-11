@@ -15,12 +15,14 @@ import json
 ## ...or uploaded files to the directory "myproject", then you should
 ## specify "/home/appinv/myproject"
 # on shell do pwd to get a path like this:'/home2/folder/shopyo/shopyo' set path to this
-path = ""
+
+base_path = os.path.dirname(os.path.abspath(__file__))
+path = base_path
 if path not in sys.path:
     sys.path.insert(0, path)
 #
 from app import create_app  # noqa
-base_path = os.path.dirname(os.path.abspath(__file__))
+
 
 
 
