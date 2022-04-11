@@ -27,8 +27,7 @@ jobs:
           cd /home/flaskuser/traveller
           git pull
           source venv/bin/activate
-          pip install -r requirements.txt
-          pip install -r dev_requirements.txt
+          pip install -r requirements/dev.txt
           cd traveller/
           python manage.py db migrate
           python manage.py db upgrade
