@@ -17,3 +17,11 @@ def get_setting(name):
     """
     s = Settings.query.get(name)
     return s.value
+
+
+
+def set_setting(key, value):
+    setting = Settings.query.filter(Settings.setting == key).first()
+    if setting:
+        setting.value = value
+        setting.update()

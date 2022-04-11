@@ -10,7 +10,7 @@ import pathlib
 import pytest
 import datetime
 from flask import url_for
-from jinja2.filters import evalcontextfilter
+from jinja2.filters import pass_eval_context
 
 from app import create_app
 from init import db as _db
@@ -65,7 +65,7 @@ def admin_user():
     return user
 
 
-@evalcontextfilter
+@pass_eval_context
 def get_enum(eval_ctx, value):
     # Custom filter to return enumerated iterable
     return enumerate(value)
