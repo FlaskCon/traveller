@@ -5,6 +5,7 @@ import os
 import shutil
 from app import create_app
 
+
 _app = create_app('testing')
 
 @pytest.fixture

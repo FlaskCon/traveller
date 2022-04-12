@@ -13,14 +13,9 @@ Activate it
 
 Install requirements.txt
 
-```bash
-$ python -m pip install -r requirements.txt
-```
-
-You may also want to install dev_requirements.txt
 
 ```bash
-$ python -m pip install -r dev_requirements.txt
+$ python -m pip install -r requirements/dev.txt
 ```
 
 We are using MySQL but you can have a stab at a different db.
@@ -116,7 +111,7 @@ Now in traveller/traveller run:
 $ python manage.py initialise
 ```
 
-Then, to get development example data (make sure requirements in dev_requirements.txt are installed)
+Then, to get development example data (make sure requirements in requirements/dev.txt are installed)
 
 ```bash
 $ flask seed dev

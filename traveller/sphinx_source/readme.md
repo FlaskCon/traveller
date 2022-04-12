@@ -9,16 +9,11 @@ Create venv named venv inside root folder
 Activate it
 
 
-Install requirements.txt
+Install requirements/dev.txt
+
 
 ```bash
-$ python -m pip install -r requirements.txt
-```
-
-You may also want to install dev_requirements.txt
-
-```bash
-$ python -m pip install -r dev_requirements.txt
+$ python -m pip install -r requirements/dev.txt
 ```
 
 Create a db named traveller or whatever you want in your MySQL db
@@ -87,7 +82,7 @@ Now in traveller/traveller run:
 $ python manage.py initialise
 ```
 
-Then, to get development example data (make sure requirements in dev_requirements.txt are installed)
+Then, to get development example data (make sure requirements in requirements/dev.txt are installed)
 
 ```bash
 $ flask seed dev
