@@ -136,6 +136,8 @@ sqlalchemy==1.4.35
     #   wtforms-alchemy
 sqlalchemy-utils==0.38.2
     # via wtforms-alchemy
+tzdata==2022.1
+    # via -r requirements/reqs.in
 validators==0.18.2
     # via wtforms-components
 werkzeug==2.1.1

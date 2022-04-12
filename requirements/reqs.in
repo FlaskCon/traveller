@@ -17,3 +17,4 @@ WTForms-Alchemy==0.18.0
 python-dateutil
 python-editor
 backports.zoneinfo
+tzdata

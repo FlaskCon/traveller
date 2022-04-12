@@ -1,3 +1,4 @@
+-r reqs.in
 Faker
 black
 isort
@@ -14,22 +15,3 @@ text-unidecode
 myst-parser
 sphinx_rtd_theme
 Faker
-Flask
-Flask-Admin
-Flask-Login
-flask-mailman
-flask-marshmallow
-Flask-Migrate
-Flask-Reuploaded
-Flask-SQLAlchemy
-Flask-WTF
-icalendar
-shopyo==4.4.2
-marshmallow-sqlalchemy
-PyMySQL
-pytz==2022.1
-WTForms-Alchemy==0.18.0
-python-dateutil
-python-editor
-pip-tools==6.6.0
-backports.zoneinfo
