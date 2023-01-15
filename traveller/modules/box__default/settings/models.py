@@ -1,21 +1,9 @@
 from init import db
+from shopyo.api.models import PkModel
 
 
-class Settings(db.Model):
+class Settings(PkModel):
     __tablename__ = "settings"
-    setting = db.Column(db.String(100), primary_key=True)
+    
+    setting = db.Column(db.String(100))
     value = db.Column(db.String(100))
-
-    def add(self):
-        db.session.add(self)
-
-    def insert(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def update(self):
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()

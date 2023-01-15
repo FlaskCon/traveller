@@ -4,6 +4,7 @@ import datetime
 from modules.box__default.auth.models import User
 from modules.box__default.auth.models import Role
 from modules.conf.models import Conf
+from modules.box__default.settings.models import Settings
 from modules.conf.models import Talk
 from modules.conf.models import AuthorList
 from init import db
@@ -35,6 +36,7 @@ def register(app):
 
     @seed.command()
     def dev():
+        add_settings()
         click.echo('SEEDING FOR DEV')
         click.echo('Adding Conference')
         add_conf()
@@ -56,13 +58,14 @@ def add_conf():
         cfp_start=datetime.date(2021, 10, 1),
         cfp_end=datetime.date(2021, 10, 31)
         )
-    conf.save()
+    conf.save(commit=False)
 
     admin = User.query.get(1)
     admin.first_name = faker.first_name()
     admin.last_name = faker.last_name()
     admin.update(commit=False)
 
+    db.session.flush()
     for t in talks:
         talk = Talk()
         talk.title = t[0].strip('.')
@@ -80,6 +83,11 @@ def add_conf():
         talk.save(commit=False)
 
     db.session.commit()
+
+
+def add_settings():
+    back_theme = Settings(setting='ACTIVE_BACK_THEME', value='boogle')
+    back_theme.save()
 
 
 def add_reviewers():

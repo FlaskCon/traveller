@@ -117,6 +117,7 @@ def load_extensions(app):
     login_manager.init_app(app)
     seed.register(app)
     csrf.init_app(app)
+    configure_uploads(app, images)
 
 
 def setup_flask_admin(app):

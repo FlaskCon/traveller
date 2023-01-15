@@ -1,0 +1,69 @@
+{% extends 'conftheme/2021/parts/base.html'%}
+{% block head %}
+<style type="text/css">
+input[type='text'] {
+    width: 90%;
+}
+
+textarea {
+    width: 90%
+}
+
+#summary {
+    height: 300px;
+}
+
+#description {
+    height: 500px;
+}
+
+#notes {
+    height: 200px;
+}
+@media (max-width: 640px) {.interval{display: none;}}
+</style>
+
+<title>Submit | FlaskCon</title>
+{% endblock %}
+{% block body %}
+<p class="pb-16 bg-red-500"></p>
+<section class="pb-20 bg-blueGray-200">
+    <p class="p-5 bg-transparent"></p>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+            <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
+                <h3 class="text-3xl">Submit a new talk</h3>
+                <small>Fields marked with * are required</small><br><br>
+
+                {% if conf.cfp_start < today < conf.cfp_end %}
+                <form method="POST" action="{{ url_for('cfp.add_talk', year=conf.year) }}">
+                    
+                    {%for field in talk_form%}
+                        {%if field.id not in ['csrf_token']%}
+                            {{field.label}}&nbsp;<span class="input_{{ field.name }} hidden text-sm text-gray-400"></span>
+                            <br>
+                        {%endif%}
+                        {{field}}<br>
+                    {%endfor%}
+                    
+                    <label for="co_authors">Co-Authors</label><br>
+                    <textarea name="co_authors" id="co_authors" cols="80" rows="5"
+                    class="border-1 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded mb-4 text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                    placeholder="Enter email address of each co-author on a newline"></textarea>
+                    <br>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                        Submit
+                    </button>
+                </form>
+                {% else %}
+                <br>
+                Call For Papers out of range. Please see <a href="{{ url_for('y.schedule', year=2021) }}" class="underline">schedule</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/forms.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends 'conftheme/2021/parts/base.html'%}
+{% block head %}
+    <title>FlaskCon 2021</title>
+    <style type="text/css">
+        
+        div.normal{
+            border: 1px solid #020202b0;
+            border-radius: 0.25rem;
+        }
+        .author_icon{
+            font-size: 6rem;
+            line-height: 1;
+        }
+        @media(max-width: 640px) {
+            .author_icon{
+                font-size: 2.25rem;
+                line-height: 2.5rem;
+            }
+        }
+    </style>
+
+    {% set iCalURL = url_for('schedule.calendar', year=year, tz=timezone.replace('/', '_'), act_id=act_id) %}
+    {% set iCalfilename = "flaskcon" + year|string + "_activity" + act_id|string + timezone.replace('/', '_') + ".ics" %}
+
+    <script type="text/javascript">
+        const iCalURL = "{{ iCalURL }}";
+        const iCalfilename = "{{ iCalfilename }}";
+    </script>
+{% endblock %}
+{% block body %}
+<button id="up_button" style="position: fixed; bottom: 0; right: 0; z-index: 1000;" class="hidden bg-red-400 text-white shadow-lg font-normal h-10 w-10 mb-8 rounded-full outline-none focus:outline-none mr-2">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+<p class="pb-16 bg-red-500"></p>
+<section class="pb-20 bg-blueGray-200">
+    <p class="p-5 bg-transparent"></p>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+            {% if activity.type == "talk" %}
+                {% set talk = activity.get_talk() %}
+                <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
+                <h3 class="text-3xl">{{ talk.title }}</h3><br>
+                <p class="text text-gray-500 mb-3 font-semibold text-md">{{ day.date.strftime("%A, %d %B") }}, {{ activity.start_time.strftime("%I:%M%p") }} – {{ activity.end_time.strftime("%I:%M%p") }} (UTC)</p>
+                <div class="timezone-selector flex flex-col md:flex-row justify-between mb-3">
+                    <div class="mb-2">
+                        <label for="select-timezone" class="font-semibold">View schedule in your timezone:</label>
+                        <select class="rounded pr-8 mb-2" id="select-timezone">
+                            {% if timezone == "UTC" %}
+                                <option value="UTC" selected>UTC</option>
+                                <option id="user-timezone"></option>
+                            {% else %}
+                                <option value="UTC">UTC</option>
+                                <option id="user-timezone" selected></option>
+                            {% endif %}
+                            
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <a id="btn-timezone" 
+                        class="bg-yellow-600 text-white px-3 py-3 rounded font-bold text-sm shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+                            Add to 📅 Calendar
+                        </a>
+                    </div>
+                    
+                </div>
+
+                <div class="text font-bold mb-3 capitalize">
+                    {{ talk.summary }}
+                </div>
+                <hr class="mb-5">
+                <div class="text text-md mb-8 capitalize">
+                    {{ talk.description }}
+                </div>
+                <div class="authors flex mb-0 flex-wrap pt-3 pb-4 flex-col md:flex-row">
+                    {% for author in talk.author_list.authors %}
+                        <div class="grid grid-cols-3 mr-2 mb-2 flex-auto normal">
+                            <div class="col-end-1 text-white text-center rounded p-2" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                <i class="text-red-500 fa fa-user author_icon"></i>
+                            </div> 
+                            <div class="col-span-3 p-2 flex flex-col justify-between">
+                                <p class="text text-red-800 author_name capitalize">
+                                    {{ author.first_name }}
+                                    {{ author.last_name }}
+                                </p>
+                                <div class="author_bio">
+                                    {% if author.bio %}
+                                        {{ author.bio }}                                        
+                                    {% else %}
+                                        FlaskCon Speaker
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                </div>
+            {% else %}
+                <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
+                    <h3 class="text-3xl">{{ activity.text }}</h3><br>
+                    <p class="text text-gray-500 mb-3 font-semibold text-md">{{ day.date.strftime("%A, %d %B") }}, {{ activity.start_time.strftime("%I:%M%p") }} – {{ activity.end_time.strftime("%I:%M%p") }} (UTC)</p>
+                    <div class="timezone-selector flex flex-col md:flex-row justify-between mb-3">
+                        <div class="mb-2">
+                            <label for="select-timezone" class="font-semibold">View schedule in your timezone:</label>
+                            <select class="rounded pr-8 mb-2" id="select-timezone">
+                                {% if timezone == "UTC" %}
+                                    <option value="UTC" selected>UTC</option>
+                                    <option id="user-timezone"></option>
+                                {% else %}
+                                    <option value="UTC">UTC</option>
+                                    <option id="user-timezone" selected></option>
+                                {% endif %}
+                                
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <a href="{{ url_for('schedule.calendar', year=year, tz=timezone.replace('/', '_'), act_id=act_id) }}" 
+                            download="flaskcon{{ year }}_activity{{ act_id }}_{{ timezone.replace('/', '_') }}.ics" id="btn-timezone" 
+                            class="bg-yellow-600 text-white px-3 py-3 rounded font-bold text-sm shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+                                Add to 📅 Calendar
+                            </a>
+                        </div>
+                        
+                    </div>
+
+                    <hr class="mb-5">
+                    <div class="text text-md mb-8">
+                        {% if activity.note %}
+                            {{ activity.note }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+            
+        </div>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+{% endblock %}

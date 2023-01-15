@@ -2,6 +2,8 @@ import json
 import datetime
 from app import create_app
 from modules.box__default.auth.models import User
+import os
+
 
 SEP_CHAR = "#"
 SEP_NUM = 23
@@ -12,7 +14,9 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 
 
 
-with open(os.path.join(base_path, "config.json")) as f:
+from init import root_path
+
+with open(os.path.join(root_path, "config.json")) as f:
     config_json = json.load(f)
 environment = config_json["environment"]
 

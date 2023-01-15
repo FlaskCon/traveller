@@ -1,0 +1,135 @@
+{% extends 'conftheme/2021/parts/base.html'%}
+{% block head %}
+<title>Talk Edit | FlaskCon</title>
+<style type="text/css">
+input[type='text'] {
+    width: 90%;
+}
+
+input[type='checkbox']{
+    border-radius: 5px;
+    color: #ef4544;
+}
+
+input[type='checkbox']:checked{
+    border-radius: 5px;
+    color: #ef4544;
+    outline-color: #ef4544;
+}
+
+textarea {
+    width: 90%
+}
+
+#summary {
+    height: 300px;
+}
+
+#description {
+    height: 500px;
+}
+
+#notes {
+    height: 200px;
+}
+
+a {
+    word-wrap: break-word;
+}
+</style>
+{% endblock %}
+{% block body %}
+<p class="pb-16 bg-red-500"></p>
+<section class="pb-20 bg-blueGray-200">
+    <p class="p-5 bg-transparent"></p>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+            <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
+                <a href="{{ url_for('y.profile', year=2021) }}">
+                    <span class="underline p-5">Back</span>
+                </a>
+                <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('small-modal-id')">
+                    Delete
+                </button> <br><br>
+
+                <form method="POST" action="{{ url_for('cfp.edit_talk', year=year, talk_id=talk_id) }}">
+                    {% if len(talk.author_list.authors) > 1 %}
+                        <label for="co_authors">Authors</label><br>
+                        <div class="flex flex-wrap">
+                        {% for author in talk.author_list.authors %}
+                            {% if author.id != talk.submitter_id %}
+                                    <div class="lg:w-3/12 mb-1 px-1">
+                                        <input type="checkbox" name="current_co_authors" id="current_co_authors" 
+                                        value="{{author.email}}" checked> {{author.email}} &nbsp;
+                                    </div>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                        <br><br>
+                    {% endif %}
+                   
+                    {%for field in SubmitTalkForm_(obj=talk)%}
+                    {%if field.id not in ['csrf_token']%}
+                    {{field.label}}&nbsp;<span class="input_{{ field.name }} hidden text-sm text-gray-400"></span>
+                    <br>
+                    {%endif%}
+                    {{field}}<br><br>
+                    {%endfor%}
+                    
+                    <label for="co_authors">Add Co-Authors</label><br>
+                    <textarea name="co_authors" id="co_authors" cols="80" rows="5" 
+                    class="border-1 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                    placeholder="Enter email address of each co-author on a newline"></textarea>
+                    <br>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="submit">
+                        Submit
+                    </button>
+                </form>
+                <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="small-modal-id-backdrop"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="small-modal-id">
+    <div class="relative w-auto my-6 mx-auto max-w-sm">
+        <!--content-->
+        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <!--header-->
+            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                <h3 class="text-3xl font-semibold">
+                    Delete?
+                </h3>
+
+            </div>
+            <!--body-->
+            <div class="relative p-6 flex-auto">
+                <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
+                    Are you sure you want to delete "{{talk.title}}"?<br>
+                    <a href="{{url_for('cfp.delete_talk', year=2021, talk_id=talk.id)}}">
+                       <span class="underline p-5">Yes!</span>
+                    </a>
+                </p>
+            </div>
+            <!--footer-->
+            <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('small-modal-id')">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/forms.js') }}"></script>
+<script type="text/javascript">
+function toggleModal(modalID) {
+    document.getElementById(modalID).classList.toggle("hidden");
+    document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+    document.getElementById(modalID).classList.toggle("flex");
+    document.getElementById(modalID + "-backdrop").classList.toggle("flex");
+}
+</script>
+
+{% endblock %}
