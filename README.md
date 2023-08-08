@@ -15,7 +15,7 @@ Install requirements.txt
 
 
 ```bash
-$ python -m pip install -r requirements/dev.txt
+$ python -m pip install -r requirements/reqs.txt
 ```
 
 We are using MySQL but you can have a stab at a different db.

@@ -1,5 +1,4 @@
 -r reqs.in
-Faker
 black
 isort
 Sphinx
@@ -14,4 +13,3 @@ pytest-dotenv
 text-unidecode
 myst-parser
 sphinx_rtd_theme
-Faker
