@@ -48,4 +48,4 @@ def index():
 
     # return str(module_blueprint.template_folder)
 
-    return redirect(url_for('y.landing_page', year=2021))
+    return redirect(url_for('y.landing_page', year=2023))
