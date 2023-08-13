@@ -1,8 +1,6 @@
-
 ![](icon.png)
 
 # Traveller
-
 
 ## Setup
 
@@ -10,41 +8,112 @@ Create venv named venv inside root folder
 
 Activate it
 
-
 Install requirements.txt
-
 
 ```bash
 $ python -m pip install -r requirements/reqs.txt
 ```
 
+```text
+Debug install (Linux only):
+
+Run if install issues:
+(cat requirements/reqs.txt; echo "") | grep "^[^#]" | xargs -L 1 pip install
+
+May need to manually install an older version of Flask:
+pip install Flask==2.2.2
+```
+
 We are using MySQL but you can have a stab at a different db.
 
 Create a db named traveller or whatever you want in your MySQL db.
+<details>
+  <summary>Setting up the database with docker-compose</summary>
+
+**Note:** You may need to change the docker-compose.yml file is you have changed the username or password
+of `instance/config.py`
+
+```yaml
+
+Install docker and docker-compose
+
+```bash
+sudo apt install docker.io
+sudo apt install docker-compose
+```
+
+Adjust permissions for docker
+
+```bash
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
+Start docker service
+
+```bash
+sudo systemctl start docker
+```
+
+Ensure you are in the root directory of the project:
+
+```text
+traveller/ <- You are here
+├── traveller/
+│   requirements/
+│   etc...
+├── docker-compose.yml
+```
+
+Run docker-compose
+
+```bash
+docker-compose up -d
+```
+
+You can navigate to [http://localhost:8080](http://localhost:8080) to access phpmyadmin.
+
+The default username and password are both `root`
+
+The database can be accessed at `localhost:3306` providing you have not changed any defaults.
+
+</details>
+
 
 <details>
   <summary>Setting up MySQL Database on Linux(if this is your first time with using MySQL database )</summary>
 
-  - Start MySQL database
+- Start MySQL database
+
   ```bash
   $ systemctl start mysql
   ```
 
-  (or)
+(or)
 
   ```bash
   $ service mysql start
   ```
-  - After starting MySQL database, login into the shell 
+
+- After starting MySQL database, login into the shell
 
   ```bash
   $ mysql
   ```
-  - Create a database  
+
+- Create a database
+
   ```mysql
-  mysql >  CREATE DATABASE traveller;
+  mysql >
+
+CREATE DATABASE traveller;
+
   ```
-  - This will create the database in your local MySQL server, you can exit the Mysql shell and complete the remaining steps
+
+- This will create the database in your local MySQL server, you can exit the Mysql shell and complete the remaining
+  steps
+
 </details>
 
 Change directory to the traveller folder
@@ -65,6 +134,7 @@ In instance/config.py set the __SQLALCHEMY_URI__. For MySQL it will be like this
 ```
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost/traveller'
 ```
+
 'mysql+pymysql://username:password@localhost/dbname'.
 
 Create or edit traveller/config.json with the information needed for each environment.
@@ -73,17 +143,17 @@ for __development:__
 
 ```markdown
 {
-    "environment": "development",
-    "admin_user": {
-      "email": "admin@domain.com",
-      "password": "pass"
-    },
-    "settings": {
-      "APP_NAME": "Demo",
-      "ACTIVE_FRONT_THEME": "blogus",
-      "ACTIVE_BACK_THEME": "boogle",
-      "CURRENCY": "MUR"
-    }
+"environment": "development",
+"admin_user": {
+"email": "admin@domain.com",
+"password": "pass"
+},
+"settings": {
+"APP_NAME": "Demo",
+"ACTIVE_FRONT_THEME": "blogus",
+"ACTIVE_BACK_THEME": "boogle",
+"CURRENCY": "MUR"
+}
 }
 ```
 
@@ -91,17 +161,17 @@ and for __production:__
 
 ```markdown
 {
-    "environment": "production",
-    "admin_user": {
-      "email": "admin@domain.com",
-      "password": "pass"
-    },
-    "settings": {
-      "APP_NAME": "Demo",
-      "ACTIVE_FRONT_THEME": "blogus",
-      "ACTIVE_BACK_THEME": "boogle",
-      "CURRENCY": "MUR"
-    }
+"environment": "production",
+"admin_user": {
+"email": "admin@domain.com",
+"password": "pass"
+},
+"settings": {
+"APP_NAME": "Demo",
+"ACTIVE_FRONT_THEME": "blogus",
+"ACTIVE_BACK_THEME": "boogle",
+"CURRENCY": "MUR"
+}
 }
 ```
 
@@ -116,6 +186,7 @@ Then, to get development example data (make sure requirements in requirements/de
 ```bash
 $ flask seed dev
 ```
+
 Then
 
 ```bash
@@ -128,8 +199,8 @@ Migrations:
 $ python manage.py db migrate
 $ python manage.py db upgrade
 ```
-More info can be found in the shopyo docs: [shopyo.readthedocs.io](https://shopyo.readthedocs.io/en/latest/)
 
+More info can be found in the shopyo docs: [shopyo.readthedocs.io](https://shopyo.readthedocs.io/en/latest/)
 
 ## Setup Mail Dev Environment
 
@@ -163,12 +234,13 @@ class DevelopmentConfig(Config):
     MAIL_PORT = 1025
     MAIL_USE_TLS = False
     MAIL_USE_SSL = False
-    MAIL_USERNAME = '' # os.environ.get("MAIL_USERNAME")
-    MAIL_PASSWORD = '' # os.environ.get("MAIL_PASSWORD")
-    MAIL_DEFAULT_SENDER = 'ma@mail.com' # os.environ.get("MAIL_DEFAULT_SENDER")
+    MAIL_USERNAME = ''  # os.environ.get("MAIL_USERNAME")
+    MAIL_PASSWORD = ''  # os.environ.get("MAIL_PASSWORD")
+    MAIL_DEFAULT_SENDER = 'ma@mail.com'  # os.environ.get("MAIL_DEFAULT_SENDER")
 ```
 
-Go to [http://127.0.0.1:1080](http://127.0.0.1:1080) where it serves it’s web interface by default. See mails arrive in your inbox!
+Go to [http://127.0.0.1:1080](http://127.0.0.1:1080) where it serves it’s web interface by default. See mails arrive in
+your inbox!
 Particularly useful when registering!
 
 ## Running tests
