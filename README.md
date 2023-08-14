@@ -27,8 +27,8 @@ pip install Flask==2.2.2
 We are using MySQL but you can have a stab at a different db.
 
 Create a db named traveller or whatever you want in your MySQL db.
-<details>
-  <summary>Setting up the database with docker-compose</summary>
+
+## Setting up the database with docker-compose
 
 **Note:** You may need to change the docker-compose.yml file is you have changed the username or password
 of `instance/config.py`
@@ -78,11 +78,8 @@ The default username and password are both `root`
 
 The database can be accessed at `localhost:3306` providing you have not changed any defaults.
 
-</details>
 
-
-<details>
-  <summary>Setting up MySQL Database on Linux(if this is your first time with using MySQL database )</summary>
+## Setting up MySQL Database on Linux (if this is your first time with using MySQL database )
 
 - Start MySQL database
 
@@ -104,17 +101,17 @@ The database can be accessed at `localhost:3306` providing you have not changed 
 
 - Create a database
 
-  ```mysql
+```mysql
   mysql >
 
 CREATE DATABASE traveller;
 
-  ```
+```
 
 - This will create the database in your local MySQL server, you can exit the Mysql shell and complete the remaining
   steps
 
-</details>
+## Continuing the installation
 
 Change directory to the traveller folder
 
