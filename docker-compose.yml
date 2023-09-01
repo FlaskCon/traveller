@@ -1,4 +1,3 @@
-# Use root/example as user/password credentials
 version: '3.1'
 
 services:
@@ -9,11 +8,9 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: root
       MARIADB_DATABASE: traveller
-    ports:
-      - "3306:3306"
+    network_mode: "host"
 
   adminer:
     image: adminer
     restart: always
-    ports:
-      - "8080:8080"
+    network_mode: "host"
