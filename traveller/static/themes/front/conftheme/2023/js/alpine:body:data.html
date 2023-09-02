@@ -1,0 +1,26 @@
+<script defer type="application/javascript">
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('body', () => ({
+            pre_load_images: [],
+            preload() {
+                for (let i = 0; i < arguments.length; i++) {
+                    this.pre_load_images[i] = new Image();
+                    this.pre_load_images[i].src = arguments[i];
+                }
+            },
+
+            book_tickets_bg_ns: "url('{{ url_for("static", filename=theme_scope + "img/book-tickets-ns.png") }}')",
+            book_tickets_bg_hover: "url('{{ url_for("static", filename=theme_scope + "img/book-tickets-hover.png") }}')",
+            book_tickets_bg_pressed: "url('{{ url_for("static", filename=theme_scope + "img/book-tickets-pressed.png") }}')",
+
+            init() {
+                this.preload(
+                    '{{ url_for("static", filename=theme_scope + "img/book-tickets-ns.png") }}',
+                    '{{ url_for("static", filename=theme_scope + "img/book-tickets-hover.png") }}',
+                    '{{ url_for("static", filename=theme_scope + "img/book-tickets-pressed.png") }}',
+                )
+            },
+
+        }))
+    })
+</script>
