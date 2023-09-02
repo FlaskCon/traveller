@@ -1,0 +1,22 @@
+<section class="py-4 staff">
+    <div class="text-center">
+        <img src="{{ url_for("static", filename=theme_scope + "img/id-badge.gif") }}" alt="Staff Icon">
+        <h1>Staff</h1>
+    </div>
+
+
+    <div class="this-years-staff">
+
+        {% for staff_member in this_years_staff %}
+
+            <div @click="window.location='{{ staff_member.link }}'">
+
+                <h4>{{ staff_member.name }}</h4>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>

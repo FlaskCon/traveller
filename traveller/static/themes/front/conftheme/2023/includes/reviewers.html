@@ -1,0 +1,69 @@
+{% if reviewers != [] %}
+    <section class="py-4 reviewers">
+
+        <div class="text-center">
+            <img src="{{ url_for("static", filename=theme_scope + "img/lectern.gif") }}" alt="Reviewers Icon">
+            <h1>This Year's Reviewers</h1>
+        </div>
+
+        {% for reviewer in reviewers %}
+
+            <div class="display-flex space-evenly align-items-center gap-3">
+
+                {% if reviewer.image %}
+                    <div>
+                        <img src="{{ reviewer.get_profile_image_url() }}" alt="..."/>
+                    </div>
+                {% else %}
+                    <div>
+                        <img src="{{ url_for("static", filename=theme_scope + "img/default-profile.png") }}"
+                             alt="..."/>
+                    </div>
+                {% endif %}
+
+                <div>
+                    <h2>{{ reviewer.first_name }} {{ reviewer.last_name }}</h2>
+                    {% if reviewer.bio %}
+                        <p>{{ reviewer.bio.replace('\n', '<br>') | safe }}</p>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        {% endfor %}
+    </section>
+
+{% else %}
+
+    <section class="py-4 reviewers">
+        <div class="text-center">
+            <img src="{{ url_for("static", filename=theme_scope + "img/lectern.gif") }}" alt="Reviewers Icon">
+            <h1>This Year's Reviewers</h1>
+        </div>
+
+        {% for index in range(0, 5) %}
+
+            <div class="display-flex space-evenly align-items-center gap-3">
+
+                <div>
+                    <img src="{{ url_for("static", filename=theme_scope + "img/default_display_flag.gif") }}"
+                         alt="..."/>
+                </div>
+
+                <div>
+                    <h2>First Last</h2>
+                    <p>
+                        lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget
+                        ultricies aliquam, nunc nisl aliquet nunc, vitae aliquam nisl nunc eu nunc. Nulla
+                        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+                        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+                        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla.
+                    </p>
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </section>
+{% endif %}

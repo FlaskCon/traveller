@@ -1,10 +1,73 @@
+{% extends 'conftheme/2023/parts/base.html' %}
+
 {% set nav_bg_color = '' %}
-{% extends 'conftheme/2023/parts/base.html'%}
+
 {% block head %}
-    <title>Index | FlaskCon</title>
-    
-    </style>
+    <title>Index | FlaskCon 2023</title>
 {% endblock %}
+
+{% block hero_header %}
+    <header class="hero py-2">
+
+        <section class="display-flex space-evenly align-items-center py-2">
+            <img src="{{ url_for("static", filename=theme_scope + "img/flaskcon-animated.gif") }}" alt="FlaskCon Logo">
+
+            <div class="display-flex flex-col align-items-center py-3">
+                <div class="display-flex align-items-center justify-center my-1 gap-1">
+                    <img src="{{ url_for("static", filename=theme_scope + "img/twitter-small.png") }}"
+                         alt="Twitter Icon">
+                    <img src="{{ url_for("static", filename=theme_scope + "img/facebook-small.png") }}"
+                         alt="Facebook Icon">
+                </div>
+                <div class="book-tickets"
+                     x-init="$el.style.backgroundImage = book_tickets_bg_ns"
+                     @mouseenter="$el.style.backgroundImage = book_tickets_bg_hover"
+                     @mouseleave="$el.style.backgroundImage = book_tickets_bg_ns"
+                     @mousedown="$el.style.backgroundImage = book_tickets_bg_pressed"
+                     @mouseup="$el.style.backgroundImage = book_tickets_bg_hover"
+                ></div>
+
+            </div>
+
+        </section>
+
+    </header>
+{% endblock %}
+
 {% block body %}
-  
+    <div class="sub-hero py-3">
+        <section>
+            <div class="row">
+                <div class="six columns py-2 text-center">
+                    <img src="{{ url_for("static", filename=theme_scope + "img/megaphone.gif") }}" alt="Megaphone Icon">
+                    <h2 class="my-0">Call for Proposals!</h2>
+                    <p>Submit your talk proposal for FlaskCon 2023! </p>
+
+                    {% if conf.cfp_start < today < conf.cfp_end %}
+                        <a href="#" class="button button-primary">Submit a Proposal</a>
+                    {% elif today < conf.cfp_start %}
+                        <a href="#" class="button button-disabled" disabled>Not Accepting</a>
+                    {% else %}
+                        <a href="#" class="button button-disabled" disabled>Stopped Accepting</a>
+                    {% endif %}
+                    <p>Submissions are open from <strong>1st of Sept</strong> -> <strong>15th Oct</strong></p>
+                </div>
+                <div class="six columns py-2 text-center">
+                    <img src="{{ url_for("static", filename=theme_scope + "img/heart.gif") }}" alt="Heart Icon">
+                    <h2 class="my-0">Become a Sponsor!</h2>
+                    <p>Support the Pallets team + the Python Software Foundation and let everyone know about it!</p>
+                    <a href="#" class="button button-primary">Become a Sponsor</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="sub-hero-color-shift-away">
+
+    </div>
+
+    {% include 'conftheme/2023/includes/reviewers.html' %}
+    {% include 'conftheme/2023/includes/staff.html' %}
+    {% include 'conftheme/2023/includes/media_partners.html' %}
+
 {% endblock %}
