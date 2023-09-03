@@ -13,6 +13,21 @@
             book_tickets_bg_hover: "url('{{ url_for("static", filename=theme_scope + "img/book-tickets-hover.png") }}')",
             book_tickets_bg_pressed: "url('{{ url_for("static", filename=theme_scope + "img/book-tickets-pressed.png") }}')",
 
+            mobile_menu_open: false,
+            mobile_menu_icon: "{{ url_for("static", filename=theme_scope + "img/menu.gif") }}",
+
+            mobile_menu_mouseenter() {
+                this.mobile_menu_icon = "{{ url_for("static", filename=theme_scope + "img/menu-hover.gif") }}"
+            },
+
+            mobile_menu_mouseout() {
+                if (this.mobile_menu_open) {
+                    this.mobile_menu_icon = "{{ url_for("static", filename=theme_scope + "img/menu-opened.gif") }}"
+                } else {
+                    this.mobile_menu_icon = "{{ url_for("static", filename=theme_scope + "img/menu.gif") }}"
+                }
+            },
+
             init() {
                 this.preload(
                     '{{ url_for("static", filename=theme_scope + "img/book-tickets-ns.png") }}',

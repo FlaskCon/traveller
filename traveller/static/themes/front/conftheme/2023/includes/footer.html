@@ -1,0 +1,23 @@
+<footer>
+    <div class="display-desktop">
+        <section class="display-flex space-between align-items-center py-3">
+            {% include "conftheme/2023/includes/footer-social.html" %}
+            <div>
+                {% include "conftheme/2023/includes/footer-links.html" %}
+            </div>
+        </section>
+    </div>
+
+    <div class="display-mobile">
+        <section class="display-flex flex-col space-between align-items-center py-3">
+            {% include "conftheme/2023/includes/footer-social.html" %}
+            <div class="py-4">
+                {% include "conftheme/2023/includes/footer-links.html" %}
+            </div>
+        </section>
+    </div>
+
+    <section class="text-center py-3">
+        <img src="{{ url_for("static", filename=theme_scope + "img/old-logo.png") }}" alt="">
+    </section>
+</footer>

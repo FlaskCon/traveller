@@ -23,43 +23,19 @@
 </head>
 <body x-data="body">
 
+{% block nav %}
+    {% include "conftheme/2023/includes/nav.html" %}
+{% endblock %}
 
-<nav>
-
-</nav>
-
-{% block hero_header %}{% endblock %}
+{% block hero_header %}
+{% endblock %}
 
 <main>
     {% block body %}
     {% endblock %}
 </main>
 
-<footer>
-    <section class="display-flex space-between align-items-center py-3">
-        <div>
-            <img src="{{ url_for("static", filename=theme_scope + "img/facebook.png") }}" alt="">
-            <img src="{{ url_for("static", filename=theme_scope + "img/twitter.png") }}" alt="">
-            <img src="{{ url_for("static", filename=theme_scope + "img/github.png") }}" alt="">
-            <img src="{{ url_for("static", filename=theme_scope + "img/youtube.png") }}" alt="">
-        </div>
-        <div>
-            <ul>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Code of Conduct</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Contact Us</a></li>
-            </ul>
-            <p class="text-center" style="margin-bottom: 0; font-size: 0.9rem;">Copyright &copy; 2023 FlaskCon, A PSF-registered trademark owned by Pallets.</p>
-        </div>
-    </section>
-
-    <section class="text-center py-3">
-        <img src="{{ url_for("static", filename=theme_scope + "img/old-logo.png") }}" alt="">
-    </section>
-
-</footer>
+{% include "conftheme/2023/includes/footer.html" %}
 {% include "conftheme/2023/js/alpine:body:data.html" %}
 </body>
 

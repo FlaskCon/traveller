@@ -21,7 +21,7 @@
                     </div>
                 {% endif %}
 
-                <div>
+                <div style="min-width: 0;">
                     <h2>{{ reviewer.first_name }} {{ reviewer.last_name }}</h2>
                     {% if reviewer.bio %}
                         <p>{{ reviewer.bio.replace('\n', '<br>') | safe }}</p>
@@ -31,6 +31,7 @@
             </div>
 
         {% endfor %}
+
     </section>
 
 {% else %}
@@ -43,7 +44,7 @@
 
         {% for index in range(0, 5) %}
 
-            <div class="display-flex space-evenly align-items-center gap-3">
+            <div class="display-flex space-evenly align-items-center gap-3 px-2">
 
                 <div>
                     <img src="{{ url_for("static", filename=theme_scope + "img/default_display_flag.gif") }}"

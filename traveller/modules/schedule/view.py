@@ -134,7 +134,7 @@ def add_activity(year, day_id, act_type):
             alert_danger("Provide valid values for both start and end time.")
             return mhelp.redirect_url("y.schedule", year=year)
 
-       # Convert both the start and end times with the default time zone for the conference
+        # Convert both the start and end times with the default time zone for the conference
         activity_start = datetime(
             int(str(day.date).split("-")[0]),
             int(str(day.date).split("-")[1]),
@@ -326,18 +326,18 @@ def calendar(year, tz):
     if tz is None or tz.strip() == '':
         tzname = 'UTC'
     else:
-        tzname = tz #.replace('/', '_')
-    
+        tzname = tz  # .replace('/', '_')
+
     if get_all_activities is True:
-        return redirect(url_for("schedule.all_activities_cal", _year=year, tz=tzname, 
-        _external=True, _scheme='https'))
+        return redirect(url_for("schedule.all_activities_cal", _year=year, tz=tzname,
+                                _external=True, _scheme='https'))
     act_id = Activity.query.get(activity_id)
     if get_all_activities is False and act_id is not None:
-        return redirect(url_for("schedule.single_activity_cal", _year=year, act_id= activity_id, tz=tzname,
-        _external=True, _scheme='https'))
-    
+        return redirect(url_for("schedule.single_activity_cal", _year=year, act_id=activity_id, tz=tzname,
+                                _external=True, _scheme='https'))
+
     return mhelp.redirect_url("y.schedule", year=year)
-    
+
 
 @module_blueprint.route("/download_ical/<string:_year>_events.ics")
 def all_activities_cal(_year):

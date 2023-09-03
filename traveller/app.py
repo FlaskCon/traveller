@@ -32,7 +32,7 @@ from init import csrf
 from shopyo.api.file import trycopy
 import seed
 
-
+from side_load_2023 import side_load_2023
 
 #
 # secrets files
@@ -50,12 +50,10 @@ except PermissionError as e:
     )
     raise e
 
-
 base_path = os.path.dirname(os.path.abspath(__file__))
 
 
 def create_app(config_name="development"):
-
     global_template_variables = {}
     global_configs = {}
     app = Flask(
@@ -72,11 +70,13 @@ def create_app(config_name="development"):
     load_blueprints(app, config_name, global_template_variables, global_configs)
     setup_theme_paths(app)
     inject_global_vars(app, global_template_variables)
+
+    side_load_2023(app)
+
     return app
 
 
 def load_config_from_obj(app, config_name):
-
     try:
         configuration = app_config[config_name]
     except KeyError as e:
@@ -90,7 +90,6 @@ def load_config_from_obj(app, config_name):
 
 
 def load_config_from_instance(app, config_name):
-
     if config_name != "testing":
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile("config.py", silent=True)

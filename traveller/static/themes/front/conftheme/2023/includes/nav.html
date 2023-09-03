@@ -1,0 +1,117 @@
+{% macro menu_items() %}
+
+    <ul>
+        <li>
+            <a
+                    href="{{ url_for("side_load_2023.index") }}"
+                    @mouseenter="$el.classList.remove('nav-mouseout'); $el.classList.add('nav-mouseenter')"
+                    @mouseleave="$el.classList.add('nav-mouseout'); $el.classList.remove('nav-mouseenter')"
+            >
+                Schedule
+            </a>
+        </li>
+
+
+        {% if current_user.is_admin %}
+
+        {% endif %}
+
+        {% if current_user %}
+            {% if current_user.is_authenticated %}
+                <li>
+                    <a
+                            href="{{ url_for('y.cfp', year=2021) }}"
+                            @mouseenter="$el.classList.remove('nav-mouseout'); $el.classList.add('nav-mouseenter')"
+                            @mouseleave="$el.classList.add('nav-mouseout'); $el.classList.remove('nav-mouseenter')"
+                    >
+                        Submit Talk
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                            href="{{ url_for('y.profile', year=2021) }}"
+                            @mouseenter="$el.classList.remove('nav-mouseout'); $el.classList.add('nav-mouseenter')"
+                            @mouseleave="$el.classList.add('nav-mouseout'); $el.classList.remove('nav-mouseenter')"
+                    >
+                        Profile
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                            href="{{ url_for('auth.logout', next='/') }}"
+                            @mouseenter="$el.classList.remove('nav-mouseout'); $el.classList.add('nav-mouseenter')"
+                            @mouseleave="$el.classList.add('nav-mouseout'); $el.classList.remove('nav-mouseenter')"
+                    >
+                        Logout
+                    </a>
+                </li>
+
+
+            {% endif %}
+            {% if current_user.is_anonymous %}
+                <li>
+                    <a
+                            href="{{ url_for('auth.register') }}"
+                            @mouseenter="$el.classList.remove('nav-mouseout'); $el.classList.add('nav-mouseenter')"
+                            @mouseleave="$el.classList.add('nav-mouseout'); $el.classList.remove('nav-mouseenter')"
+                    >
+                        Register
+                    </a>
+                </li>
+                <li>
+                    <a
+                            href="{{ url_for('auth.login', next='/') }}"
+                            @mouseenter="$el.classList.remove('nav-mouseout'); $el.classList.add('nav-mouseenter')"
+                            @mouseleave="$el.classList.add('nav-mouseout'); $el.classList.remove('nav-mouseenter')"
+                    >
+                        Login
+                    </a>
+                </li>
+            {% endif %}
+        {% endif %}
+
+    </ul>
+
+{% endmacro %}
+
+
+<div class="display-desktop">
+    <nav>
+        <section class="display-flex space-between align-items-center px-2">
+            <a href="/">
+                <img src="{{ url_for("static", filename=theme_scope + "img/flaskcon-animated.gif") }}"
+                     alt="FlaskCon Logo">
+            </a>
+            {{ menu_items() }}
+        </section>
+    </nav>
+</div>
+<div class="display-mobile">
+    <nav>
+        <section class="display-flex space-between align-items-center px-2">
+            <a href="/">
+                <img src="{{ url_for("static", filename=theme_scope + "img/flaskcon-animated.gif") }}"
+                     alt="FlaskCon Logo">
+            </a>
+            <img
+                    width="40"
+                    style="padding: 1rem;"
+                    :src="mobile_menu_icon"
+                    @mouseenter="mobile_menu_mouseenter()"
+                    @mouseout="mobile_menu_mouseout()"
+                    @click="mobile_menu_open = !mobile_menu_open"
+                    alt=""
+            >
+        </section>
+    </nav>
+    <div x-cloak x-show="mobile_menu_open">
+        <nav class="sub-menu">
+            <section class="display-flex justify-center align-items-center px-2">
+                {{ menu_items() }}
+            </section>
+        </nav>
+    </div>
+</div>
+<div class="nav-spacer"></div>

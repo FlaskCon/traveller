@@ -9,27 +9,56 @@
 {% block hero_header %}
     <header class="hero py-2">
 
-        <section class="display-flex space-evenly align-items-center py-2">
-            <img src="{{ url_for("static", filename=theme_scope + "img/flaskcon-animated.gif") }}" alt="FlaskCon Logo">
+        <div class="display-desktop">
+            <section class="display-flex space-evenly align-items-center py-2">
 
-            <div class="display-flex flex-col align-items-center py-3">
-                <div class="display-flex align-items-center justify-center my-1 gap-1">
-                    <img src="{{ url_for("static", filename=theme_scope + "img/twitter-small.png") }}"
-                         alt="Twitter Icon">
-                    <img src="{{ url_for("static", filename=theme_scope + "img/facebook-small.png") }}"
-                         alt="Facebook Icon">
+                <img src="{{ url_for("static", filename=theme_scope + "img/flaskcon-animated.gif") }}"
+                     alt="FlaskCon Logo">
+
+                <div class="display-flex flex-col align-items-center py-3">
+                    <p style="margin: 0; color: white; text-align: center"><strong>SHARE</strong></p>
+                    <div class="display-flex align-items-center justify-center gap-1" style="margin-bottom: 1rem;">
+                        <img src="{{ url_for("static", filename=theme_scope + "img/twitter.png") }}"
+                             alt="Twitter Icon">
+                        <img src="{{ url_for("static", filename=theme_scope + "img/facebook.png") }}"
+                             alt="Facebook Icon">
+                    </div>
+                    <div class="book-tickets"
+                         x-init="$el.style.backgroundImage = book_tickets_bg_ns"
+                         @mouseenter="$el.style.backgroundImage = book_tickets_bg_hover"
+                         @mouseleave="$el.style.backgroundImage = book_tickets_bg_ns"
+                         @mousedown="$el.style.backgroundImage = book_tickets_bg_pressed"
+                         @mouseup="$el.style.backgroundImage = book_tickets_bg_hover"
+                    ></div>
+
                 </div>
-                <div class="book-tickets"
-                     x-init="$el.style.backgroundImage = book_tickets_bg_ns"
-                     @mouseenter="$el.style.backgroundImage = book_tickets_bg_hover"
-                     @mouseleave="$el.style.backgroundImage = book_tickets_bg_ns"
-                     @mousedown="$el.style.backgroundImage = book_tickets_bg_pressed"
-                     @mouseup="$el.style.backgroundImage = book_tickets_bg_hover"
-                ></div>
+            </section>
+        </div>
 
-            </div>
+        <div class="display-mobile">
+            <section class="display-flex flex-col space-evenly align-items-center py-2">
+                <img src="{{ url_for("static", filename=theme_scope + "img/flaskcon-animated.gif") }}"
+                     alt="FlaskCon Logo">
 
-        </section>
+                <div class="display-flex flex-col align-items-center py-3">
+                    <p style="margin: 0; color: white; text-align: center"><strong>SHARE</strong></p>
+                    <div class="display-flex align-items-center justify-center gap-1" style="margin-bottom: 1rem;">
+                        <img src="{{ url_for("static", filename=theme_scope + "img/twitter.png") }}"
+                             alt="Twitter Icon">
+                        <img src="{{ url_for("static", filename=theme_scope + "img/facebook.png") }}"
+                             alt="Facebook Icon">
+                    </div>
+                    <div class="book-tickets"
+                         x-init="$el.style.backgroundImage = book_tickets_bg_ns"
+                         @mouseenter="$el.style.backgroundImage = book_tickets_bg_hover"
+                         @mouseleave="$el.style.backgroundImage = book_tickets_bg_ns"
+                         @mousedown="$el.style.backgroundImage = book_tickets_bg_pressed"
+                         @mouseup="$el.style.backgroundImage = book_tickets_bg_hover"
+                    ></div>
+                </div>
+
+            </section>
+        </div>
 
     </header>
 {% endblock %}
