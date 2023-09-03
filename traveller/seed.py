@@ -9,7 +9,6 @@ from modules.conf.models import Talk
 from modules.conf.models import AuthorList
 from init import db
 
-
 SEP_CHAR = "#"
 SEP_NUM = 23
 
@@ -21,7 +20,7 @@ talks = [
         faker.text(max_nb_chars=300),  # summary
         faker.text(max_nb_chars=3000),  # description
         faker.text(max_nb_chars=200),  # notes
-        ] for i in range(10)
+    ] for i in range(10)
 ]
 
 reviewers = [
@@ -39,7 +38,16 @@ def register(app):
         add_settings()
         click.echo('SEEDING FOR DEV')
         click.echo('Adding Conference')
-        add_conf()
+        add_conf(
+            year=2021,
+            cfp_start=datetime.date(2021, 10, 1),
+            cfp_end=datetime.date(2021, 10, 31)
+        )
+        add_conf(
+            year=2023,
+            cfp_start=datetime.date(2023, 9, 1),
+            cfp_end=datetime.date(2023, 10, 15)
+        )
         click.echo(SEP_CHAR * SEP_NUM)
         click.echo('Adding Reviews')
         add_reviewers()
@@ -52,12 +60,12 @@ def register(app):
         click.echo('nothing to do... yet.')
 
 
-def add_conf():
+def add_conf(year: int, cfp_start: datetime, cfp_end: datetime):
     conf = Conf(
-        year=2021,
-        cfp_start=datetime.date(2021, 10, 1),
-        cfp_end=datetime.date(2021, 10, 31)
-        )
+        year=year,
+        cfp_start=cfp_start,
+        cfp_end=cfp_end
+    )
     conf.save(commit=False)
 
     admin = User.query.get(1)
@@ -78,7 +86,7 @@ def add_conf():
         talk.author_list = AuthorList()
         talk.author_list.authors.append(admin)
         talk.conf_id = conf.id
-        talk.year = 2021
+        talk.year = year
 
         talk.save(commit=False)
 
