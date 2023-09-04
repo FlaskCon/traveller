@@ -1,4 +1,4 @@
-{% extends 'conftheme/2021/parts/base.html'%}
+{% extends 'conftheme/2023/parts/base.html'%}
 {% block head %}
 <title>Final Talk Action | FlaskCon</title>
 <style type="text/css">
@@ -30,7 +30,7 @@ textarea {
     <div class="container mx-auto px-4">
         <div class="flex flex-wrap">
             <div class="container bg-white rounded-xl shadow-lg transform transition duration-500 p-7">
-                <a href="{{ url_for('y.leaderboard', year=2021) }}">
+                <a href="{{ url_for('y.leaderboard', year=2023) }}">
                     <span class="underline p-5">Back</span>    
                 </a>
                 <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('small-modal-id')">
@@ -75,7 +75,7 @@ textarea {
             <div class="relative p-6 flex-auto">
                 <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
                     Are you sure you want to delete "{{talk.title}}"?<br>
-                    <a href="{{url_for('cfp.delete_talk', year=2021, talk_id=talk.id, redirect='leaderboard')}}">
+                    <a href="{{url_for('cfp.delete_talk', year=2023, talk_id=talk.id, redirect='leaderboard')}}">
                         <span class="underline p-5">Yes!</span>
                     </a>
                 </p>

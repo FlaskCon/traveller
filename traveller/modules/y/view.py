@@ -159,6 +159,7 @@ def leaderboard(year):
 @module_blueprint.route("/<int:year>/schedule/")
 def schedule(year):
     context = mhelp.context()
+    print(context)
     timezone = request.args.get("tz", "UTC")
     DayForm_ = DayForm
     conf = Conf.query.filter(

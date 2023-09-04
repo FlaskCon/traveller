@@ -71,7 +71,7 @@ def create_app(config_name="development"):
     setup_theme_paths(app)
     inject_global_vars(app, global_template_variables)
 
-    side_load_2023(app)
+    # side_load_2023(app)
 
     return app
 

@@ -1,4 +1,4 @@
-{% extends 'conftheme/2021/parts/base.html' %}
+{% extends 'conftheme/2023/parts/base.html' %}
 {% block head %}
     <title>Schedule | FlaskCon</title>
     <style type="text/css">
@@ -76,7 +76,7 @@
                     <div class="program_info mb-6">
                         <h5 class="text-center font-bold mb-2 underline">PROGRAM</h5>
                         <p class="mx-7">
-                            FlaskCon 2021 will be held completely online. 
+                            FlaskCon 2023 will be held completely online. 
                             Links to individual talks will be posted in the schedule below (soon). 
                             The conference follows UTC time(+00:00). If you are in a different timezone, 
                             view the schedule in your timezone and add it to your calendar.
@@ -142,7 +142,7 @@
                                                 <div
                                                     class="block" data-tab-content="true" id="text-tab-day_{{ day_index + 1 }}-red">
                                                     <!-- Call the get_time_indicators method which returns a Tuple with 2 elements and set it as a variable -->
-                                                    {% set time_indicators = day.get_time_indicators(timezone, 2021) %}
+                                                    {% set time_indicators = day.get_time_indicators(timezone, 2023) %}
                                                     <!-- The first element in the time_indicators Tuple is a list and the second element is a dictionary -->
                                                     {% set indicators = time_indicators[0] %}
                                                     {% set pair_indicators = time_indicators[1] %}
@@ -261,7 +261,7 @@
                                                 <div
                                                     class="hidden" data-tab-content="true" id="text-tab-day_{{ day_index + 1 }}-red">
                                                     <!-- Call the get_time_indicators method which returns a Tuple with 2 elements and set it as a variable -->
-                                                    {% set time_indicators = day.get_time_indicators(timezone, 2021) %}
+                                                    {% set time_indicators = day.get_time_indicators(timezone, 2023) %}
                                                     <!-- The first element in the time_indicators Tuple is a list and the second element is a dictionary -->
                                                     {% set indicators = time_indicators[0] %}
                                                     {% set pair_indicators = time_indicators[1] %}
