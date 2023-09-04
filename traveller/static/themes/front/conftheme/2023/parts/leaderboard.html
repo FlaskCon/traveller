@@ -1,4 +1,4 @@
-{% extends 'conftheme/2021/parts/base.html'%}
+{% extends 'conftheme/2023/parts/base.html'%}
 {% block head %}
 <title>Leaderboard | FlaskCon</title>
 {% endblock %}
@@ -42,7 +42,7 @@
                             <td class="p-2">{{t[1]}}</td>
                             <td class="p-2">
                                 {% if current_user.is_admin %}
-                                <a href="{{ url_for('cfp.final_talk_action', year=2021, talk_id=t[0].id) }}" class="font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"><i class="fa fa-cog"></i> actions</a></td>
+                                <a href="{{ url_for('cfp.final_talk_action', year=2023, talk_id=t[0].id) }}" class="font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"><i class="fa fa-cog"></i> actions</a></td>
                                 {% endif %}
                         </tr>
                         {% endfor %}
