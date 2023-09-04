@@ -20,7 +20,7 @@
             {% if current_user.is_authenticated %}
                 <li>
                     <a
-                            href="{{ url_for('y.cfp', year=2021) }}"
+                            href="{{ url_for('y.cfp', year=2023) }}"
                             @mouseenter="$el.classList.remove('nav-mouseout'); $el.classList.add('nav-mouseenter')"
                             @mouseleave="$el.classList.add('nav-mouseout'); $el.classList.remove('nav-mouseenter')"
                     >
@@ -30,7 +30,7 @@
 
                 <li>
                     <a
-                            href="{{ url_for('y.profile', year=2021) }}"
+                            href="{{ url_for('y.profile', year=2023) }}"
                             @mouseenter="$el.classList.remove('nav-mouseout'); $el.classList.add('nav-mouseenter')"
                             @mouseleave="$el.classList.add('nav-mouseout'); $el.classList.remove('nav-mouseenter')"
                     >
