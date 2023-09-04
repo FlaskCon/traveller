@@ -3,7 +3,7 @@
     <ul>
         <li>
             <a
-                    href="{{ url_for("side_load_2023.index") }}"
+                    href='{{ url_for("y.schedule", year=2023) }}'
                     @mouseenter="$el.classList.remove('nav-mouseout'); $el.classList.add('nav-mouseenter')"
                     @mouseleave="$el.classList.add('nav-mouseout'); $el.classList.remove('nav-mouseenter')"
             >
